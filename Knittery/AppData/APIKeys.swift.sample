@@ -1,0 +1,15 @@
+//
+//  APIKeysSample.swift
+//  Knittery
+//
+//  Created by Nicholas Valenti on 2022-09-27.
+//
+
+import Foundation
+
+struct APIKeys {
+    enum RavelryOAuth: String {
+        case consumerKey = ""
+        case consumerSecret = ""
+    }
+}

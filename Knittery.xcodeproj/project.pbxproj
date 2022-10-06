@@ -1,0 +1,769 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A5F28E9A71500F1DF00 /* Pattern.swift */; };
+		01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6128EB05E600F1DF00 /* ErrorTypes.swift */; };
+		01470A6428EC26A200F1DF00 /* Craft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6328EC26A200F1DF00 /* Craft.swift */; };
+		01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6728EC270200F1DF00 /* PersonalAttributes.swift */; };
+		01470A6A28EC273B00F1DF00 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6928EC273B00F1DF00 /* User.swift */; };
+		01470A8828EEC2F000F1DF00 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A8728EEC2F000F1DF00 /* APIKeys.swift */; };
+		01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF069E28DC464600310665 /* KnitteryApp.swift */; };
+		01CF06A128DC464600310665 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06A028DC464600310665 /* ContentView.swift */; };
+		01CF06A328DC464700310665 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01CF06A228DC464700310665 /* Assets.xcassets */; };
+		01CF06A628DC464700310665 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01CF06A528DC464700310665 /* Preview Assets.xcassets */; };
+		01CF06A828DC464700310665 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06A728DC464700310665 /* Persistence.swift */; };
+		01CF06AB28DC464700310665 /* Knittery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06A928DC464700310665 /* Knittery.xcdatamodeld */; };
+		01CF06B528DC464700310665 /* KnitteryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06B428DC464700310665 /* KnitteryTests.swift */; };
+		01CF06BF28DC464700310665 /* KnitteryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06BE28DC464700310665 /* KnitteryUITests.swift */; };
+		01CF06C128DC464700310665 /* KnitteryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06C028DC464700310665 /* KnitteryUITestsLaunchTests.swift */; };
+		01CF06CF28DC478600310665 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06CE28DC478600310665 /* RootView.swift */; };
+		01CF06D128DC47B000310665 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06D028DC47B000310665 /* RootViewModel.swift */; };
+		01CF06D628DC5B5200310665 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06D528DC5B5200310665 /* LoginView.swift */; };
+		01CF06DD28DC7BB600310665 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06DC28DC7BB600310665 /* LibraryView.swift */; };
+		01CF06DF28DC7BCC00310665 /* PatternsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06DE28DC7BCC00310665 /* PatternsView.swift */; };
+		01CF06E128DC7BD700310665 /* YarnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06E028DC7BD700310665 /* YarnsView.swift */; };
+		01CF06E428DDA53200310665 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 01CF06E328DDA53200310665 /* OAuthSwift */; };
+		01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06EC28DDFF9B00310665 /* NetworkHandler.swift */; };
+		01CF06EF28DE08F800310665 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06EE28DE08F800310665 /* SessionData.swift */; };
+		01CF071728E3381800310665 /* KeychainHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF071628E3381800310665 /* KeychainHandler.swift */; };
+		01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */; };
+		01D715C228E5B09D00B6BB8D /* APIRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D715C128E5B09D00B6BB8D /* APIRequestBuilder.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		01CF06B128DC464700310665 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 01CF069328DC464600310665 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 01CF069A28DC464600310665;
+			remoteInfo = Knittery;
+		};
+		01CF06BB28DC464700310665 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 01CF069328DC464600310665 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 01CF069A28DC464600310665;
+			remoteInfo = Knittery;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01470A5F28E9A71500F1DF00 /* Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pattern.swift; sourceTree = "<group>"; };
+		01470A6128EB05E600F1DF00 /* ErrorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
+		01470A6328EC26A200F1DF00 /* Craft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Craft.swift; sourceTree = "<group>"; };
+		01470A6728EC270200F1DF00 /* PersonalAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalAttributes.swift; sourceTree = "<group>"; };
+		01470A6928EC273B00F1DF00 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		01470A8728EEC2F000F1DF00 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		01CF069B28DC464600310665 /* Knittery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knittery.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		01CF069E28DC464600310665 /* KnitteryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryApp.swift; sourceTree = "<group>"; };
+		01CF06A028DC464600310665 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		01CF06A228DC464700310665 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		01CF06A528DC464700310665 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		01CF06A728DC464700310665 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		01CF06AA28DC464700310665 /* Knittery.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Knittery.xcdatamodel; sourceTree = "<group>"; };
+		01CF06B028DC464700310665 /* KnitteryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnitteryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		01CF06B428DC464700310665 /* KnitteryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryTests.swift; sourceTree = "<group>"; };
+		01CF06BA28DC464700310665 /* KnitteryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnitteryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		01CF06BE28DC464700310665 /* KnitteryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryUITests.swift; sourceTree = "<group>"; };
+		01CF06C028DC464700310665 /* KnitteryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		01CF06CE28DC478600310665 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		01CF06D028DC47B000310665 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
+		01CF06D528DC5B5200310665 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		01CF06DC28DC7BB600310665 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		01CF06DE28DC7BCC00310665 /* PatternsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsView.swift; sourceTree = "<group>"; };
+		01CF06E028DC7BD700310665 /* YarnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YarnsView.swift; sourceTree = "<group>"; };
+		01CF06EC28DDFF9B00310665 /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
+		01CF06EE28DE08F800310665 /* SessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionData.swift; sourceTree = "<group>"; };
+		01CF071028DE566600310665 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		01CF071428E3314B00310665 /* APIKeys.swift.sample */ = {isa = PBXFileReference; lastKnownFileType = text; path = APIKeys.swift.sample; sourceTree = "<group>"; };
+		01CF071628E3381800310665 /* KeychainHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHandler.swift; sourceTree = "<group>"; };
+		01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		01D715C128E5B09D00B6BB8D /* APIRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestBuilder.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		01CF069828DC464600310665 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01CF06E428DDA53200310665 /* OAuthSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01CF06AD28DC464700310665 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01CF06B728DC464700310665 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01470A5E28E9A6FF00F1DF00 /* Codables */ = {
+			isa = PBXGroup;
+			children = (
+				01470A6328EC26A200F1DF00 /* Craft.swift */,
+				01470A5F28E9A71500F1DF00 /* Pattern.swift */,
+				01470A6728EC270200F1DF00 /* PersonalAttributes.swift */,
+				01470A6928EC273B00F1DF00 /* User.swift */,
+			);
+			path = Codables;
+			sourceTree = "<group>";
+		};
+		01CF069228DC464600310665 = {
+			isa = PBXGroup;
+			children = (
+				01CF069D28DC464600310665 /* Knittery */,
+				01CF06B328DC464700310665 /* KnitteryTests */,
+				01CF06BD28DC464700310665 /* KnitteryUITests */,
+				01CF069C28DC464600310665 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		01CF069C28DC464600310665 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				01CF069B28DC464600310665 /* Knittery.app */,
+				01CF06B028DC464700310665 /* KnitteryTests.xctest */,
+				01CF06BA28DC464700310665 /* KnitteryUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		01CF069D28DC464600310665 /* Knittery */ = {
+			isa = PBXGroup;
+			children = (
+				01CF069E28DC464600310665 /* KnitteryApp.swift */,
+				01CF071128E0872400310665 /* AppData */,
+				01CF06EB28DDFF6F00310665 /* Network */,
+				01CF06CD28DC476900310665 /* Root */,
+				01CF06D928DC7B6E00310665 /* Library */,
+				01CF06DA28DC7B7700310665 /* Patterns */,
+				01CF06DB28DC7B8700310665 /* Yarns */,
+				01CF06A028DC464600310665 /* ContentView.swift */,
+				01CF06A228DC464700310665 /* Assets.xcassets */,
+				01CF071028DE566600310665 /* Info.plist */,
+				01CF06A728DC464700310665 /* Persistence.swift */,
+				01CF06A928DC464700310665 /* Knittery.xcdatamodeld */,
+				01CF06A428DC464700310665 /* Preview Content */,
+			);
+			path = Knittery;
+			sourceTree = "<group>";
+		};
+		01CF06A428DC464700310665 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				01CF06A528DC464700310665 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		01CF06B328DC464700310665 /* KnitteryTests */ = {
+			isa = PBXGroup;
+			children = (
+				01CF06B428DC464700310665 /* KnitteryTests.swift */,
+			);
+			path = KnitteryTests;
+			sourceTree = "<group>";
+		};
+		01CF06BD28DC464700310665 /* KnitteryUITests */ = {
+			isa = PBXGroup;
+			children = (
+				01CF06BE28DC464700310665 /* KnitteryUITests.swift */,
+				01CF06C028DC464700310665 /* KnitteryUITestsLaunchTests.swift */,
+			);
+			path = KnitteryUITests;
+			sourceTree = "<group>";
+		};
+		01CF06CD28DC476900310665 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				01CF06CE28DC478600310665 /* RootView.swift */,
+				01CF06D028DC47B000310665 /* RootViewModel.swift */,
+				01CF06D528DC5B5200310665 /* LoginView.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		01CF06D928DC7B6E00310665 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				01CF06DC28DC7BB600310665 /* LibraryView.swift */,
+				01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		01CF06DA28DC7B7700310665 /* Patterns */ = {
+			isa = PBXGroup;
+			children = (
+				01CF06DE28DC7BCC00310665 /* PatternsView.swift */,
+			);
+			path = Patterns;
+			sourceTree = "<group>";
+		};
+		01CF06DB28DC7B8700310665 /* Yarns */ = {
+			isa = PBXGroup;
+			children = (
+				01CF06E028DC7BD700310665 /* YarnsView.swift */,
+			);
+			path = Yarns;
+			sourceTree = "<group>";
+		};
+		01CF06EB28DDFF6F00310665 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				01470A5E28E9A6FF00F1DF00 /* Codables */,
+				01CF06EC28DDFF9B00310665 /* NetworkHandler.swift */,
+				01D715C128E5B09D00B6BB8D /* APIRequestBuilder.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		01CF071128E0872400310665 /* AppData */ = {
+			isa = PBXGroup;
+			children = (
+				01CF06EE28DE08F800310665 /* SessionData.swift */,
+				01CF071428E3314B00310665 /* APIKeys.swift.sample */,
+				01CF071628E3381800310665 /* KeychainHandler.swift */,
+				01470A6128EB05E600F1DF00 /* ErrorTypes.swift */,
+				01470A8728EEC2F000F1DF00 /* APIKeys.swift */,
+			);
+			path = AppData;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		01CF069A28DC464600310665 /* Knittery */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01CF06C428DC464700310665 /* Build configuration list for PBXNativeTarget "Knittery" */;
+			buildPhases = (
+				01CF069728DC464600310665 /* Sources */,
+				01CF069828DC464600310665 /* Frameworks */,
+				01CF069928DC464600310665 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Knittery;
+			packageProductDependencies = (
+				01CF06E328DDA53200310665 /* OAuthSwift */,
+			);
+			productName = Knittery;
+			productReference = 01CF069B28DC464600310665 /* Knittery.app */;
+			productType = "com.apple.product-type.application";
+		};
+		01CF06AF28DC464700310665 /* KnitteryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01CF06C728DC464700310665 /* Build configuration list for PBXNativeTarget "KnitteryTests" */;
+			buildPhases = (
+				01CF06AC28DC464700310665 /* Sources */,
+				01CF06AD28DC464700310665 /* Frameworks */,
+				01CF06AE28DC464700310665 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				01CF06B228DC464700310665 /* PBXTargetDependency */,
+			);
+			name = KnitteryTests;
+			productName = KnitteryTests;
+			productReference = 01CF06B028DC464700310665 /* KnitteryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		01CF06B928DC464700310665 /* KnitteryUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01CF06CA28DC464700310665 /* Build configuration list for PBXNativeTarget "KnitteryUITests" */;
+			buildPhases = (
+				01CF06B628DC464700310665 /* Sources */,
+				01CF06B728DC464700310665 /* Frameworks */,
+				01CF06B828DC464700310665 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				01CF06BC28DC464700310665 /* PBXTargetDependency */,
+			);
+			name = KnitteryUITests;
+			productName = KnitteryUITests;
+			productReference = 01CF06BA28DC464700310665 /* KnitteryUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		01CF069328DC464600310665 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				ORGANIZATIONNAME = "Nicholas Valenti";
+				TargetAttributes = {
+					01CF069A28DC464600310665 = {
+						CreatedOnToolsVersion = 14.0;
+					};
+					01CF06AF28DC464700310665 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = 01CF069A28DC464600310665;
+					};
+					01CF06B928DC464700310665 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = 01CF069A28DC464600310665;
+					};
+				};
+			};
+			buildConfigurationList = 01CF069628DC464600310665 /* Build configuration list for PBXProject "Knittery" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 01CF069228DC464600310665;
+			packageReferences = (
+				01CF06E228DDA53200310665 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
+			);
+			productRefGroup = 01CF069C28DC464600310665 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				01CF069A28DC464600310665 /* Knittery */,
+				01CF06AF28DC464700310665 /* KnitteryTests */,
+				01CF06B928DC464700310665 /* KnitteryUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		01CF069928DC464600310665 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01CF06A628DC464700310665 /* Preview Assets.xcassets in Resources */,
+				01CF06A328DC464700310665 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01CF06AE28DC464700310665 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01CF06B828DC464700310665 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		01CF069728DC464600310665 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01CF06A828DC464700310665 /* Persistence.swift in Sources */,
+				01CF06D628DC5B5200310665 /* LoginView.swift in Sources */,
+				01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */,
+				01CF06A128DC464600310665 /* ContentView.swift in Sources */,
+				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,
+				01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */,
+				01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */,
+				01D715C228E5B09D00B6BB8D /* APIRequestBuilder.swift in Sources */,
+				01CF06DD28DC7BB600310665 /* LibraryView.swift in Sources */,
+				01470A8828EEC2F000F1DF00 /* APIKeys.swift in Sources */,
+				01470A6A28EC273B00F1DF00 /* User.swift in Sources */,
+				01CF06AB28DC464700310665 /* Knittery.xcdatamodeld in Sources */,
+				01CF06E128DC7BD700310665 /* YarnsView.swift in Sources */,
+				01CF06CF28DC478600310665 /* RootView.swift in Sources */,
+				01CF071728E3381800310665 /* KeychainHandler.swift in Sources */,
+				01CF06D128DC47B000310665 /* RootViewModel.swift in Sources */,
+				01470A6428EC26A200F1DF00 /* Craft.swift in Sources */,
+				01CF06EF28DE08F800310665 /* SessionData.swift in Sources */,
+				01CF06DF28DC7BCC00310665 /* PatternsView.swift in Sources */,
+				01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */,
+				01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01CF06AC28DC464700310665 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01CF06B528DC464700310665 /* KnitteryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01CF06B628DC464700310665 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01CF06C128DC464700310665 /* KnitteryUITestsLaunchTests.swift in Sources */,
+				01CF06BF28DC464700310665 /* KnitteryUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		01CF06B228DC464700310665 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 01CF069A28DC464600310665 /* Knittery */;
+			targetProxy = 01CF06B128DC464700310665 /* PBXContainerItemProxy */;
+		};
+		01CF06BC28DC464700310665 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 01CF069A28DC464600310665 /* Knittery */;
+			targetProxy = 01CF06BB28DC464700310665 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		01CF06C228DC464700310665 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		01CF06C328DC464700310665 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		01CF06C528DC464700310665 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Knittery/Preview Content\"";
+				DEVELOPMENT_TEAM = 5NS5K375L8;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Knittery/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nvalenti.Knittery;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		01CF06C628DC464700310665 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Knittery/Preview Content\"";
+				DEVELOPMENT_TEAM = 5NS5K375L8;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Knittery/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nvalenti.Knittery;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		01CF06C828DC464700310665 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5NS5K375L8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nvalenti.KnitteryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Knittery.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Knittery";
+			};
+			name = Debug;
+		};
+		01CF06C928DC464700310665 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5NS5K375L8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nvalenti.KnitteryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Knittery.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Knittery";
+			};
+			name = Release;
+		};
+		01CF06CB28DC464700310665 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5NS5K375L8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nvalenti.KnitteryUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Knittery;
+			};
+			name = Debug;
+		};
+		01CF06CC28DC464700310665 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5NS5K375L8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nvalenti.KnitteryUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Knittery;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01CF069628DC464600310665 /* Build configuration list for PBXProject "Knittery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01CF06C228DC464700310665 /* Debug */,
+				01CF06C328DC464700310665 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		01CF06C428DC464700310665 /* Build configuration list for PBXNativeTarget "Knittery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01CF06C528DC464700310665 /* Debug */,
+				01CF06C628DC464700310665 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		01CF06C728DC464700310665 /* Build configuration list for PBXNativeTarget "KnitteryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01CF06C828DC464700310665 /* Debug */,
+				01CF06C928DC464700310665 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		01CF06CA28DC464700310665 /* Build configuration list for PBXNativeTarget "KnitteryUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01CF06CB28DC464700310665 /* Debug */,
+				01CF06CC28DC464700310665 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		01CF06E228DDA53200310665 /* XCRemoteSwiftPackageReference "OAuthSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OAuthSwift/OAuthSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		01CF06E328DDA53200310665 /* OAuthSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 01CF06E228DDA53200310665 /* XCRemoteSwiftPackageReference "OAuthSwift" */;
+			productName = OAuthSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		01CF06A928DC464700310665 /* Knittery.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				01CF06AA28DC464700310665 /* Knittery.xcdatamodel */,
+			);
+			currentVersion = 01CF06AA28DC464700310665 /* Knittery.xcdatamodel */;
+			path = Knittery.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 01CF069328DC464600310665 /* Project object */;
+}
