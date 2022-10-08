@@ -33,7 +33,7 @@
 		01CF06EF28DE08F800310665 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06EE28DE08F800310665 /* SessionData.swift */; };
 		01CF071728E3381800310665 /* KeychainHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF071628E3381800310665 /* KeychainHandler.swift */; };
 		01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */; };
-		01D715C228E5B09D00B6BB8D /* APIRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D715C128E5B09D00B6BB8D /* APIRequestBuilder.swift */; };
+		01D715C228E5B09D00B6BB8D /* NetworkHandler+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D715C128E5B09D00B6BB8D /* NetworkHandler+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +84,7 @@
 		01CF071428E3314B00310665 /* APIKeys.swift.sample */ = {isa = PBXFileReference; lastKnownFileType = text; path = APIKeys.swift.sample; sourceTree = "<group>"; };
 		01CF071628E3381800310665 /* KeychainHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHandler.swift; sourceTree = "<group>"; };
 		01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
-		01D715C128E5B09D00B6BB8D /* APIRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestBuilder.swift; sourceTree = "<group>"; };
+		01D715C128E5B09D00B6BB8D /* NetworkHandler+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkHandler+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,7 +229,7 @@
 			children = (
 				01470A5E28E9A6FF00F1DF00 /* Codables */,
 				01CF06EC28DDFF9B00310665 /* NetworkHandler.swift */,
-				01D715C128E5B09D00B6BB8D /* APIRequestBuilder.swift */,
+				01D715C128E5B09D00B6BB8D /* NetworkHandler+Extension.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -390,7 +390,7 @@
 				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,
 				01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */,
 				01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */,
-				01D715C228E5B09D00B6BB8D /* APIRequestBuilder.swift in Sources */,
+				01D715C228E5B09D00B6BB8D /* NetworkHandler+Extension.swift in Sources */,
 				01CF06DD28DC7BB600310665 /* LibraryView.swift in Sources */,
 				01470A8828EEC2F000F1DF00 /* APIKeys.swift in Sources */,
 				01470A6A28EC273B00F1DF00 /* User.swift in Sources */,

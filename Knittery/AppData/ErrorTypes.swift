@@ -9,6 +9,13 @@
 import Foundation
 
 // TODO: create comprehensive error types before complexity increases
-enum ApiError: Error {
+enum ApiError: Error, CustomStringConvertible {
     case decodeError
+    
+    public var description: String {
+        switch self {
+        case .decodeError:
+            return "Error decoding API"
+        }
+    }
 }

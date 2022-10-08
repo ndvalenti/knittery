@@ -86,40 +86,6 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
     }
 
-    static func makeRequest<T: Codable>(_ request: URLRequest, debug: Bool = false, resultHandler: @escaping (Result<T, ApiError>) -> Void) {
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else {
-                print(error?.localizedDescription as Any)
-                return
-            }
-            
-            guard let r = response as? HTTPURLResponse, 200...299 ~= r.statusCode else {
-                print(response.debugDescription)
-                return
-            }
-            
-            guard let data = data else {
-                print("no data")
-                return
-            }
-            
-            // debug will send a second request and dump the response to console, not ideal
-            if debug {
-                guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-                    return
-                }
-                print("JSON:", json)
-            }
-            
-            guard let decoded:T = self.decodedData(data) else {
-                resultHandler(.failure(.decodeError))
-                return
-            }
-            
-            resultHandler(.success(decoded))
-        }
-        task.resume()
-    }
     
     static private func decodedData<T: Codable>(_ data: Data) -> T? {
         do {
