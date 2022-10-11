@@ -15,11 +15,12 @@ extension NetworkHandler {
         let request = domain + "patterns/" + id + ".json"
         
         guard let url = URL(string:request) else {
+            resultHandler(.failure(ApiError.invalidUrl))
             return
         }
         
         guard let request = URLRequestBuilder(url) else {
-            resultHandler(.failure(ApiError.decodeError))  // TODO: make this generic
+            resultHandler(.failure(ApiError.invalidUrl))
             return
         }
             
@@ -27,6 +28,29 @@ extension NetworkHandler {
             switch(result) {
             case .success(let patternWrapper):
                 resultHandler(.success(patternWrapper.pattern))
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
+    static func requestCurrentUser(resultHandler: @escaping (Result<User, ApiError>) -> Void) {
+        let request = domain + "current_user.json"
+        
+        guard let url = URL(string:request) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        guard let request = URLRequestBuilder(url) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        self.makeRequest(request) { (result: Result<User, ApiError>) in
+            switch(result) {
+            case .success(let user):
+                resultHandler(.success(user))
             case .failure(let error):
                 resultHandler(.failure(error))
             }
@@ -52,12 +76,13 @@ extension NetworkHandler {
             }
             
             guard let r = response as? HTTPURLResponse, 200...299 ~= r.statusCode else {
+                resultHandler(.failure(.invalidResponse))
                 print(response.debugDescription)
                 return
             }
             
             guard let data = data else {
-                print("no data")
+                resultHandler(.failure(.noData))
                 return
             }
             

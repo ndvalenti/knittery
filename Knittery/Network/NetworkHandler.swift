@@ -39,19 +39,9 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         
         let state = generateState(withLength: 20)
         
-//        let loginString = String(format: "%@:%@",
-//                                 oauthswift.client.credential.consumerKey,
-//                                 oauthswift.client.credential.consumerSecret)
-//        let loginData = loginString.data(using: String.Encoding.utf8)!
-//        let base64LoginString = loginData.base64EncodedString()
-//        let header = ["Authorization":"Basic \(base64LoginString)"]
-        
         oauthswift.client.credential.headersFactory = XHeaders(credential: oauthswift.client.credential)
 //        oauthswift.allowMissingStateCheck = true
         
-        // authorize has a headers: argument if we can construct out headers outside the factory
-        // we only use the headers factory once and can build them in place IF we don't need it for
-        // refresh tokens
         let _ = oauthswift.authorize(
             withCallbackURL: "knitteryapp://oauth-callback",
             scope: "offline",
@@ -68,7 +58,6 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             }
     }
     
-    // todo: use debugger to track how headers are constructed for refresh tokens, might be able to do away with the entire factory if it follows the access token path
     func refreshAccessToken(completion: @escaping (Bool) -> Void) {
         if let refreshToken = KeychainHandler.readToken(type: .refresh) {
             oauthswift.client.credential.headersFactory = XHeaders(credential: oauthswift.client.credential)
@@ -99,6 +88,7 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 }
 
 // Ravelry only supports auth headers using "Authorization: " pattern and not body auth
+// Requires Authorization:Bearer for access tokens and Authorization:Basic for refresh tokens
 class XHeaders: OAuthSwiftCredentialHeadersFactory {
     let credential: OAuthSwiftCredential
     

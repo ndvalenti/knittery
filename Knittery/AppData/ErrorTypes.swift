@@ -8,14 +8,22 @@
 
 import Foundation
 
-// TODO: create comprehensive error types before complexity increases
 enum ApiError: Error, CustomStringConvertible {
     case decodeError
+    case invalidUrl
+    case noData
+    case invalidResponse
     
     public var description: String {
         switch self {
         case .decodeError:
             return "Error decoding API"
+        case .invalidUrl:
+            return "Invalid URL"
+        case .noData:
+            return "No data"
+        case .invalidResponse:
+            return "Invalid HTTP response code"
         }
     }
 }
