@@ -13,6 +13,8 @@
 		01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6728EC270200F1DF00 /* PersonalAttributes.swift */; };
 		01470A6A28EC273B00F1DF00 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6928EC273B00F1DF00 /* User.swift */; };
 		01470A8828EEC2F000F1DF00 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A8728EEC2F000F1DF00 /* APIKeys.swift */; };
+		01CAF58F28F56B44000C92C1 /* Patterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF58E28F56B44000C92C1 /* Patterns.swift */; };
+		01CAF59128F56EAA000C92C1 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF59028F56EAA000C92C1 /* Photo.swift */; };
 		01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF069E28DC464600310665 /* KnitteryApp.swift */; };
 		01CF06A128DC464600310665 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06A028DC464600310665 /* ContentView.swift */; };
 		01CF06A328DC464700310665 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01CF06A228DC464700310665 /* Assets.xcassets */; };
@@ -60,6 +62,8 @@
 		01470A6728EC270200F1DF00 /* PersonalAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalAttributes.swift; sourceTree = "<group>"; };
 		01470A6928EC273B00F1DF00 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01470A8728EEC2F000F1DF00 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		01CAF58E28F56B44000C92C1 /* Patterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patterns.swift; sourceTree = "<group>"; };
+		01CAF59028F56EAA000C92C1 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		01CF069B28DC464600310665 /* Knittery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knittery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01CF069E28DC464600310665 /* KnitteryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryApp.swift; sourceTree = "<group>"; };
 		01CF06A028DC464600310665 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 				01470A5F28E9A71500F1DF00 /* Pattern.swift */,
 				01470A6728EC270200F1DF00 /* PersonalAttributes.swift */,
 				01470A6928EC273B00F1DF00 /* User.swift */,
+				01CAF58E28F56B44000C92C1 /* Patterns.swift */,
+				01CAF59028F56EAA000C92C1 /* Photo.swift */,
 			);
 			path = Codables;
 			sourceTree = "<group>";
@@ -389,6 +395,7 @@
 				01CF06A128DC464600310665 /* ContentView.swift in Sources */,
 				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,
 				01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */,
+				01CAF58F28F56B44000C92C1 /* Patterns.swift in Sources */,
 				01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */,
 				01D715C228E5B09D00B6BB8D /* NetworkHandler+Extension.swift in Sources */,
 				01CF06DD28DC7BB600310665 /* LibraryView.swift in Sources */,
@@ -398,6 +405,7 @@
 				01CF06E128DC7BD700310665 /* YarnsView.swift in Sources */,
 				01CF06CF28DC478600310665 /* RootView.swift in Sources */,
 				01CF071728E3381800310665 /* KeychainHandler.swift in Sources */,
+				01CAF59128F56EAA000C92C1 /* Photo.swift in Sources */,
 				01CF06D128DC47B000310665 /* RootViewModel.swift in Sources */,
 				01470A6428EC26A200F1DF00 /* Craft.swift in Sources */,
 				01CF06EF28DE08F800310665 /* SessionData.swift in Sources */,

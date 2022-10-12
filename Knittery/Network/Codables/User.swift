@@ -13,7 +13,6 @@ struct UserWrapper: Codable {
 }
 
 struct User: Codable {
-    
     let id: Int
     let username: String
     let photo: String?
