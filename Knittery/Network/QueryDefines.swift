@@ -45,7 +45,7 @@ enum QSort: String {
     case yarn = "yarn"
 }
 
-// availibility
+// availability
 enum QAvailability: String {
     case nocost = "free"
     case purchaseOnline = "online"
@@ -73,6 +73,7 @@ enum QWeight: String {
     case notSpecified = "unknown"
 }
 
+// TODO: the following categories require special handling, are overcomplicated, or must be fetched and built programatically
 // pc
 //enum QCategory: String {
 //

@@ -8,7 +8,8 @@
 
 import Foundation
 
-struct Query {
+class Query {
+    let search: String?
     let sort: QSort?
     let invert: Bool?
     let page: String?
@@ -18,6 +19,7 @@ struct Query {
     let weight: [QWeight]?
     
     init (
+        search: String? = "",
         sort: QSort? = QSort.best,
         invert: Bool? = nil,
         page: String? = nil,
@@ -26,6 +28,7 @@ struct Query {
         availability: [QAvailability]? = [],
         weight: [QWeight]? = []
     ) {
+        self.search = search
         self.sort = sort
         self.invert = invert
         self.page = page
@@ -35,12 +38,6 @@ struct Query {
         self.weight = weight
     }
 }
-
-// Separator %7C
-// Cat Separator $
-// URL/Query Separator #
-// Exclude -
-// Invert _
 
 class QueryBuilder {
     static private let startSymbol = "?"
@@ -54,68 +51,69 @@ class QueryBuilder {
         self.query = query
     }
     
-    static func build(_ query: Query) -> String? {
+    func build() -> String? {
         var valid: Bool = false
-        var result = startSymbol
+        var result = QueryBuilder.startSymbol
+        
+        if let search = query.search {
+            valid = true
+            result += "query=" + search
+        } else {
+            // TODO: need tests to ensure that blank queries function similarily to the website, otherwise this needs to be less permissive
+            return nil
+        }
         
         if let sort = query.sort {
-            valid = true
-            result += "sort="
+            result += QueryBuilder.catQuery + "sort="
             if query.invert == true {
-                result += invertSymbol
+                result += QueryBuilder.invertSymbol
             }
             result += sort.rawValue
         }
         
         if let page = query.page {
-            if valid { result += catQuery } else { valid = true }
-            result += "page=" + page
+            result += QueryBuilder.catQuery + "page=" + page
         }
         
         if let craft = query.craft {
             if !craft.isEmpty {
-                if valid { result += catQuery } else { valid = true }
-                result += craft.map {
+                result += QueryBuilder.catQuery + craft.map {
                     $0.rawValue
                 }
-                .joined(separator: separator)
+                .joined(separator: QueryBuilder.separator)
             }
         }
         
         if let notebook = query.notebook {
             if !notebook.isEmpty {
-                if valid { result += catQuery } else { valid = true }
-                result += notebook.map {
+                result += QueryBuilder.catQuery + notebook.map {
                     $0.rawValue
                 }
-                .joined(separator: separator)
+                .joined(separator: QueryBuilder.separator)
             }
         }
         
         if let availability = query.availability {
             if !availability.isEmpty {
-                if valid { result += catQuery } else { valid = true }
-                result += availability.map {
+                result += QueryBuilder.catQuery + availability.map {
                     $0.rawValue
                 }
-                .joined(separator: separator)
+                .joined(separator: QueryBuilder.separator)
             }
         }
         
         if let weight = query.weight {
             if !weight.isEmpty {
-                if valid { result += catQuery } else { valid = true }
-                result += weight.map {
+                result += QueryBuilder.catQuery + weight.map {
                     $0.rawValue
                 }
-                .joined(separator: separator)
+                .joined(separator: QueryBuilder.separator)
             }
         }
         
         if valid {
             return result
         }
-        
         return nil
     }
 }
