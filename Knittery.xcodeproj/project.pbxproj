@@ -15,6 +15,8 @@
 		01470A8828EEC2F000F1DF00 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A8728EEC2F000F1DF00 /* APIKeys.swift */; };
 		01CAF58F28F56B44000C92C1 /* Patterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF58E28F56B44000C92C1 /* Patterns.swift */; };
 		01CAF59128F56EAA000C92C1 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF59028F56EAA000C92C1 /* Photo.swift */; };
+		01CAF59328F6A30A000C92C1 /* QueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF59228F6A30A000C92C1 /* QueryBuilder.swift */; };
+		01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF59428F7F01A000C92C1 /* QueryDefines.swift */; };
 		01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF069E28DC464600310665 /* KnitteryApp.swift */; };
 		01CF06A128DC464600310665 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06A028DC464600310665 /* ContentView.swift */; };
 		01CF06A328DC464700310665 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01CF06A228DC464700310665 /* Assets.xcassets */; };
@@ -64,6 +66,8 @@
 		01470A8728EEC2F000F1DF00 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		01CAF58E28F56B44000C92C1 /* Patterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patterns.swift; sourceTree = "<group>"; };
 		01CAF59028F56EAA000C92C1 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		01CAF59228F6A30A000C92C1 /* QueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryBuilder.swift; sourceTree = "<group>"; };
+		01CAF59428F7F01A000C92C1 /* QueryDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryDefines.swift; sourceTree = "<group>"; };
 		01CF069B28DC464600310665 /* Knittery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knittery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01CF069E28DC464600310665 /* KnitteryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryApp.swift; sourceTree = "<group>"; };
 		01CF06A028DC464600310665 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -130,6 +134,13 @@
 			path = Codables;
 			sourceTree = "<group>";
 		};
+		01CAF5BA28F82B1C000C92C1 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		01CF069228DC464600310665 = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +164,7 @@
 		01CF069D28DC464600310665 /* Knittery */ = {
 			isa = PBXGroup;
 			children = (
+				01CAF5BA28F82B1C000C92C1 /* Search */,
 				01CF069E28DC464600310665 /* KnitteryApp.swift */,
 				01CF071128E0872400310665 /* AppData */,
 				01CF06EB28DDFF6F00310665 /* Network */,
@@ -236,6 +248,8 @@
 				01470A5E28E9A6FF00F1DF00 /* Codables */,
 				01CF06EC28DDFF9B00310665 /* NetworkHandler.swift */,
 				01D715C128E5B09D00B6BB8D /* NetworkHandler+Extension.swift */,
+				01CAF59228F6A30A000C92C1 /* QueryBuilder.swift */,
+				01CAF59428F7F01A000C92C1 /* QueryDefines.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -407,9 +421,11 @@
 				01CF071728E3381800310665 /* KeychainHandler.swift in Sources */,
 				01CAF59128F56EAA000C92C1 /* Photo.swift in Sources */,
 				01CF06D128DC47B000310665 /* RootViewModel.swift in Sources */,
+				01CAF59328F6A30A000C92C1 /* QueryBuilder.swift in Sources */,
 				01470A6428EC26A200F1DF00 /* Craft.swift in Sources */,
 				01CF06EF28DE08F800310665 /* SessionData.swift in Sources */,
 				01CF06DF28DC7BCC00310665 /* PatternsView.swift in Sources */,
+				01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */,
 				01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */,
 				01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */,
 			);
