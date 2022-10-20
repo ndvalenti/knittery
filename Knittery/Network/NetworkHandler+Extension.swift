@@ -34,11 +34,10 @@ extension NetworkHandler {
         }
     }
     
-    // TODO: Make a data type and helper to construct queries, maybe factory? will cut down on optionals as well
     // yarns have fewer search options
-//    pc=hat&sort=best
+    // TODO: Look into URLComponents and see if we can't work with URL? queries rathar than String? for a more pure experience
+    // https://cocoacasts.com/working-with-nsurlcomponents-in-swift
     static func requestPatternSearch(query: String? = "", page: Int? = 1, resultHandler: @escaping (Result<PatternSearch, ApiError>) -> Void) {
-        // TODO: force unwrap needs guard or other implementation especially as it is truly optional
 //        let request = domain + query!
 //        let apicall = domain + "patterns/search.json?query=cowl"
         let apicall = domain + "patterns/search.json?craft=crochet%7Cknitting&query=hat"

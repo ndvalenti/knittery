@@ -12,13 +12,14 @@ struct Photo: Codable {
     let id: Int?
     let sortOrder: Int?
     let thumbnail: String?
-    let small: String?
+    // TODO: smallURL links to an image and might be better as a URL type
+    let smallURL: String?
     let copyright: String?
     
     enum CodingKeys: String, CodingKey {
         case sortOrder = "sort_order"
         case thumbnail = "thumbnail_url"
-        case small = "small_url"
+        case smallURL = "small_url"
         case copyright = "copyright_holder"
         case id
     }
