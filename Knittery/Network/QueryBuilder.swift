@@ -52,14 +52,15 @@ class QueryBuilder {
     }
     
     func build() -> String? {
-        var valid: Bool = false
+//        var valid: Bool = false
         var result = QueryBuilder.startSymbol
         
         if let search = query.search {
-            valid = true
+//            valid = true
             result += "query=" + search
         } else {
-            // TODO: need tests to ensure that blank queries function similarily to the website, otherwise this needs to be less permissive
+            print(QueryError.invalidQuery.description)
+            // TODO: this is a really good time to implement tests, need to ensure that blank queries function the same as on the website, otherwise this needs to be less permissive
             return nil
         }
         
@@ -111,9 +112,11 @@ class QueryBuilder {
             }
         }
         
-        if valid {
-            return result
-        }
-        return nil
+        return result
+        
+//        if valid {
+//            return result
+//        }
+//        return nil
     }
 }
