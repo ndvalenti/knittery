@@ -10,15 +10,17 @@ import XCTest
 @testable import Knittery
 
 final class QueryTests: XCTestCase {
+    let query = Query()
+    
     func testEmptyQuery() {
-        let query = Query()
+        query.clear()
         let queryString = QueryBuilder.build(query)
         
         XCTAssertEqual(queryString, "?query=$sort=best")
     }
     
     func testBasicInvertQuery() {
-        let query = Query()
+        query.clear()
         query.search = "cowl"
         query.invert = true
         let queryString = QueryBuilder.build(query)
@@ -27,7 +29,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testSecondPageQuery() {
-        let query = Query()
+        query.clear()
         query.search = "cowl"
         query.page = "2"
         let queryString = QueryBuilder.build(query)
@@ -36,7 +38,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testSingleNotebookQuery() {
-        let query = Query()
+        query.clear()
         query.search = "cowl"
         query.notebook.append(.favorites)
         let queryString = QueryBuilder.build(query)
@@ -45,7 +47,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testMultipleNotebooksQuery() {
-        let query = Query()
+        query.clear()
         query.search = "cowl"
         query.notebook.append(.favorites)
         query.notebook.append(.library)
@@ -55,7 +57,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testSingleCraftQuery() {
-        let query = Query()
+        query.clear()
         query.search = "hat"
         query.craft.append(QCraft.crochet)
         let queryString = QueryBuilder.build(query)
@@ -64,7 +66,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testMultipleCraftsQuery() {
-        let query = Query()
+        query.clear()
         query.search = "hat"
         query.craft.append(QCraft.knitting)
         query.craft.append(QCraft.crochet)
@@ -74,7 +76,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testSingleAvailabilityQuery() {
-        let query = Query()
+        query.clear()
         query.search = "cowl"
         query.availability.append(.nocost)
         let queryString = QueryBuilder.build(query)
@@ -83,7 +85,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testDoubleAvailabilitiesQuery() {
-        let query = Query()
+        query.clear()
         query.search = "cowl"
         query.availability.append(.nocost)
         query.availability.append(.ravelryDownload)
@@ -93,7 +95,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testSingleWeightQuery() {
-        let query = Query()
+        query.clear()
         query.search = "cowl"
         query.weight.append(.fingering)
         let queryString = QueryBuilder.build(query)
@@ -102,7 +104,7 @@ final class QueryTests: XCTestCase {
     }
     
     func testDoubleWeightsQuery() {
-        let query = Query()
+        query.clear()
         query.search = "cowl"
         query.weight.append(.fingering)
         query.weight.append(.jumbo)

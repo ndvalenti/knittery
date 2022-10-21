@@ -37,6 +37,17 @@ class Query {
         self.availability = availability
         self.weight = weight
     }
+    
+    func clear() {
+        search = ""
+        sort = QSort.best
+        invert = nil
+        page = nil
+        notebook.removeAll()
+        craft.removeAll()
+        availability.removeAll()
+        weight.removeAll()
+    }
 }
 
 class QueryBuilder {
