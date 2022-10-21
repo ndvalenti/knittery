@@ -9,24 +9,24 @@
 import Foundation
 
 class Query {
-    let search: String?
-    let sort: QSort?
-    let invert: Bool?
-    let page: String?
-    let notebook: [QNotebook]?
-    let craft: [QCraft]?
-    let availability: [QAvailability]?
-    let weight: [QWeight]?
+    var search: String
+    var sort: QSort?
+    var invert: Bool?
+    var page: String?
+    var notebook: [QNotebook]
+    var craft: [QCraft]
+    var availability: [QAvailability]
+    var weight: [QWeight]
     
     init (
-        search: String? = "",
+        search: String = "",
         sort: QSort? = QSort.best,
         invert: Bool? = nil,
         page: String? = nil,
-        notebook: [QNotebook]? = [],
-        craft: [QCraft]? = [],
-        availability: [QAvailability]? = [],
-        weight: [QWeight]? = []
+        notebook: [QNotebook] = [],
+        craft: [QCraft] = [],
+        availability: [QAvailability] = [],
+        weight: [QWeight] = []
     ) {
         self.search = search
         self.sort = sort
@@ -45,24 +45,18 @@ class QueryBuilder {
     static private let catQuery = "$"
     static private let invertSymbol = "_"
     
-    let query: Query
-    
-    init(query: Query) {
-        self.query = query
-    }
-    
-    func build() -> String? {
-//        var valid: Bool = false
+    static func build(_ query: Query) -> String? {
+        //        var valid: Bool = false
         var result = QueryBuilder.startSymbol
         
-        if let search = query.search {
-//            valid = true
-            result += "query=" + search
-        } else {
-            print(QueryError.invalidQuery.description)
-            // TODO: this is a really good time to implement tests, need to ensure that blank queries function the same as on the website, otherwise this needs to be less permissive
-            return nil
-        }
+        //        if let search = query.search {
+        //            valid = true
+        result += "query=" + query.search
+        //        } else {
+        //            print(QueryError.invalidQuery.description)
+        // TODO: this is a really good time to implement tests, need to ensure that blank queries function the same as on the website, otherwise this needs to be less permissive
+        //            return nil
+        //        }
         
         if let sort = query.sort {
             result += QueryBuilder.catQuery + "sort="
@@ -76,47 +70,39 @@ class QueryBuilder {
             result += QueryBuilder.catQuery + "page=" + page
         }
         
-        if let craft = query.craft {
-            if !craft.isEmpty {
-                result += QueryBuilder.catQuery + craft.map {
-                    $0.rawValue
-                }
-                .joined(separator: QueryBuilder.separator)
+        if !query.craft.isEmpty {
+            result += QueryBuilder.catQuery + "craft=" + query.craft.map {
+                $0.rawValue
             }
+            .joined(separator: QueryBuilder.separator)
         }
         
-        if let notebook = query.notebook {
-            if !notebook.isEmpty {
-                result += QueryBuilder.catQuery + notebook.map {
-                    $0.rawValue
-                }
-                .joined(separator: QueryBuilder.separator)
+        if !query.notebook.isEmpty {
+            result += QueryBuilder.catQuery + "notebook-p=" + query.notebook.map {
+                $0.rawValue
             }
+            .joined(separator: QueryBuilder.separator)
         }
         
-        if let availability = query.availability {
-            if !availability.isEmpty {
-                result += QueryBuilder.catQuery + availability.map {
-                    $0.rawValue
-                }
-                .joined(separator: QueryBuilder.separator)
+        if !query.availability.isEmpty {
+            result += QueryBuilder.catQuery + "availability=" + query.availability.map {
+                $0.rawValue
             }
+            .joined(separator: QueryBuilder.separator)
         }
         
-        if let weight = query.weight {
-            if !weight.isEmpty {
-                result += QueryBuilder.catQuery + weight.map {
-                    $0.rawValue
-                }
-                .joined(separator: QueryBuilder.separator)
+        if !query.weight.isEmpty {
+            result += QueryBuilder.catQuery + "weight=" + query.weight.map {
+                $0.rawValue
             }
+            .joined(separator: QueryBuilder.separator)
         }
         
         return result
         
-//        if valid {
-//            return result
-//        }
-//        return nil
+        //        if valid {
+        //            return result
+        //        }
+        //        return nil
     }
 }
