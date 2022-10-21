@@ -13,10 +13,24 @@ struct LoginView: View {
     var body: some View {
         
         VStack {
-            Text("Knittery")
-                .font(.title)
-                .padding()
             Spacer()
+            ZStack {
+                Rectangle()
+                    .fill(Color.KnitteryColor.darkBlueTranslucent)
+                    .frame(height: 200)
+                Image("KnLogo")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 300)
+                    .clipShape(Circle())
+                    .overlay(Circle()
+                        .stroke(Color.KnitteryColor.darkBlue, lineWidth: 2))
+            }
+            Text("Knittery")
+                .font(.custom("Avenir", size: 90))
+                .foregroundColor(.KnitteryColor.lightBlue)
+                .shadow(color: .KnitteryColor.darkBlue, radius: 6, x: 0, y: 3)
+                .padding()
             Button {
                 signInAction()
             } label: {
@@ -25,6 +39,7 @@ struct LoginView: View {
             .padding()
             Spacer()
         }
+        .background(Color.KnitteryColor.backgroundDark)
     }
 }
 

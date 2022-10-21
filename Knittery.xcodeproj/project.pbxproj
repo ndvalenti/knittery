@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010E644F2902B1E300F87789 /* KnitteryColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E644E2902B1E300F87789 /* KnitteryColors.swift */; };
 		01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A5F28E9A71500F1DF00 /* Pattern.swift */; };
 		01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6128EB05E600F1DF00 /* ErrorTypes.swift */; };
 		01470A6428EC26A200F1DF00 /* Craft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6328EC26A200F1DF00 /* Craft.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010E644E2902B1E300F87789 /* KnitteryColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryColors.swift; sourceTree = "<group>"; };
 		01470A5F28E9A71500F1DF00 /* Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pattern.swift; sourceTree = "<group>"; };
 		01470A6128EB05E600F1DF00 /* ErrorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
 		01470A6328EC26A200F1DF00 /* Craft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Craft.swift; sourceTree = "<group>"; };
@@ -121,6 +123,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		010E644729028B9F00F87789 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				010E644E2902B1E300F87789 /* KnitteryColors.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
 		01470A5E28E9A6FF00F1DF00 /* Codables */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,14 +174,14 @@
 		01CF069D28DC464600310665 /* Knittery */ = {
 			isa = PBXGroup;
 			children = (
-				01CAF5BA28F82B1C000C92C1 /* Search */,
 				01CF069E28DC464600310665 /* KnitteryApp.swift */,
-				01CF071128E0872400310665 /* AppData */,
 				01CF06EB28DDFF6F00310665 /* Network */,
 				01CF06CD28DC476900310665 /* Root */,
+				01CAF5BA28F82B1C000C92C1 /* Search */,
 				01CF06D928DC7B6E00310665 /* Library */,
 				01CF06DA28DC7B7700310665 /* Patterns */,
 				01CF06DB28DC7B8700310665 /* Yarns */,
+				01CF071128E0872400310665 /* AppData */,
 				01CF06A028DC464600310665 /* ContentView.swift */,
 				01CF06A228DC464700310665 /* Assets.xcassets */,
 				01CF071028DE566600310665 /* Info.plist */,
@@ -257,6 +267,7 @@
 		01CF071128E0872400310665 /* AppData */ = {
 			isa = PBXGroup;
 			children = (
+				010E644729028B9F00F87789 /* Styles */,
 				01CF06EE28DE08F800310665 /* SessionData.swift */,
 				01CF071428E3314B00310665 /* APIKeys.swift.sample */,
 				01CF071628E3381800310665 /* KeychainHandler.swift */,
@@ -405,6 +416,7 @@
 			files = (
 				01CF06A828DC464700310665 /* Persistence.swift in Sources */,
 				01CF06D628DC5B5200310665 /* LoginView.swift in Sources */,
+				010E644F2902B1E300F87789 /* KnitteryColors.swift in Sources */,
 				01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */,
 				01CF06A128DC464600310665 /* ContentView.swift in Sources */,
 				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,
@@ -468,6 +480,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -528,6 +541,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
