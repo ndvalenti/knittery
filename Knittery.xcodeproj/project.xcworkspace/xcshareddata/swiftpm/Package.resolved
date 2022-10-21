@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/OAuthSwift/OAuthSwift",
       "state" : {
-        "revision" : "d85964b96dbce94df961f28b996187c835089903",
-        "version" : "2.2.0"
+        "branch" : "master",
+        "revision" : "73f97878d988e33cc0d5482c18db6264c37ffbcd"
       }
     },
     {

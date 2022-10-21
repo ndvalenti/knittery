@@ -21,5 +21,22 @@ class LibraryViewModel: ObservableObject {
                     print(error)
                 }
         }
+//        NetworkHandler.requestPatternSearch() { [weak self] (result: Result<PatternSearch, ApiError>) in
+//            switch result {
+//            case .success (let search):
+//                print(search)
+//            case .failure (let error):
+//                print(error)
+//            }
+//        }
+//        NetworkHandler.requestCurrentUser() { [weak self] (result: Result<User, ApiError>) in
+//            switch result {
+//            case .success(let user):
+//                print(user)
+//            case .failure(let error):
+//                print(error)
+//
+//            }
+//        }
     }
 }

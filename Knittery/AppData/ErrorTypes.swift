@@ -27,3 +27,14 @@ enum ApiError: Error, CustomStringConvertible {
         }
     }
 }
+
+enum QueryError: Error, CustomStringConvertible {
+    case invalidQuery
+    
+    public var description: String {
+        switch self {
+        case .invalidQuery:
+            return "Invalid Query Parameter"
+        }
+    }
+}

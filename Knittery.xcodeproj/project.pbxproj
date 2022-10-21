@@ -13,6 +13,10 @@
 		01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6728EC270200F1DF00 /* PersonalAttributes.swift */; };
 		01470A6A28EC273B00F1DF00 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6928EC273B00F1DF00 /* User.swift */; };
 		01470A8828EEC2F000F1DF00 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A8728EEC2F000F1DF00 /* APIKeys.swift */; };
+		01CAF58F28F56B44000C92C1 /* Patterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF58E28F56B44000C92C1 /* Patterns.swift */; };
+		01CAF59128F56EAA000C92C1 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF59028F56EAA000C92C1 /* Photo.swift */; };
+		01CAF59328F6A30A000C92C1 /* QueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF59228F6A30A000C92C1 /* QueryBuilder.swift */; };
+		01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF59428F7F01A000C92C1 /* QueryDefines.swift */; };
 		01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF069E28DC464600310665 /* KnitteryApp.swift */; };
 		01CF06A128DC464600310665 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06A028DC464600310665 /* ContentView.swift */; };
 		01CF06A328DC464700310665 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01CF06A228DC464700310665 /* Assets.xcassets */; };
@@ -28,12 +32,12 @@
 		01CF06DD28DC7BB600310665 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06DC28DC7BB600310665 /* LibraryView.swift */; };
 		01CF06DF28DC7BCC00310665 /* PatternsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06DE28DC7BCC00310665 /* PatternsView.swift */; };
 		01CF06E128DC7BD700310665 /* YarnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06E028DC7BD700310665 /* YarnsView.swift */; };
-		01CF06E428DDA53200310665 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 01CF06E328DDA53200310665 /* OAuthSwift */; };
 		01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06EC28DDFF9B00310665 /* NetworkHandler.swift */; };
 		01CF06EF28DE08F800310665 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06EE28DE08F800310665 /* SessionData.swift */; };
 		01CF071728E3381800310665 /* KeychainHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF071628E3381800310665 /* KeychainHandler.swift */; };
 		01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */; };
 		01D715C228E5B09D00B6BB8D /* NetworkHandler+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D715C128E5B09D00B6BB8D /* NetworkHandler+Extension.swift */; };
+		01DF4CA728FD682F0061E806 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 01DF4CA628FD682F0061E806 /* OAuthSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +64,10 @@
 		01470A6728EC270200F1DF00 /* PersonalAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalAttributes.swift; sourceTree = "<group>"; };
 		01470A6928EC273B00F1DF00 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01470A8728EEC2F000F1DF00 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		01CAF58E28F56B44000C92C1 /* Patterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patterns.swift; sourceTree = "<group>"; };
+		01CAF59028F56EAA000C92C1 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		01CAF59228F6A30A000C92C1 /* QueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryBuilder.swift; sourceTree = "<group>"; };
+		01CAF59428F7F01A000C92C1 /* QueryDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryDefines.swift; sourceTree = "<group>"; };
 		01CF069B28DC464600310665 /* Knittery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knittery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01CF069E28DC464600310665 /* KnitteryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryApp.swift; sourceTree = "<group>"; };
 		01CF06A028DC464600310665 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -92,7 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01CF06E428DDA53200310665 /* OAuthSwift in Frameworks */,
+				01DF4CA728FD682F0061E806 /* OAuthSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,8 +128,17 @@
 				01470A5F28E9A71500F1DF00 /* Pattern.swift */,
 				01470A6728EC270200F1DF00 /* PersonalAttributes.swift */,
 				01470A6928EC273B00F1DF00 /* User.swift */,
+				01CAF58E28F56B44000C92C1 /* Patterns.swift */,
+				01CAF59028F56EAA000C92C1 /* Photo.swift */,
 			);
 			path = Codables;
+			sourceTree = "<group>";
+		};
+		01CAF5BA28F82B1C000C92C1 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		01CF069228DC464600310665 = {
@@ -147,6 +164,7 @@
 		01CF069D28DC464600310665 /* Knittery */ = {
 			isa = PBXGroup;
 			children = (
+				01CAF5BA28F82B1C000C92C1 /* Search */,
 				01CF069E28DC464600310665 /* KnitteryApp.swift */,
 				01CF071128E0872400310665 /* AppData */,
 				01CF06EB28DDFF6F00310665 /* Network */,
@@ -230,6 +248,8 @@
 				01470A5E28E9A6FF00F1DF00 /* Codables */,
 				01CF06EC28DDFF9B00310665 /* NetworkHandler.swift */,
 				01D715C128E5B09D00B6BB8D /* NetworkHandler+Extension.swift */,
+				01CAF59228F6A30A000C92C1 /* QueryBuilder.swift */,
+				01CAF59428F7F01A000C92C1 /* QueryDefines.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -263,7 +283,7 @@
 			);
 			name = Knittery;
 			packageProductDependencies = (
-				01CF06E328DDA53200310665 /* OAuthSwift */,
+				01DF4CA628FD682F0061E806 /* OAuthSwift */,
 			);
 			productName = Knittery;
 			productReference = 01CF069B28DC464600310665 /* Knittery.app */;
@@ -339,7 +359,7 @@
 			);
 			mainGroup = 01CF069228DC464600310665;
 			packageReferences = (
-				01CF06E228DDA53200310665 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
+				01DF4CA528FD682F0061E806 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
 			);
 			productRefGroup = 01CF069C28DC464600310665 /* Products */;
 			projectDirPath = "";
@@ -389,6 +409,7 @@
 				01CF06A128DC464600310665 /* ContentView.swift in Sources */,
 				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,
 				01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */,
+				01CAF58F28F56B44000C92C1 /* Patterns.swift in Sources */,
 				01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */,
 				01D715C228E5B09D00B6BB8D /* NetworkHandler+Extension.swift in Sources */,
 				01CF06DD28DC7BB600310665 /* LibraryView.swift in Sources */,
@@ -398,10 +419,13 @@
 				01CF06E128DC7BD700310665 /* YarnsView.swift in Sources */,
 				01CF06CF28DC478600310665 /* RootView.swift in Sources */,
 				01CF071728E3381800310665 /* KeychainHandler.swift in Sources */,
+				01CAF59128F56EAA000C92C1 /* Photo.swift in Sources */,
 				01CF06D128DC47B000310665 /* RootViewModel.swift in Sources */,
+				01CAF59328F6A30A000C92C1 /* QueryBuilder.swift in Sources */,
 				01470A6428EC26A200F1DF00 /* Craft.swift in Sources */,
 				01CF06EF28DE08F800310665 /* SessionData.swift in Sources */,
 				01CF06DF28DC7BCC00310665 /* PatternsView.swift in Sources */,
+				01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */,
 				01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */,
 				01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */,
 			);
@@ -734,20 +758,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		01CF06E228DDA53200310665 /* XCRemoteSwiftPackageReference "OAuthSwift" */ = {
+		01DF4CA528FD682F0061E806 /* XCRemoteSwiftPackageReference "OAuthSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/OAuthSwift/OAuthSwift";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		01CF06E328DDA53200310665 /* OAuthSwift */ = {
+		01DF4CA628FD682F0061E806 /* OAuthSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 01CF06E228DDA53200310665 /* XCRemoteSwiftPackageReference "OAuthSwift" */;
+			package = 01DF4CA528FD682F0061E806 /* XCRemoteSwiftPackageReference "OAuthSwift" */;
 			productName = OAuthSwift;
 		};
 /* End XCSwiftPackageProductDependency section */

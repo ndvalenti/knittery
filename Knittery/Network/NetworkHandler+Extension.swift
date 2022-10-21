@@ -12,9 +12,9 @@ extension NetworkHandler {
     static private let domain = "https://api.ravelry.com/"
     
     static func requestPatternById(_ id: String, resultHandler: @escaping (Result<Pattern, ApiError>) -> Void) {
-        let request = domain + "patterns/" + id + ".json"
+        let apicall = domain + "patterns/" + id + ".json"
         
-        guard let url = URL(string:request) else {
+        guard let url = URL(string: apicall) else {
             resultHandler(.failure(ApiError.invalidUrl))
             return
         }
@@ -34,6 +34,31 @@ extension NetworkHandler {
         }
     }
     
+    // yarns have fewer search options
+    // TODO: Look into URLComponents and see if we can't work with URL? queries rathar than String? for a more pure experience
+    // https://cocoacasts.com/working-with-nsurlcomponents-in-swift
+    static func requestPatternSearch(query: String? = "", page: Int? = 1, resultHandler: @escaping (Result<PatternSearch, ApiError>) -> Void) {
+//        let request = domain + query!
+//        let apicall = domain + "patterns/search.json?query=cowl"
+        let apicall = domain + "patterns/search.json?craft=crochet%7Cknitting&query=hat"
+        guard let url = URL(string: apicall) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        guard let request = URLRequestBuilder(url) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        self.makeRequest(request) { (result: Result<PatternSearch, ApiError>) in
+            switch(result) {
+            case .success(let search):
+                resultHandler(.success(search))
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
     static func requestCurrentUser(resultHandler: @escaping (Result<User, ApiError>) -> Void) {
         let request = domain + "current_user.json"
         
@@ -47,14 +72,15 @@ extension NetworkHandler {
             return
         }
         
-        self.makeRequest(request) { (result: Result<User, ApiError>) in
-            switch(result) {
-            case .success(let user):
-                resultHandler(.success(user))
-            case .failure(let error):
-                resultHandler(.failure(error))
-            }
-        }
+        self.makeRequest(request, resultHandler: resultHandler)
+//        self.makeRequest(request) { (result: Result<User, ApiError>) in
+//            switch(result) {
+//            case .success(let user):
+//                resultHandler(.success(user))
+//            case .failure(let error):
+//                resultHandler(.failure(error))
+//            }
+//        }
     }
     
     static private func URLRequestBuilder(_ url: URL) -> URLRequest? {
@@ -86,7 +112,7 @@ extension NetworkHandler {
                 return
             }
             
-            // will send a second request and dump the response to console, not ideal
+//             will send a second request and dump the response to console, not ideal
 //            guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
 //                return
 //            }
