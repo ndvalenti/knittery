@@ -10,18 +10,19 @@ import Foundation
 
 class Query {
     var search: String
-    var sort: QSort?
-    var invert: Bool?
+    var sort: QSort
+    var invert: Bool
     var page: String?
     var notebook: [QNotebook]
     var craft: [QCraft]
     var availability: [QAvailability]
     var weight: [QWeight]
     
+    // TODO: Determine sorting behavior if sort argument is not supplied and adjust if necessary
     init (
         search: String = "",
-        sort: QSort? = QSort.best,
-        invert: Bool? = nil,
+        sort: QSort = QSort.best,
+        invert: Bool = false,
         page: String? = nil,
         notebook: [QNotebook] = [],
         craft: [QCraft] = [],
@@ -41,7 +42,7 @@ class Query {
     func clear() {
         search = ""
         sort = QSort.best
-        invert = nil
+        invert = false
         page = nil
         notebook.removeAll()
         craft.removeAll()
@@ -53,67 +54,53 @@ class Query {
 class QueryBuilder {
     static private let startSymbol = "?"
     static private let separator = "%7C"
-    static private let catQuery = "$"
+    static private let concat = "$"
     static private let invertSymbol = "_"
     
     static func build(_ query: Query) -> String? {
-        //        var valid: Bool = false
         var result = QueryBuilder.startSymbol
         
-        //        if let search = query.search {
-        //            valid = true
+        // TODO: Determine behavior when query not supplied and adjust permissiveness of query
         result += "query=" + query.search
-        //        } else {
-        //            print(QueryError.invalidQuery.description)
-        // TODO: this is a really good time to implement tests, need to ensure that blank queries function the same as on the website, otherwise this needs to be less permissive
-        //            return nil
-        //        }
         
-        if let sort = query.sort {
-            result += QueryBuilder.catQuery + "sort="
-            if query.invert == true {
-                result += QueryBuilder.invertSymbol
-            }
-            result += sort.rawValue
+        result += QueryBuilder.concat + "sort="
+        if query.invert {
+            result += QueryBuilder.invertSymbol
         }
+        result += query.sort.rawValue
         
         if let page = query.page {
-            result += QueryBuilder.catQuery + "page=" + page
+            result += QueryBuilder.concat + "page=" + page
         }
         
         if !query.craft.isEmpty {
-            result += QueryBuilder.catQuery + "craft=" + query.craft.map {
+            result += QueryBuilder.concat + "craft=" + query.craft.map {
                 $0.rawValue
             }
             .joined(separator: QueryBuilder.separator)
         }
         
         if !query.notebook.isEmpty {
-            result += QueryBuilder.catQuery + "notebook-p=" + query.notebook.map {
+            result += QueryBuilder.concat + "notebook-p=" + query.notebook.map {
                 $0.rawValue
             }
             .joined(separator: QueryBuilder.separator)
         }
         
         if !query.availability.isEmpty {
-            result += QueryBuilder.catQuery + "availability=" + query.availability.map {
+            result += QueryBuilder.concat + "availability=" + query.availability.map {
                 $0.rawValue
             }
             .joined(separator: QueryBuilder.separator)
         }
         
         if !query.weight.isEmpty {
-            result += QueryBuilder.catQuery + "weight=" + query.weight.map {
+            result += QueryBuilder.concat + "weight=" + query.weight.map {
                 $0.rawValue
             }
             .joined(separator: QueryBuilder.separator)
         }
         
         return result
-        
-        //        if valid {
-        //            return result
-        //        }
-        //        return nil
     }
 }
