@@ -10,13 +10,9 @@ import SwiftUI
 struct RootView: View {
     @StateObject var rootViewModel = RootViewModel()
     
-//    init() {
-//        let appearance = UITabBar.appearance()
-//        appearance.backgroundColor = UIColor.black
-//        appearance.barStyle = UIBarStyle.black
-//        appearance.isTranslucent = false
-//        appearance.unselectedItemTintColor = UIColor.lightGray
-//    }
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
+    }
     
     @ViewBuilder var body: some View {
         Group {

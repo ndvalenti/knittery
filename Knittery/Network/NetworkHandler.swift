@@ -72,6 +72,8 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                     completion(false)
                 }
             }
+        } else {
+            completion(false)
         }
     }
 

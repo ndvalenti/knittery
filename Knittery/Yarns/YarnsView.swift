@@ -9,7 +9,11 @@ import SwiftUI
 
 struct YarnsView: View {
     var body: some View {
-        Text("Yarns")
+        VStack {
+            TitleBar("Yarns")
+            Spacer()
+        }
+        .background(Color.KnitteryColor.backgroundLight)
     }
 }
 

@@ -38,3 +38,17 @@ enum QueryError: Error, CustomStringConvertible {
         }
     }
 }
+
+enum KeychainError: Error, CustomStringConvertible {
+    case noToken
+    case incorrectDataType
+    
+    public var description: String {
+        switch self {
+        case .noToken:
+            return "No token stored"
+        case .incorrectDataType:
+            return "Could not convert Data to String?"
+        }
+    }
+}

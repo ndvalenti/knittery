@@ -21,12 +21,12 @@ class KeychainHandler {
     
     static func readToken(type: TokenType) -> String? {
         guard let tokenData = self.readDataFromKeychain(service: type.rawValue, account: "ravelry") else {
-            print("No token stored")
+            print("Error: \(KeychainError.noToken)")
             return nil
         }
         
         guard let accessToken = String(data: tokenData, encoding: .utf8) else {
-            print("Could not convert Data to String?")
+            print("Error: \(KeychainError.incorrectDataType)")
             return nil
         }
         

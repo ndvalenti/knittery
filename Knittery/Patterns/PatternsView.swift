@@ -9,7 +9,11 @@ import SwiftUI
 
 struct PatternsView: View {
     var body: some View {
-        Text("Patterns")
+        VStack {
+            TitleBar("Patterns")
+            Spacer()
+        }
+        .background(Color.KnitteryColor.backgroundLight)
     }
 }
 

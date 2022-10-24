@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		010E644F2902B1E300F87789 /* KnitteryColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E644E2902B1E300F87789 /* KnitteryColors.swift */; };
+		0136EB3529067E0D008D1661 /* KnitteryButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3429067E0D008D1661 /* KnitteryButtons.swift */; };
+		0136EB3729067E28008D1661 /* KnitteryTitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3629067E28008D1661 /* KnitteryTitles.swift */; };
 		01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A5F28E9A71500F1DF00 /* Pattern.swift */; };
 		01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6128EB05E600F1DF00 /* ErrorTypes.swift */; };
 		01470A6428EC26A200F1DF00 /* Craft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6328EC26A200F1DF00 /* Craft.swift */; };
@@ -60,6 +62,8 @@
 
 /* Begin PBXFileReference section */
 		010E644E2902B1E300F87789 /* KnitteryColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryColors.swift; sourceTree = "<group>"; };
+		0136EB3429067E0D008D1661 /* KnitteryButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryButtons.swift; sourceTree = "<group>"; };
+		0136EB3629067E28008D1661 /* KnitteryTitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryTitles.swift; sourceTree = "<group>"; };
 		01470A5F28E9A71500F1DF00 /* Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pattern.swift; sourceTree = "<group>"; };
 		01470A6128EB05E600F1DF00 /* ErrorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
 		01470A6328EC26A200F1DF00 /* Craft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Craft.swift; sourceTree = "<group>"; };
@@ -123,12 +127,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		010E644729028B9F00F87789 /* Styles */ = {
+		010E644729028B9F00F87789 /* CustomViewStyles */ = {
 			isa = PBXGroup;
 			children = (
 				010E644E2902B1E300F87789 /* KnitteryColors.swift */,
+				0136EB3429067E0D008D1661 /* KnitteryButtons.swift */,
+				0136EB3629067E28008D1661 /* KnitteryTitles.swift */,
 			);
-			path = Styles;
+			path = CustomViewStyles;
 			sourceTree = "<group>";
 		};
 		01470A5E28E9A6FF00F1DF00 /* Codables */ = {
@@ -267,7 +273,7 @@
 		01CF071128E0872400310665 /* AppData */ = {
 			isa = PBXGroup;
 			children = (
-				010E644729028B9F00F87789 /* Styles */,
+				010E644729028B9F00F87789 /* CustomViewStyles */,
 				01CF06EE28DE08F800310665 /* SessionData.swift */,
 				01CF071428E3314B00310665 /* APIKeys.swift.sample */,
 				01CF071628E3381800310665 /* KeychainHandler.swift */,
@@ -425,6 +431,7 @@
 				01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */,
 				01D715C228E5B09D00B6BB8D /* NetworkHandler+Extension.swift in Sources */,
 				01CF06DD28DC7BB600310665 /* LibraryView.swift in Sources */,
+				0136EB3529067E0D008D1661 /* KnitteryButtons.swift in Sources */,
 				01470A8828EEC2F000F1DF00 /* APIKeys.swift in Sources */,
 				01470A6A28EC273B00F1DF00 /* User.swift in Sources */,
 				01CF06AB28DC464700310665 /* Knittery.xcdatamodeld in Sources */,
@@ -439,6 +446,7 @@
 				01CF06DF28DC7BCC00310665 /* PatternsView.swift in Sources */,
 				01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */,
 				01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */,
+				0136EB3729067E28008D1661 /* KnitteryTitles.swift in Sources */,
 				01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
