@@ -10,6 +10,7 @@
 		010E644F2902B1E300F87789 /* KnitteryColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E644E2902B1E300F87789 /* KnitteryColors.swift */; };
 		0136EB3529067E0D008D1661 /* KnitteryButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3429067E0D008D1661 /* KnitteryButtons.swift */; };
 		0136EB3729067E28008D1661 /* KnitteryTitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3629067E28008D1661 /* KnitteryTitles.swift */; };
+		010E64532902E66E00F87789 /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E64522902E66E00F87789 /* QueryTests.swift */; };
 		01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A5F28E9A71500F1DF00 /* Pattern.swift */; };
 		01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6128EB05E600F1DF00 /* ErrorTypes.swift */; };
 		01470A6428EC26A200F1DF00 /* Craft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6328EC26A200F1DF00 /* Craft.swift */; };
@@ -64,6 +65,7 @@
 		010E644E2902B1E300F87789 /* KnitteryColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryColors.swift; sourceTree = "<group>"; };
 		0136EB3429067E0D008D1661 /* KnitteryButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryButtons.swift; sourceTree = "<group>"; };
 		0136EB3629067E28008D1661 /* KnitteryTitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryTitles.swift; sourceTree = "<group>"; };
+		010E64522902E66E00F87789 /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		01470A5F28E9A71500F1DF00 /* Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pattern.swift; sourceTree = "<group>"; };
 		01470A6128EB05E600F1DF00 /* ErrorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
 		01470A6328EC26A200F1DF00 /* Craft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Craft.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		01CF06B328DC464700310665 /* KnitteryTests */ = {
 			isa = PBXGroup;
 			children = (
+				010E64522902E66E00F87789 /* QueryTests.swift */,
 				01CF06B428DC464700310665 /* KnitteryTests.swift */,
 			);
 			path = KnitteryTests;
@@ -455,6 +458,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				010E64532902E66E00F87789 /* QueryTests.swift in Sources */,
 				01CF06B528DC464700310665 /* KnitteryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
