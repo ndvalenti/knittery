@@ -22,3 +22,14 @@ struct StandardButton: ButtonStyle {
             .font(.custom("Avenir", size: 20, relativeTo: .largeTitle))
     }
 }
+
+struct ButtonView: View {
+    @State var title: String
+    @State var myAction: () -> Void
+    
+    var body: some View {
+        Button (action: myAction, label: {
+            Text(title)
+        })
+    }
+}

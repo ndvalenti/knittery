@@ -32,19 +32,19 @@ struct RootView: View {
     
     var rootView: some View {
         TabView {
+            HomeView()
+                .tabItem {
+                    Label("Home", systemImage: "house")
+                }
+            
+            SearchView()
+                .tabItem {
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+            
             LibraryView()
                 .tabItem {
                     Label("Library", systemImage: "books.vertical")
-                }
-            
-            PatternsView()
-                .tabItem {
-                    Label("Patterns", systemImage: "square.grid.3x3.square")
-                }
-            
-            YarnsView()
-                .tabItem {
-                    Label("Yarns", systemImage: "grid.circle")
                 }
         }
     }

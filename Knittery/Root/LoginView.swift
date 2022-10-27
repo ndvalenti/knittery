@@ -11,7 +11,6 @@ import OAuthSwift
 struct LoginView: View {
     var signInAction: () -> Void
     var body: some View {
-        
         VStack {
             Spacer()
             
@@ -29,9 +28,9 @@ struct LoginView: View {
             }
             
             Text("Knittery")
-                .font(.custom("Avenir", size: 90))
+                .font(.custom("Avenir", size: 90).weight(.medium))
                 .foregroundColor(.KnitteryColor.lightBlue)
-                .shadow(color: .KnitteryColor.darkBlue, radius: 6, x: 0, y: 3)
+                .shadow(color: .KnitteryColor.darkBlueTranslucent, radius: 6, x: 0, y: 3)
                 .padding()
             
             Spacer()

@@ -11,7 +11,6 @@ struct LibraryView: View {
     @StateObject var libraryViewModel = LibraryViewModel()
     
     var body: some View {
-        
         VStack {
             TitleBar("Library")
             Button {

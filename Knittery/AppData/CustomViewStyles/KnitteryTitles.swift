@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct TitleBar: View {
+    static private var fontSize: CGFloat = 40
+    static private var paddingOffset: CGFloat { -(fontSize * 0.23) }
+    
     let heading: String
     
     init(_ heading: String) {
@@ -16,14 +19,16 @@ struct TitleBar: View {
     }
     
     var body: some View {
+        
         ZStack {
             Rectangle()
                 .fill(Color.KnitteryColor.backgroundDark)
                 .frame(height: 55)
             Text(heading)
                 .foregroundColor(.KnitteryColor.lightBlue)
-                .font(.custom("Avenir", size: 40, relativeTo: .largeTitle))
-                .shadow(color: .KnitteryColor.darkBlue, radius: 5, x: 0, y: 3)
+                .font(.custom("Avenir", size: TitleBar.fontSize, relativeTo: .largeTitle).weight(.medium))
+                .padding(.vertical, TitleBar.paddingOffset)
+                .shadow(color: .KnitteryColor.darkBlueTranslucent, radius: 6, x: 0, y: 3)
         }
     }
 }
