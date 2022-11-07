@@ -9,14 +9,20 @@
 import SwiftUI
 
 struct PatternSearchView: View {
+    @ObservedObject var searchViewModel: SearchViewModel
+    
     var body: some View {
-        HStack {
-            VStack {
-                Text("Pattern Search")
-                Spacer()
+        VStack {
+            List {
+                Section {
+                    NavigationLink(destination: SearchOptionView(searchViewModel)) {
+                        Text("Test")
+                    }
+                    
+                } header: {
+                    Text("Advanced Search Options")
+                }
             }
-            .padding()
-            Spacer()
         }
         .background(Color.KnitteryColor.backgroundLight)
     }
@@ -24,6 +30,6 @@ struct PatternSearchView: View {
 
 struct PatternSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        PatternSearchView()
+        PatternSearchView(searchViewModel: SearchViewModel())
     }
 }

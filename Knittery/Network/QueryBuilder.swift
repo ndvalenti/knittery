@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Query {
+class Query: ObservableObject {
     var search: String
     var sort: QSort
     var invert: Bool

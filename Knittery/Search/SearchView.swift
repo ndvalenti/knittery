@@ -14,9 +14,11 @@ struct SearchView: View {
         case yarn = "Yarns"
         var id: Self { self }
     }
-
-    @State private var selectedMode: SearchModes
+    
     @State var searchText: String
+    @State private var selectedMode: SearchModes
+    
+    @StateObject var searchViewModel = SearchViewModel()
     
     init() {
         searchText = .init()
@@ -24,45 +26,53 @@ struct SearchView: View {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color.KnitteryColor.lightBlue)
         UISegmentedControl.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.KnitteryColor.backgroundLight)], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.KnitteryColor.darkBlue)], for: .normal)
     }
     
     var body: some View {
-        
-        VStack {
-            TitleBar("Search")
+        NavigationView {
             VStack {
-                Picker("Title", selection: $selectedMode) {
-                    ForEach(SearchModes.allCases) { value in
-                        Text(value.rawValue)
+                TitleBar("Search")
+                VStack {
+                    Picker("Title", selection: $selectedMode) {
+                        ForEach(SearchModes.allCases) { value in
+                            Text(value.rawValue)
+                        }
                     }
-                }
-                .pickerStyle(.segmented)
-                .blendMode(.normal)
-                
-                ZStack {
-                    TextField("Search", text: $searchText)
-                        .border(Color.KnitteryColor.darkBlueTranslucent)
-                        .textFieldStyle(.roundedBorder)
-                        .padding()
+                    .pickerStyle(.segmented)
+                    .blendMode(.normal)
                     HStack {
-                        Spacer()
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(Color.KnitteryColor.lightBlue)
-                            .padding()
-                    }.padding(.horizontal)
+                        ZStack {
+                            TextField("Search", text: $searchText)
+                                .border(Color.KnitteryColor.darkBlueTranslucent)
+                                .textFieldStyle(.roundedBorder)
+                                .padding()
+                            HStack {
+                                Spacer()
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
+                                    .padding()
+                            }
+                            .padding(.horizontal)
+                        }
+                    }
+                    
+                    VStack {
+                        Text("List Selected Search Options Here")
+                        switch(selectedMode) {
+                        case .pattern:
+                            PatternSearchView(searchViewModel: searchViewModel)
+                        case .yarn:
+                            YarnSearchView()
+                        }
+                    }
+                    .background(Color.KnitteryColor.backgroundDark)
                 }
-                switch(selectedMode) {
-                case .pattern:
-                    PatternSearchView()
-                case .yarn:
-                    YarnSearchView()
-                }
+                .background(Color.KnitteryColor.backgroundDark)
                 
-                Spacer()
             }
-            .background(Color.KnitteryColor.backgroundDark)
+            .background(Color.KnitteryColor.backgroundLight)
         }
-        .background(Color.KnitteryColor.backgroundLight)
     }
 }
 
