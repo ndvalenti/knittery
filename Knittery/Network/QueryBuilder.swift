@@ -13,32 +13,43 @@ class Query: ObservableObject {
     var sort: QSort
     var invert: Bool
     var page: String?
-    var notebook: [QNotebook]
-    var craft: [QCraft]
-    var availability: [QAvailability]
-    var weight: [QWeight]
+    var notebook: [QNotebook : Bool]
+    var craft: [QCraft : Bool]
+    var availability: [QAvailability : Bool]
+    var weight: [QWeight : Bool]
     
     // TODO: Determine sorting behavior if sort argument is not supplied and adjust if necessary
     init (
         search: String = "",
         sort: QSort = QSort.best,
         invert: Bool = false,
-        page: String? = nil,
-        notebook: [QNotebook] = [],
-        craft: [QCraft] = [],
-        availability: [QAvailability] = [],
-        weight: [QWeight] = []
+        page: String? = nil
     ) {
+        // TODO: This needs to populate the dicts with all available values
         self.search = search
         self.sort = sort
         self.invert = invert
         self.page = page
-        self.notebook = notebook
-        self.craft = craft
-        self.availability = availability
-        self.weight = weight
+        self.notebook = .init()
+        self.craft = .init()
+        self.availability = .init()
+        self.weight = .init()
+        
+        QNotebook.allCases.forEach { notebook in
+            self.notebook[notebook] = false
+        }
+        QCraft.allCases.forEach { craft in
+            self.craft[craft] = false
+        }
+        QAvailability.allCases.forEach { availability in
+            self.availability[availability] = false
+        }
+        QWeight.allCases.forEach { weight in
+            self.weight[weight] = false
+        }
     }
     
+    // TODO: this needs to reset dicts to false
     func clear() {
         search = ""
         sort = QSort.best
@@ -58,6 +69,7 @@ class QueryBuilder {
     static private let invertSymbol = "_"
     
     static func build(_ query: Query) -> String? {
+        var resultBuilder: String
         var result = QueryBuilder.startSymbol
         
         // TODO: Determine behavior when query not supplied and adjust permissiveness of query
@@ -73,33 +85,57 @@ class QueryBuilder {
             result += QueryBuilder.concat + "page=" + page
         }
         
-        if !query.craft.isEmpty {
-            result += QueryBuilder.concat + "craft=" + query.craft.map {
-                $0.rawValue
+        resultBuilder = ""
+        for notebook in query.notebook {
+            if notebook.value {
+                if resultBuilder == "" {
+                    resultBuilder += QueryBuilder.concat + "notebook-p="
+                } else {
+                    resultBuilder += QueryBuilder.separator
+                }
+                resultBuilder += notebook.key.rawValue
             }
-            .joined(separator: QueryBuilder.separator)
         }
+        result += resultBuilder
         
-        if !query.notebook.isEmpty {
-            result += QueryBuilder.concat + "notebook-p=" + query.notebook.map {
-                $0.rawValue
+        resultBuilder = ""
+        for craft in query.craft {
+            if craft.value {
+                if resultBuilder == "" {
+                    resultBuilder += QueryBuilder.concat + "craft="
+                } else {
+                    resultBuilder += QueryBuilder.separator
+                }
+                resultBuilder += craft.key.rawValue
             }
-            .joined(separator: QueryBuilder.separator)
         }
+        result += resultBuilder
         
-        if !query.availability.isEmpty {
-            result += QueryBuilder.concat + "availability=" + query.availability.map {
-                $0.rawValue
+        resultBuilder = ""
+        for availability in query.availability {
+            if availability.value {
+                if resultBuilder == "" {
+                    resultBuilder += QueryBuilder.concat + "availability="
+                } else {
+                    resultBuilder += QueryBuilder.separator
+                }
+                resultBuilder += availability.key.rawValue
             }
-            .joined(separator: QueryBuilder.separator)
         }
+        result += resultBuilder
         
-        if !query.weight.isEmpty {
-            result += QueryBuilder.concat + "weight=" + query.weight.map {
-                $0.rawValue
+        resultBuilder = ""
+        for weight in query.weight {
+            if weight.value {
+                if resultBuilder == "" {
+                    resultBuilder += QueryBuilder.concat + "weight="
+                } else {
+                    resultBuilder += QueryBuilder.separator
+                }
+                resultBuilder += weight.key.rawValue
             }
-            .joined(separator: QueryBuilder.separator)
         }
+        result += resultBuilder
         
         return result
     }

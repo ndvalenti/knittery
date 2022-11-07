@@ -40,7 +40,7 @@ final class QueryTests: XCTestCase {
     func testSingleNotebookQuery() {
         query.clear()
         query.search = "cowl"
-        query.notebook.append(.favorites)
+        query.notebook[.favorites] = true
         let queryString = QueryBuilder.build(query)
         
         XCTAssertEqual(queryString, "?query=cowl$sort=best$notebook-p=faved")
@@ -49,17 +49,17 @@ final class QueryTests: XCTestCase {
     func testMultipleNotebooksQuery() {
         query.clear()
         query.search = "cowl"
-        query.notebook.append(.favorites)
-        query.notebook.append(.library)
+        query.notebook[.favorites] = true
+        query.notebook[.library] = true
         let queryString = QueryBuilder.build(query)
         
-        XCTAssertEqual(queryString, "?query=cowl$sort=best$notebook-p=faved%7Clibrary")
+        XCTAssert(queryString == "?query=cowl$sort=best$notebook-p=faved%7Clibrary" || queryString == "?query=cowl$sort=best$notebook-p=library%7Cfaved")
     }
     
     func testSingleCraftQuery() {
         query.clear()
         query.search = "hat"
-        query.craft.append(QCraft.crochet)
+        query.craft[.crochet] = true
         let queryString = QueryBuilder.build(query)
         
         XCTAssertEqual(queryString, "?query=hat$sort=best$craft=crochet")
@@ -68,17 +68,17 @@ final class QueryTests: XCTestCase {
     func testMultipleCraftsQuery() {
         query.clear()
         query.search = "hat"
-        query.craft.append(QCraft.knitting)
-        query.craft.append(QCraft.crochet)
+        query.craft[.knitting] = true
+        query.craft[.crochet] = true
         let queryString = QueryBuilder.build(query)
         
-        XCTAssertEqual(queryString, "?query=hat$sort=best$craft=knitting%7Ccrochet")
+        XCTAssert(queryString == "?query=hat$sort=best$craft=knitting%7Ccrochet" || queryString == "?query=hat$sort=best$craft=crochet%7Cknitting")
     }
     
     func testSingleAvailabilityQuery() {
         query.clear()
         query.search = "cowl"
-        query.availability.append(.nocost)
+        query.availability[.nocost] = true
         let queryString = QueryBuilder.build(query)
         
         XCTAssertEqual(queryString, "?query=cowl$sort=best$availability=free")
@@ -87,17 +87,17 @@ final class QueryTests: XCTestCase {
     func testDoubleAvailabilitiesQuery() {
         query.clear()
         query.search = "cowl"
-        query.availability.append(.nocost)
-        query.availability.append(.ravelryDownload)
+        query.availability[.nocost] = true
+        query.availability[.ravelryDownload] = true
         let queryString = QueryBuilder.build(query)
         
-        XCTAssertEqual(queryString, "?query=cowl$sort=best$availability=free%7Cravelry")
+        XCTAssert(queryString == "?query=cowl$sort=best$availability=free%7Cravelry" || queryString == "?query=cowl$sort=best$availability=ravelry%7Cfree")
     }
     
     func testSingleWeightQuery() {
         query.clear()
         query.search = "cowl"
-        query.weight.append(.fingering)
+        query.weight[.fingering] = true
         let queryString = QueryBuilder.build(query)
         
         XCTAssertEqual(queryString, "?query=cowl$sort=best$weight=fingering")
@@ -106,10 +106,10 @@ final class QueryTests: XCTestCase {
     func testDoubleWeightsQuery() {
         query.clear()
         query.search = "cowl"
-        query.weight.append(.fingering)
-        query.weight.append(.jumbo)
+        query.weight[.fingering] = true
+        query.weight[.jumbo] = true
         let queryString = QueryBuilder.build(query)
         
-        XCTAssertEqual(queryString, "?query=cowl$sort=best$weight=fingering%7Cjumbo")
+        XCTAssert(queryString == "?query=cowl$sort=best$weight=fingering%7Cjumbo" || queryString == "?query=cowl$sort=best$weight=jumbo%7Cfingering")
     }
 }
