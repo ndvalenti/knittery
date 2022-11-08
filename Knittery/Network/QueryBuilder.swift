@@ -25,7 +25,6 @@ class Query: ObservableObject {
         invert: Bool = false,
         page: String? = nil
     ) {
-        // TODO: This needs to populate the dicts with all available values
         self.search = search
         self.sort = sort
         self.invert = invert
@@ -35,30 +34,21 @@ class Query: ObservableObject {
         self.availability = .init()
         self.weight = .init()
         
-        QNotebook.allCases.forEach { notebook in
-            self.notebook[notebook] = false
-        }
-        QCraft.allCases.forEach { craft in
-            self.craft[craft] = false
-        }
-        QAvailability.allCases.forEach { availability in
-            self.availability[availability] = false
-        }
-        QWeight.allCases.forEach { weight in
-            self.weight[weight] = false
-        }
+        QNotebook.allCases.forEach { self.notebook[$0] = false }
+        QCraft.allCases.forEach { self.craft[$0] = false }
+        QAvailability.allCases.forEach { self.availability[$0] = false }
+        QWeight.allCases.forEach { self.weight[$0] = false }
     }
     
-    // TODO: this needs to reset dicts to false
     func clear() {
         search = ""
         sort = QSort.best
         invert = false
         page = nil
-        notebook.removeAll()
-        craft.removeAll()
-        availability.removeAll()
-        weight.removeAll()
+        notebook.keys.forEach { notebook[$0] = false }
+        craft.keys.forEach { craft[$0] = false }
+        availability.keys.forEach { availability[$0] = false }
+        weight.keys.forEach { weight[$0] = false }
     }
 }
 
@@ -68,7 +58,7 @@ class QueryBuilder {
     static private let concat = "$"
     static private let invertSymbol = "_"
     
-    static func build(_ query: Query) -> String? {
+    static func build(_ query: Query) -> String {
         var resultBuilder: String
         var result = QueryBuilder.startSymbol
         

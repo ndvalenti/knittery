@@ -55,6 +55,11 @@ struct SearchView: View {
                             }
                             .padding(.horizontal)
                         }
+//                        Button {
+//                            print(QueryBuilder.build(searchViewModel.query))
+//                        } label: {
+//                            Text("Test!")
+//                        }
                     }
                     
                     VStack {

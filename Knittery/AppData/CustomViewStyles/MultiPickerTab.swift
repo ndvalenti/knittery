@@ -8,27 +8,20 @@
 
 import SwiftUI
 
-struct CheckListItem: Identifiable {
-    let id = UUID()
-    var title: String
-    var isChecked: Bool
-}
-
 struct MultiPickerTab: View {
-    @State var checkListItem: CheckListItem
-    
-//    init(_ checkListItem: CheckListItem) {
-//        self.checkListItem = checkListItem
-//    }
+    @State var title: String
+    @State var isChecked: Bool
+    @State var action: (Bool) -> Void
     
     var body: some View {
         Button {
-            checkListItem.isChecked.toggle()
+            isChecked.toggle()
+            action(isChecked)
         } label: {
             HStack {
-                Text(checkListItem.title)
+                Text(title)
                 Spacer()
-                if checkListItem.isChecked {
+                if isChecked {
                     Image(systemName: "checkmark")
                 }
             }
@@ -38,6 +31,8 @@ struct MultiPickerTab: View {
 
 struct MultiPickerTab_Previews: PreviewProvider {
     static var previews: some View {
-        MultiPickerTab(checkListItem: CheckListItem(title: "TestItem", isChecked: false))
+        MultiPickerTab(title: "Test", isChecked: true) { _ in
+            
+        }
     }
 }

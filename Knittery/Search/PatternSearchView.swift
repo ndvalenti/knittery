@@ -14,13 +14,17 @@ struct PatternSearchView: View {
     var body: some View {
         VStack {
             List {
-                Section {
-                    NavigationLink(destination: SearchOptionView(searchViewModel)) {
-                        Text("Test")
-                    }
-                    
-                } header: {
-                    Text("Advanced Search Options")
+                NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .notebook)) {
+                    Text(QNotebook.categoryName)
+                }
+                NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .craft)) {
+                    Text(QCraft.categoryName)
+                }
+                NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .availability)) {
+                    Text(QAvailability.categoryName)
+                }
+                NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .weight)) {
+                    Text(QWeight.categoryName)
                 }
             }
         }

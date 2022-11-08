@@ -10,27 +10,26 @@ import Foundation
 
 protocol SearchOption: RawRepresentable {
     static var allCases: Array<Self> { get }
-//    var identifier: String { get }
     var displayName: String? { get }
 }
 
-//enum SearchOptionCategory {
-//    case notebook
-//    case craft
-//    case sort
-//    case availability
-//    case weight
-//
-//    var contents: any SearchOption.Type {
-//        switch self {
-//        case .notebook: return QNotebook.self
-//        case .craft: return QCraft.self
-//        case .sort: return QSort.self
-//        case .availability: return QAvailability.self
-//        case .weight: return QWeight.self
-//        }
-//    }
-//}
+enum SearchOptionCategory: CaseIterable {
+    case notebook
+    case craft
+    case sort
+    case availability
+    case weight
+
+    var display: String {
+        switch self {
+        case .notebook: return "Notebook"
+        case .craft: return "Craft"
+        case .sort: return "Sort"
+        case .availability: return "Availability"
+        case .weight: return "Weight"
+        }
+    }
+}
 
 // notebook-p
 enum QNotebook: String, CaseIterable, SearchOption {
@@ -42,8 +41,6 @@ enum QNotebook: String, CaseIterable, SearchOption {
     case stashed = "stashed"
     case viewed = "viewed"
     case ignored = "ignored"
-    
-//    var identifier: String { return rawValue }
     
     static var categoryName = "Notebook"
     
@@ -67,8 +64,6 @@ enum QCraft: String, CaseIterable, SearchOption {
     case knitting = "knitting"
     case machineKnitting = "machine-knitting"
     case loomKnitting = "loom-knitting"
-    
-//    var identifier: String { return rawValue }
     
     static var categoryName = "Craft"
     
@@ -97,8 +92,6 @@ enum QSort: String, CaseIterable, SearchOption {
     case rating = "rating"
     case difficulty = "difficulty"
     case yarn = "yarn"
-    
-//    var identifier: String { return rawValue }
     
     static let categoryName = "Sort"
     
@@ -130,8 +123,6 @@ enum QAvailability: String, CaseIterable, SearchOption {
     case library = "library"
     case discontinued = "discontinued"
     
-//    var identifier: String { return rawValue }
-    
     static let categoryName: String = "Availability"
     
     var displayName: String? {
@@ -162,8 +153,6 @@ enum QWeight: String, CaseIterable, SearchOption {
     case superBulky = "super-bulky"
     case jumbo = "jumbo"
     case notSpecified = "unknown"
-    
-//    var identifier: String { return rawValue }
     
     static let categoryName = "Weight"
     
