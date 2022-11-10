@@ -17,6 +17,7 @@ struct SearchView: View {
     
     @State var searchText: String
     @State private var selectedMode: SearchModes
+    @State private var showResultView = false
     
     @StateObject var searchViewModel = SearchViewModel()
     
@@ -30,7 +31,7 @@ struct SearchView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 TitleBar("Search")
                 VStack {
@@ -41,25 +42,26 @@ struct SearchView: View {
                     }
                     .pickerStyle(.segmented)
                     .blendMode(.normal)
-                    HStack {
-                        ZStack {
-                            TextField("Search", text: $searchText)
-                                .border(Color.KnitteryColor.darkBlueTranslucent)
-                                .textFieldStyle(.roundedBorder)
-                                .padding()
-                            HStack {
-                                Spacer()
-                                Image(systemName: "magnifyingglass")
-                                    .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
-                                    .padding()
+                    ZStack {
+                        NavigationLink(destination: SearchResultsView(searchViewModel: searchViewModel), isActive: $showResultView) { EmptyView() }
+                        TextField("Search", text: $searchViewModel.query.search)
+                            .autocorrectionDisabled()
+                            .textInputAutocapitalization(.never)
+                            .border(Color.KnitteryColor.darkBlueTranslucent)
+                            .textFieldStyle(.roundedBorder)
+                            .padding()
+                            .onSubmit {
+//                                searchViewModel.query.search = searchText
+                                print(QueryBuilder.build(searchViewModel.query))
+                                showResultView = true
                             }
-                            .padding(.horizontal)
+                        HStack {
+                            Spacer()
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
+                                .padding()
                         }
-//                        Button {
-//                            print(QueryBuilder.build(searchViewModel.query))
-//                        } label: {
-//                            Text("Test!")
-//                        }
+                        .padding(.horizontal)
                     }
                     
                     VStack {
@@ -74,7 +76,6 @@ struct SearchView: View {
                     .background(Color.KnitteryColor.backgroundDark)
                 }
                 .background(Color.KnitteryColor.backgroundDark)
-                
             }
             .background(Color.KnitteryColor.backgroundLight)
         }

@@ -23,7 +23,7 @@ struct SearchOptionView: View {
                             title: name,
                             isChecked: searchViewModel.query.notebook[item] ?? false) { isOn in
                                 searchViewModel.query.notebook[item] = isOn
-                        }
+                            }
                     }
                 }
             case .craft:
@@ -33,7 +33,7 @@ struct SearchOptionView: View {
                             title: name,
                             isChecked: searchViewModel.query.weight[item] ?? false) { isOn in
                                 searchViewModel.query.weight[item] = isOn
-                        }
+                            }
                     }
                 }
             case .availability:
@@ -43,7 +43,7 @@ struct SearchOptionView: View {
                             title: name,
                             isChecked: searchViewModel.query.availability[item] ?? false) { isOn in
                                 searchViewModel.query.availability[item] = isOn
-                        }
+                            }
                     }
                 }
             case .weight:
@@ -53,7 +53,7 @@ struct SearchOptionView: View {
                             title: name,
                             isChecked: searchViewModel.query.weight[item] ?? false) { isOn in
                                 searchViewModel.query.weight[item] = isOn
-                        }
+                            }
                     }
                 }
             default: EmptyView()

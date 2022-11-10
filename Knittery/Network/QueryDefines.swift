@@ -78,7 +78,10 @@ enum QCraft: String, CaseIterable, SearchOption {
 }
 
 // sort
-enum QSort: String, CaseIterable, SearchOption {
+enum QSort: String, CaseIterable, Identifiable, SearchOption {
+    
+    var id: RawValue { rawValue }
+    
     case best = "best"
     case recent = "recently-popular"
     case newest = "created"

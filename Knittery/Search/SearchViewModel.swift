@@ -10,7 +10,8 @@ import Foundation
 import SwiftUI
 
 class SearchViewModel: ObservableObject {
-    var query: Query
+    @Published var query: Query
+    
     init() {
         query = .init()
     }

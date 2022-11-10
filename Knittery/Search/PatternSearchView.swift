@@ -14,19 +14,32 @@ struct PatternSearchView: View {
     var body: some View {
         VStack {
             List {
-                NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .notebook)) {
-                    Text(QNotebook.categoryName)
+                Section {
+                    Picker("Sort By", selection: $searchViewModel.query.sort) {
+                        ForEach(QSort.allCases, id: \.self) { sortBy in
+                            if let title = sortBy.displayName {
+                                Text(title)
+                                    .tag(sortBy)
+                            }
+                        }
+                    }
                 }
-                NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .craft)) {
-                    Text(QCraft.categoryName)
-                }
-                NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .availability)) {
-                    Text(QAvailability.categoryName)
-                }
-                NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .weight)) {
-                    Text(QWeight.categoryName)
+                Section {
+                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .notebook)) {
+                        Text(QNotebook.categoryName)
+                    }
+                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .craft)) {
+                        Text(QCraft.categoryName)
+                    }
+                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .availability)) {
+                        Text(QAvailability.categoryName)
+                    }
+                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .weight)) {
+                        Text(QWeight.categoryName)
+                    }
                 }
             }
+            .listStyle(InsetGroupedListStyle())
         }
         .background(Color.KnitteryColor.backgroundLight)
     }

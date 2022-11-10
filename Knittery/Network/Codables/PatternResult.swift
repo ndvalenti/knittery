@@ -18,8 +18,8 @@ struct PatternResult: Codable {
     let name: String?
     // TODO: designer, author need enum and separate codable
     let firstPhoto: Photo?
-//    let designer: String?
 //    let author: String? pattern_author
+//    let designer: String?
     
     enum CodingKeys: String, CodingKey {
         case firstPhoto = "first_photo"
