@@ -12,6 +12,10 @@ import SwiftUI
 class SearchViewModel: ObservableObject {
     @Published var query: Query
     
+    enum NavDestination: Hashable {
+        case result , details
+    }
+    
     init() {
         query = .init()
     }

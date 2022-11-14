@@ -14,15 +14,12 @@ struct SearchView: View {
         case yarn = "Yarns"
         var id: Self { self }
     }
-    
-    @State var searchText: String
+    @State private var path: [SearchViewModel.NavDestination] = []
     @State private var selectedMode: SearchModes
-    @State private var showResultView = false
     
     @StateObject var searchViewModel = SearchViewModel()
     
     init() {
-        searchText = .init()
         selectedMode = .pattern
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color.KnitteryColor.lightBlue)
         UISegmentedControl.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
@@ -31,7 +28,7 @@ struct SearchView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack (path: $path) {
             VStack {
                 TitleBar("Search")
                 VStack {
@@ -43,7 +40,6 @@ struct SearchView: View {
                     .pickerStyle(.segmented)
                     .blendMode(.normal)
                     ZStack {
-                        NavigationLink(destination: SearchResultsView(searchViewModel: searchViewModel), isActive: $showResultView) { EmptyView() }
                         TextField("Search", text: $searchViewModel.query.search)
                             .autocorrectionDisabled()
                             .textInputAutocapitalization(.never)
@@ -51,9 +47,16 @@ struct SearchView: View {
                             .textFieldStyle(.roundedBorder)
                             .padding()
                             .onSubmit {
-//                                searchViewModel.query.search = searchText
                                 print(QueryBuilder.build(searchViewModel.query))
-                                showResultView = true
+                                path.append(.result)
+                            }
+                            .navigationDestination(for: SearchViewModel.NavDestination.self) {
+                                switch $0 {
+                                case .result:
+                                    PatternResultsView(searchViewModel: searchViewModel, path: $path)
+                                case .details:
+                                    Text("Details View")
+                                }
                             }
                         HStack {
                             Spacer()
@@ -65,7 +68,7 @@ struct SearchView: View {
                     }
                     
                     VStack {
-                        Text("List Selected Search Options Here")
+//                        Text("List Selected Search Options Here")
                         switch(selectedMode) {
                         case .pattern:
                             PatternSearchView(searchViewModel: searchViewModel)
@@ -79,6 +82,12 @@ struct SearchView: View {
             }
             .background(Color.KnitteryColor.backgroundLight)
         }
+//        TODO: This doesn't work
+//        .toolbarBackground(
+//            Color.KnitteryColor.backgroundDark,
+//            for: .navigationBar
+//        )
+//        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

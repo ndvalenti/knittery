@@ -55,6 +55,7 @@ class Query: ObservableObject {
 class QueryBuilder {
     static private let startSymbol = "?"
     static private let separator = "%7C"
+    static private let space = "%20"
     static private let concat = "$"
     static private let invertSymbol = "_"
     
@@ -63,7 +64,7 @@ class QueryBuilder {
         var result = QueryBuilder.startSymbol
         
         // TODO: Determine behavior when query not supplied and adjust permissiveness of query
-        result += "query=" + query.search
+        result += "query=" + query.search.replacingOccurrences(of: " ", with: "%20")
         
         result += QueryBuilder.concat + "sort="
         if query.invert {

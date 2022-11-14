@@ -49,6 +49,7 @@ struct RootView: View {
                     }
             }
             .toolbar(.visible, for: .tabBar)
+            .toolbarBackground(.visible, for: .tabBar)
             .toolbarBackground(Color.KnitteryColor.backgroundDark, for: .tabBar)
         }
     }

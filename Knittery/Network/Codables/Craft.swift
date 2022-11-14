@@ -9,6 +9,15 @@
 import Foundation
 
 struct Craft: Codable {
-    let id: Int
-    let name: String
+    let id: Int?
+    let name: String?
+    
+    init(id: Int?, name: String?) {
+        self.id = id
+        self.name = name
+    }
+}
+
+extension Craft {
+    static let mockData = Craft(id: 84848, name: "Craft McCrafy")
 }
