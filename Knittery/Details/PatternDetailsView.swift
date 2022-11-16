@@ -9,11 +9,13 @@
 import SwiftUI
 
 struct PatternDetailsView: View {
-    // TODO: display main image and a list? if we cache we can cache little images and fetch the larger ones when needed
+    // TODO: Use LazyVStack to pin title, author, and buttons
+    // TODO: Remove erroneous VStacks in favor of sections that can then be pinned
     @State var pattern: Pattern
     
     var body: some View {
         VStack(alignment: .leading) {
+            // TODO: why does adding another VStack make the title Disappear?
             TitleBar("Pattern")
             VStack(alignment: .leading) {
                 if let name = pattern.name {
@@ -26,6 +28,7 @@ struct PatternDetailsView: View {
                         .font(.custom("SF Pro", size: 18, relativeTo: .largeTitle))
                         .foregroundColor(Color.KnitteryColor.darkBlue)
                 }
+                // TODO: Not a bad place for rating/difficulty
             }
             .padding(.horizontal)
             .padding(.bottom)
@@ -34,6 +37,7 @@ struct PatternDetailsView: View {
             
             ScrollView (.horizontal) {
                 HStack {
+                    // TODO: HStack has a limited number of elements, look into LazyHStack or horizontal Lists?
                     ForEach(pattern.photos, id: \.self.id) { photo in
                         AsyncImage(url: photo.squareURL, content: { image in
                             image
@@ -49,12 +53,86 @@ struct PatternDetailsView: View {
                     }
                 }
                 .frame(height: 150)
-                Divider()
-                
+            }
+            // TODO: Good place for wishlist/favorite buttons
+            
+            ScrollView {
+//                LazyVStack (alignment: .leading, pinnedViews: .sectionHeaders) {
+                VStack (alignment: .leading) {
+                    Section {
+                        VStack (alignment: .leading) {
+                            Group {
+                                makeRow("Craft", content: [pattern.craft.name!])
+                                Divider()
+                            }
+                            Group {
+                                makeRow("Published", content: [pattern.createdAt!])
+                                Divider()
+                            }
+                            Group {
+                                makeRow("Yardage", content: [String(pattern.yardage!)])
+                                Divider()
+                            }
+                            Group {
+                                makeRow("Yarn weight", content: ["\(pattern.yarnWeight.name!) (\(pattern.yarnWeight.wpi!) wpi)"])
+                                Divider()
+                            }
+                            Group {
+                                makeRow("Needle sizes", content: [pattern.needleSizes.first!.name!])
+                                Divider()
+                            }
+                            Group {
+                                makeRow("Sizes available", content: [pattern.sizesAvailable!])
+                            }
+                        }
+                        .padding(.bottom)
+                        .background(Color.KnitteryColor.backgroundLight)
+                    } header: {
+                        HStack {
+                            Text("Details")
+                                .font(.headline)
+                                .padding(.vertical)
+                                .padding(.leading)
+                            Spacer()
+                        }
+                            
+                    }
+                    .background(Color.KnitteryColor.backgroundDark)
+                    Section {
+                        Text(pattern.notes!)
+                            .padding(.horizontal)
+                            .background(Color.KnitteryColor.backgroundLight)
+                            .foregroundColor(.KnitteryColor.darkBlue)
+                    } header: {
+                        HStack {
+                            Text("Description")
+                                .font(.headline)
+                                .padding(.vertical)
+                                .padding(.leading)
+                            Spacer()
+                        }
+                    }
+                    .background(Color.KnitteryColor.backgroundDark)
+                }
             }
             Spacer()
         }
         .background(Color.KnitteryColor.backgroundLight)
+    }
+    
+    func makeRow(_ title: String, content: [String]) -> some View {
+        HStack (alignment: .top) {
+            Text(title)
+                .frame(width: 100, alignment: .leading)
+                .foregroundColor(.KnitteryColor.darkBlue)
+            Divider()
+            VStack {
+                ForEach(content, id: \.self) { row in
+                    Text(row)
+                }
+            }
+        }
+        .padding(.horizontal)
     }
 }
 

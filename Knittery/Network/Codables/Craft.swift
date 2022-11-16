@@ -19,5 +19,5 @@ struct Craft: Codable {
 }
 
 extension Craft {
-    static let mockData = Craft(id: 84848, name: "Craft McCrafy")
+    static let mockData = Craft(id: 1, name: "Crochet")
 }

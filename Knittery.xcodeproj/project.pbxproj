@@ -11,6 +11,8 @@
 		010E64532902E66E00F87789 /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E64522902E66E00F87789 /* QueryTests.swift */; };
 		010E8B31291F8588004E8F17 /* SinglePatternResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E8B30291F8588004E8F17 /* SinglePatternResultView.swift */; };
 		010E8B5629223458004E8F17 /* PatternDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E8B5529223458004E8F17 /* PatternDetailsView.swift */; };
+		010E8B582924D1F1004E8F17 /* YarnWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E8B572924D1F1004E8F17 /* YarnWeight.swift */; };
+		010E8B5A2924E104004E8F17 /* NeedleSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E8B592924E104004E8F17 /* NeedleSize.swift */; };
 		0136EB3529067E0D008D1661 /* KnitteryButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3429067E0D008D1661 /* KnitteryButtons.swift */; };
 		0136EB3729067E28008D1661 /* KnitteryTitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3629067E28008D1661 /* KnitteryTitles.swift */; };
 		0136EB3B2907E285008D1661 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3A2907E285008D1661 /* SearchView.swift */; };
@@ -76,6 +78,8 @@
 		010E64522902E66E00F87789 /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		010E8B30291F8588004E8F17 /* SinglePatternResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePatternResultView.swift; sourceTree = "<group>"; };
 		010E8B5529223458004E8F17 /* PatternDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternDetailsView.swift; sourceTree = "<group>"; };
+		010E8B572924D1F1004E8F17 /* YarnWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YarnWeight.swift; sourceTree = "<group>"; };
+		010E8B592924E104004E8F17 /* NeedleSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedleSize.swift; sourceTree = "<group>"; };
 		0136EB3429067E0D008D1661 /* KnitteryButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryButtons.swift; sourceTree = "<group>"; };
 		0136EB3629067E28008D1661 /* KnitteryTitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryTitles.swift; sourceTree = "<group>"; };
 		0136EB3A2907E285008D1661 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				01960FB4291CE7AC002CB80C /* Author.swift */,
 				01960FB6291CE7B4002CB80C /* Designer.swift */,
 				01CAF59028F56EAA000C92C1 /* Photo.swift */,
+				010E8B572924D1F1004E8F17 /* YarnWeight.swift */,
+				010E8B592924E104004E8F17 /* NeedleSize.swift */,
 			);
 			path = Codables;
 			sourceTree = "<group>";
@@ -456,6 +462,7 @@
 				01CF06A828DC464700310665 /* Persistence.swift in Sources */,
 				01CF06D628DC5B5200310665 /* LoginView.swift in Sources */,
 				0187839C290FBE52005DDE92 /* PatternResultsView.swift in Sources */,
+				010E8B5A2924E104004E8F17 /* NeedleSize.swift in Sources */,
 				0136EB3D290A615B008D1661 /* PatternSearchView.swift in Sources */,
 				010E644F2902B1E300F87789 /* KnitteryColors.swift in Sources */,
 				0136EB3B2907E285008D1661 /* SearchView.swift in Sources */,
@@ -487,6 +494,7 @@
 				01CF06EF28DE08F800310665 /* SessionData.swift in Sources */,
 				018783AC2912755A005DDE92 /* MultiPickerTab.swift in Sources */,
 				018783AA291021FA005DDE92 /* SearchOptionView.swift in Sources */,
+				010E8B582924D1F1004E8F17 /* YarnWeight.swift in Sources */,
 				01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */,
 				01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */,
 				0136EB3729067E28008D1661 /* KnitteryTitles.swift in Sources */,
