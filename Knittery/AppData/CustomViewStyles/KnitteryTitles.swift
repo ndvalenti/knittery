@@ -30,6 +30,7 @@ struct TitleBar: View {
                 .padding(.vertical, TitleBar.paddingOffset)
 //                .shadow(color: .KnitteryColor.darkBlueTranslucent, radius: 6, x: 0, y: 3)
         }
+        .background(Color.KnitteryColor.backgroundDark)
     }
 }
 
