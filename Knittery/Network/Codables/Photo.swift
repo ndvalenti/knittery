@@ -11,35 +11,40 @@ import Foundation
 struct Photo: Codable {
     let id: Int?
     let sortOrder: Int?
-    let thumbnail: String?
-    // TODO: smallURL links to an image and might be better as a URL type
-    let smallURL: String?
+    let thumbnail: URL?
+    let smallURL: URL?
+    let squareURL: URL?
+    let mediumURL: URL?
     let copyright: String?
     
     enum CodingKeys: String, CodingKey {
         case sortOrder = "sort_order"
         case thumbnail = "thumbnail_url"
         case smallURL = "small_url"
+        case squareURL = "square_url"
+        case mediumURL = "medium_url"
         case copyright = "copyright_holder"
         case id
     }
+    
+    init(id: Int?, sortOrder: Int?, thumbnail: URL?, smallURL: URL?, squareURL: URL?, mediumURL: URL?, copyright: String?) {
+        self.id = id
+        self.sortOrder = sortOrder
+        self.thumbnail = thumbnail
+        self.smallURL = smallURL
+        self.squareURL = squareURL
+        self.mediumURL = mediumURL
+        self.copyright = copyright
+    }
 }
 
-//"photos": [
-//      {
-//        "id": 60379800,
-//        "sort_order": 1,
-//        "x_offset": 0,
-//        "y_offset": -17,
-//        "square_url": "https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_square.jpg",
-//        "medium_url": "https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_medium.jpg",
-//        "thumbnail_url": "https://images4-g.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_thumbnail.jpg",
-//        "small_url": "https://images4-g.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_small_best_fit.jpg",
-//        "flickr_url": null,
-//        "shelved_url": "https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_shelved.jpg",
-//        "medium2_url": "https://images4-g.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_medium2.jpg",
-//        "small2_url": "https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_small2.jpg",
-//        "caption": null,
-//        "caption_html": null,
-//        "copyright_holder": "Coats & Clark"
-//      },
+extension Photo {
+    static let mockData = Photo(id: 60379800,
+                                sortOrder: 1,
+                                thumbnail: URL(string:"https://images4-g.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_thumbnail.jpg"),
+                                smallURL: URL(string:"https://images4-g.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_small_best_fit.jpg"),
+                                squareURL: URL(string: "https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_square.jpg"),
+//                                squareURL: URL(string: "https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_shelved.jpg"),
+                                mediumURL: URL(string:  "https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_medium.jpg"),
+                                copyright: "Coats & Clark")
+}

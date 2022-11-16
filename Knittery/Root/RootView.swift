@@ -11,11 +11,7 @@ struct RootView: View {
     @StateObject var rootViewModel = RootViewModel()
     
 //    init() {
-//        let appearance = UITabBar.appearance()
-//        appearance.backgroundColor = UIColor.black
-//        appearance.barStyle = UIBarStyle.black
-//        appearance.isTranslucent = false
-//        appearance.unselectedItemTintColor = UIColor.lightGray
+//        UITabBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
 //    }
     
     @ViewBuilder var body: some View {
@@ -36,20 +32,25 @@ struct RootView: View {
     
     var rootView: some View {
         TabView {
-            LibraryView()
-                .tabItem {
-                    Label("Library", systemImage: "books.vertical")
-                }
-            
-            PatternsView()
-                .tabItem {
-                    Label("Patterns", systemImage: "square.grid.3x3.square")
-                }
-            
-            YarnsView()
-                .tabItem {
-                    Label("Yarns", systemImage: "grid.circle")
-                }
+            Group {
+                HomeView()
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+                
+                SearchView()
+                    .tabItem {
+                        Label("Search", systemImage: "magnifyingglass")
+                    }
+                
+                LibraryView()
+                    .tabItem {
+                        Label("Library", systemImage: "books.vertical")
+                    }
+            }
+            .toolbar(.visible, for: .tabBar)
+            .toolbarBackground(.visible, for: .tabBar)
+            .toolbarBackground(Color.KnitteryColor.backgroundDark, for: .tabBar)
         }
     }
     

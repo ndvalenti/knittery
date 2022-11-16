@@ -11,20 +11,40 @@ import OAuthSwift
 struct LoginView: View {
     var signInAction: () -> Void
     var body: some View {
-        
         VStack {
-            Text("Knittery")
-                .font(.title)
-                .padding()
             Spacer()
+            
+            ZStack {
+                Rectangle()
+                    .fill(Color.KnitteryColor.darkBlueTranslucent)
+                    .frame(height: 150)
+                Image("KnLogo")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 300)
+                    .clipShape(Circle())
+                    .overlay(Circle()
+                        .stroke(Color.KnitteryColor.darkBlue, lineWidth: 0))
+            }
+            
+            Text("Knittery")
+                .font(.custom("Avenir", size: 90).weight(.medium))
+                .foregroundColor(.KnitteryColor.lightBlue)
+                .shadow(color: .KnitteryColor.darkBlueTranslucent, radius: 6, x: 0, y: 3)
+                .padding()
+            
+            Spacer()
+            
             Button {
                 signInAction()
             } label: {
-                Text("Sign In")
+                Text("SIGN IN")
             }
-            .padding()
+            .buttonStyle(StandardButton(width: 300, height: 70))
+            
             Spacer()
         }
+        .background(Color.KnitteryColor.backgroundDark)
     }
 }
 

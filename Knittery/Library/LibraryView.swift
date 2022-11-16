@@ -12,13 +12,15 @@ struct LibraryView: View {
     
     var body: some View {
         VStack {
-            Text("Library")
+            TitleBar("Library")
             Button {
                 testAPI()
             } label: {
                 Text("Test API")
             }
+            Spacer()
         }
+        .background(Color.KnitteryColor.backgroundLight)
     }
     
     func testAPI() {

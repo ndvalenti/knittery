@@ -8,35 +8,36 @@
 
 import Foundation
 
-class Query {
+class Query: ObservableObject {
     var search: String
     var sort: QSort
     var invert: Bool
     var page: String?
-    var notebook: [QNotebook]
-    var craft: [QCraft]
-    var availability: [QAvailability]
-    var weight: [QWeight]
+    var notebook: [QNotebook : Bool]
+    var craft: [QCraft : Bool]
+    var availability: [QAvailability : Bool]
+    var weight: [QWeight : Bool]
     
     // TODO: Determine sorting behavior if sort argument is not supplied and adjust if necessary
     init (
         search: String = "",
         sort: QSort = QSort.best,
         invert: Bool = false,
-        page: String? = nil,
-        notebook: [QNotebook] = [],
-        craft: [QCraft] = [],
-        availability: [QAvailability] = [],
-        weight: [QWeight] = []
+        page: String? = nil
     ) {
         self.search = search
         self.sort = sort
         self.invert = invert
         self.page = page
-        self.notebook = notebook
-        self.craft = craft
-        self.availability = availability
-        self.weight = weight
+        self.notebook = .init()
+        self.craft = .init()
+        self.availability = .init()
+        self.weight = .init()
+        
+        QNotebook.allCases.forEach { self.notebook[$0] = false }
+        QCraft.allCases.forEach { self.craft[$0] = false }
+        QAvailability.allCases.forEach { self.availability[$0] = false }
+        QWeight.allCases.forEach { self.weight[$0] = false }
     }
     
     func clear() {
@@ -44,24 +45,26 @@ class Query {
         sort = QSort.best
         invert = false
         page = nil
-        notebook.removeAll()
-        craft.removeAll()
-        availability.removeAll()
-        weight.removeAll()
+        notebook.keys.forEach { notebook[$0] = false }
+        craft.keys.forEach { craft[$0] = false }
+        availability.keys.forEach { availability[$0] = false }
+        weight.keys.forEach { weight[$0] = false }
     }
 }
 
 class QueryBuilder {
     static private let startSymbol = "?"
     static private let separator = "%7C"
+    static private let space = "%20"
     static private let concat = "$"
     static private let invertSymbol = "_"
     
-    static func build(_ query: Query) -> String? {
+    static func build(_ query: Query) -> String {
+        var resultBuilder: String
         var result = QueryBuilder.startSymbol
         
         // TODO: Determine behavior when query not supplied and adjust permissiveness of query
-        result += "query=" + query.search
+        result += "query=" + query.search.replacingOccurrences(of: " ", with: "%20")
         
         result += QueryBuilder.concat + "sort="
         if query.invert {
@@ -73,33 +76,57 @@ class QueryBuilder {
             result += QueryBuilder.concat + "page=" + page
         }
         
-        if !query.craft.isEmpty {
-            result += QueryBuilder.concat + "craft=" + query.craft.map {
-                $0.rawValue
+        resultBuilder = ""
+        for notebook in query.notebook {
+            if notebook.value {
+                if resultBuilder == "" {
+                    resultBuilder += QueryBuilder.concat + "notebook-p="
+                } else {
+                    resultBuilder += QueryBuilder.separator
+                }
+                resultBuilder += notebook.key.rawValue
             }
-            .joined(separator: QueryBuilder.separator)
         }
+        result += resultBuilder
         
-        if !query.notebook.isEmpty {
-            result += QueryBuilder.concat + "notebook-p=" + query.notebook.map {
-                $0.rawValue
+        resultBuilder = ""
+        for craft in query.craft {
+            if craft.value {
+                if resultBuilder == "" {
+                    resultBuilder += QueryBuilder.concat + "craft="
+                } else {
+                    resultBuilder += QueryBuilder.separator
+                }
+                resultBuilder += craft.key.rawValue
             }
-            .joined(separator: QueryBuilder.separator)
         }
+        result += resultBuilder
         
-        if !query.availability.isEmpty {
-            result += QueryBuilder.concat + "availability=" + query.availability.map {
-                $0.rawValue
+        resultBuilder = ""
+        for availability in query.availability {
+            if availability.value {
+                if resultBuilder == "" {
+                    resultBuilder += QueryBuilder.concat + "availability="
+                } else {
+                    resultBuilder += QueryBuilder.separator
+                }
+                resultBuilder += availability.key.rawValue
             }
-            .joined(separator: QueryBuilder.separator)
         }
+        result += resultBuilder
         
-        if !query.weight.isEmpty {
-            result += QueryBuilder.concat + "weight=" + query.weight.map {
-                $0.rawValue
+        resultBuilder = ""
+        for weight in query.weight {
+            if weight.value {
+                if resultBuilder == "" {
+                    resultBuilder += QueryBuilder.concat + "weight="
+                } else {
+                    resultBuilder += QueryBuilder.separator
+                }
+                resultBuilder += weight.key.rawValue
             }
-            .joined(separator: QueryBuilder.separator)
         }
+        result += resultBuilder
         
         return result
     }
