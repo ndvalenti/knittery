@@ -13,35 +13,32 @@ struct SinglePatternResultView: View {
     
     var body: some View {
         Group {
-            HStack {
+            VStack (alignment: .leading) {
+                Group {
+                    Text(pattern.name!)
+                        .font(.headline)
+                    Text("by \(pattern.author!.name!)")
+                        .font(.caption)
+                }
+                .padding(.leading)
                 if let firstImage = pattern.firstPhoto {
                     AsyncImage(url: firstImage.smallURL, content: { image in
                         image
                             .resizable()
-                            .frame(width: 150, height: 150)
+                            .scaledToFill()
+                            .frame(height: 150)
+                            .clipShape(Rectangle())
                     }, placeholder: {
-                        Rectangle().frame(width: 150, height: 150)
+                        Rectangle().frame(height: 150)
                             .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                     })
                 } else {
                     Image(systemName: "snowflake")
                 }
-                
-                VStack (alignment: .leading){
-                    Text("Name and stuff")
-                        .padding(.horizontal)
-                    Text("Author")
-                        .padding(.horizontal)
-                    Spacer()
-                }
-                Spacer()
             }
-            .frame(height:150)
-            .background(Color.KnitteryColor.backgroundDark)
-            .cornerRadius(16)
+            .frame(height:225)
+            .background(Color.KnitteryColor.backgroundLight)
         }
-        .frame(height: 175)
-        .background(Color.KnitteryColor.backgroundLight)
     }
 }
 

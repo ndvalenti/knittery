@@ -82,12 +82,6 @@ struct SearchView: View {
             }
             .background(Color.KnitteryColor.backgroundLight)
         }
-//        TODO: This doesn't work
-//        .toolbarBackground(
-//            Color.KnitteryColor.backgroundDark,
-//            for: .navigationBar
-//        )
-//        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

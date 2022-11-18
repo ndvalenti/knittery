@@ -17,22 +17,32 @@ struct PatternWrapper: Codable {
 struct Pattern: Codable {
     let id: Int?
     let name: String?
-    let author: Author
+    let author: Author?
     let free: Bool
-    let craft: Craft
-    let difficulty: Double
-    let rating: Double
-    let personalAttributes: PersonalAttributes
+    let craft: Craft?
+    let difficulty: Double?
+    let rating: Double?
+    let personalAttributes: PersonalAttributes?
     let yardage: Int?
-    let yarnWeight: YarnWeight
-    let needleSizes: [NeedleSize]
+    let yarnWeight: YarnWeight?
+    let needleSizes: [NeedleSize]?
     let sizesAvailable: String?
-    let photos: [Photo]
+    let photos: [Photo]?
     let createdAt: String?
     let url: String?
     let permalink: String?
     let notes: String?
     
+    static let dateFormatter = DateFormatter()
+    
+    var createdAtDate: Date? {
+        Pattern.dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss Z"
+        if let created = createdAt {
+            return Pattern.dateFormatter.date(from: created)
+        }
+        return nil
+    }
+
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case personalAttributes = "personal_attributes"
@@ -41,9 +51,10 @@ struct Pattern: Codable {
         case rating = "rating_average"
         case difficulty = "difficulty_average"
         case needleSizes = "pattern_needle_sizes"
-        case id, name, free, craft, yardage, photos, author, url, notes, permalink
+        case author = "pattern_author"
+        case id, name, free, craft, yardage, photos, url, notes, permalink
     }
-    
+
     init(id: Int?, name: String?, author: Author, free: Bool = false, craft: Craft, difficulty: Double = 0.0, rating: Double = 0.0, personalAttributes: PersonalAttributes, yardage: Int?, yarnWeight: YarnWeight, needleSizes: [NeedleSize], sizesAvailable: String?, photos: [Photo], createdAt: String?, url: String?, permalink: String?, notes: String?) {
         self.id = id
         self.name = name
@@ -64,12 +75,122 @@ struct Pattern: Codable {
         self.notes = notes
     }
 }
-// yarn weight, hook size, sizes available
 
 extension Pattern {
-    static let mockData = Pattern(id: 688190, name: "Speckled Super Scarf", author: Author.mockData, free: true, craft: Craft.mockData, difficulty: 2.29, personalAttributes: PersonalAttributes.mockData, yardage: 708, yarnWeight: YarnWeight.mockData, needleSizes: [NeedleSize.mockData], sizesAvailable: "Scarf measures 10.5” [26.5 cm] wide by 90” [228.5 cm] long.", photos: [Photo.mockData, Photo.mockData, Photo.mockData], createdAt: "2016/09/06 14:58:22 -0400", url: "https://www.yarnspirations.com/row-en/red-heart-speckled-super-scarf/RHC0125-024654M.html", permalink: "speckled-super-scarf",
+    static let mockData = Pattern(id: 688190, name: "Speckled Super Scarf", author: Author.mockData, free: true, craft: Craft.mockData, difficulty: 2.29, personalAttributes: PersonalAttributes.mockData, yardage: 708, yarnWeight: YarnWeight.mockData, needleSizes: [NeedleSize.mockData, NeedleSize.mockData], sizesAvailable: "Scarf measures 10.5” [26.5 cm] wide by 90” [228.5 cm] long.", photos: [Photo.mockData, Photo.mockData, Photo.mockData], createdAt: "2016/09/06 14:58:22 -0400", url: "https://www.yarnspirations.com/row-en/red-heart-speckled-super-scarf/RHC0125-024654M.html", permalink: "speckled-super-scarf",
                                   notes: "Simple, but oh so attractive, this over-sized scarf is just what you need to update last year’s wardrobe. Ours is 90” long in a neutral heather, but you can make your Super Scarf any length and any color you desire. This is an easy crochet in a variation of the basic ripple stitch.\r\n\r\nGAUGE: 24 sts (2 ripples) = 7” (18 cm); 5 rows = 4” (10cm) CHECK YOUR GAUGE.\r\n\r\nAlso as [Speckled Super Scarf][1] and [Wavy Ridge][2]\r\n\r\n\r\n  [1]: http://www.redheart.com/free-patterns/speckled-super-scarf\r\n  [2]: https://www.yarnspirations.com/red-heart-wavy-ridge-super-scarf/RHC0125-016921M.html#q=Wavy+ridge&includeContent=true&start=2")
 }
+
+//struct Pattern: Codable {
+//    let id: Int
+//    let name: String
+////    let author: Author?
+//    let authorName: String
+//    let authorId: Int
+//    let free: Bool
+////    let craft: Craft?
+//    let craftName: String
+//    let difficulty: Double
+//    let rating: Double
+//    let personalAttributes: PersonalAttributes
+//    let yardage: Int
+//    let yarnWeight: YarnWeight
+////    let needleSizes: [NeedleSize]
+//    let needleSizes: [String]
+//    let sizesAvailable: String
+//    let photos: [Photo]
+//    let createdAt: String
+//    let url: String
+//    let permalink: String
+//    let notes: String
+//
+//    enum CodingKeys: String, CodingKey {
+//        case createdAt = "created_at"
+//        case personalAttributes = "personal_attributes"
+//        case yarnWeight = "yarn_weight"
+//        case sizesAvailable = "sizes_available"
+//        case rating = "rating_average"
+//        case difficulty = "difficulty_average"
+//        case needleSizes = "pattern_needle_sizes"
+//        case author = "pattern_author"
+//        case id, name, free, craft, yardage, photos, url, notes, permalink
+//    }
+//
+//    init(id: Int?, name: String?, author: Author, free: Bool = false, craft: Craft, difficulty: Double = 0.0, rating: Double = 0.0, personalAttributes: PersonalAttributes, yardage: Int?, yarnWeight: YarnWeight, needleSizes: [NeedleSize], sizesAvailable: String?, photos: [Photo], createdAt: String?, url: String?, permalink: String?, notes: String?) {
+//        self.id = id
+//        self.name = name
+//        self.author = author
+//        self.free = free
+//        self.craft = craft
+//        self.difficulty = difficulty
+//        self.rating = rating
+//        self.personalAttributes = personalAttributes
+//        self.yardage = yardage
+//        self.yarnWeight = yarnWeight
+//        self.needleSizes = needleSizes
+//        self.sizesAvailable = sizesAvailable
+//        self.photos = photos
+//        self.createdAt = createdAt
+//        self.url = url
+//        self.permalink = permalink
+//        self.notes = notes
+//    }
+//    init(id: Int, name: String, authorName: String, authorId: Int, free: Bool, craftName: String, difficulty: Double, rating: Double, personalAttributes: PersonalAttributes, yardage: Int, yarnWeight: YarnWeight, needleSizes: [String], sizesAvailable: String, photos: [Photo], createdAt: String, url: String, permalink: String, notes: String) {
+//        self.id = id
+//        self.name = name
+//        self.authorName = authorName
+//        self.authorId = authorId
+//        self.free = free
+//        self.craftName = craftName
+//        self.difficulty = difficulty
+//        self.rating = rating
+//        self.personalAttributes = personalAttributes
+//        self.yardage = yardage
+//        self.yarnWeight = yarnWeight
+//        self.needleSizes = needleSizes
+//        self.sizesAvailable = sizesAvailable
+//        self.photos = photos
+//        self.createdAt = createdAt
+//        self.url = url
+//        self.permalink = permalink
+//        self.notes = notes
+//    }
+//}
+
+//extension Pattern {
+//    static let mockData = Pattern(id: 688190, name: "Speckled Super Scarf", author: Author.mockData, free: true, craft: Craft.mockData, difficulty: 2.29, personalAttributes: PersonalAttributes.mockData, yardage: 708, yarnWeight: YarnWeight.mockData, needleSizes: [NeedleSize.mockData], sizesAvailable: "Scarf measures 10.5” [26.5 cm] wide by 90” [228.5 cm] long.", photos: [Photo.mockData, Photo.mockData, Photo.mockData, Photo.mockData], createdAt: "2016/09/06 14:58:22 -0400", url: "https://www.yarnspirations.com/row-en/red-heart-speckled-super-scarf/RHC0125-024654M.html", permalink: "speckled-super-scarf",
+//                                  notes: "Simple, but oh so attractive, this over-sized scarf is just what you need to update last year’s wardrobe. Ours is 90” long in a neutral heather, but you can make your Super Scarf any length and any color you desire. This is an easy crochet in a variation of the basic ripple stitch.\r\n\r\nGAUGE: 24 sts (2 ripples) = 7” (18 cm); 5 rows = 4” (10cm) CHECK YOUR GAUGE.\r\n\r\nAlso as [Speckled Super Scarf][1] and [Wavy Ridge][2]\r\n\r\n\r\n  [1]: http://www.redheart.com/free-patterns/speckled-super-scarf\r\n  [2]: https://www.yarnspirations.com/red-heart-wavy-ridge-super-scarf/RHC0125-016921M.html#q=Wavy+ridge&includeContent=true&start=2")
+//}
+
+//extension Pattern {
+    // authorName, authorID, (pattern_author), craft, pattern_needle_sizes, yarn_weight
+//    init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        id = try values.decode(Int?.self, forKey: .id) ?? -1
+//        name = try values.decode(String?.self, forKey: .name) ?? ""
+//        free = try values.decode(Bool?.self, forKey: .free) ?? false
+//        difficulty = try values.decode(Double?.self, forKey: .difficulty) ?? 0.0
+//        yardage = try values.decode(Int?.self, forKey: .yardage) ?? 0
+//        sizesAvailable = try values.decode(String?.self, forKey: .sizesAvailable) ?? ""
+//    }
+//    init(from decoder: Decoder) throws {
+//            let values = try decoder.container(keyedBy: CodingKeys.self)
+//            latitude = try values.decode(Double.self, forKey: .latitude)
+//            longitude = try values.decode(Double.self, forKey: .longitude)
+//
+//            let additionalInfo = try values.nestedContainer(keyedBy: AdditionalInfoKeys.self, forKey: .additionalInfo)
+//            elevation = try additionalInfo.decode(Double.self, forKey: .elevation)
+//        }
+//case createdAt = "created_at"
+//case personalAttributes = "personal_attributes"
+//case yarnWeight = "yarn_weight"
+//case sizesAvailable = "sizes_available"
+//case rating = "rating_average"
+//case difficulty = "difficulty_average"
+//case needleSizes = "pattern_needle_sizes"
+//case author = "pattern_author"
+    
+//}
 
 /*
  {

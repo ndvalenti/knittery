@@ -10,19 +10,30 @@ import SwiftUI
 
 struct PatternDetailsView: View {
     @State var pattern: Pattern
+    let dateFormatter = DateFormatter()
     
-    // TODO: Is it possible to hide the titlebar when we've scrolled down and still have it over our section header?
+//    var createdAtString: Date? {
+//        Pattern.dateFormatter.dateFormat = "MMM yyyy"
+//        if let created = createdAt {
+//            return Pattern.dateFormatter.date(from: created)
+//        }
+//        return nil
+//    }
+    init(pattern: Pattern) {
+        self.pattern = pattern
+        dateFormatter.dateFormat = "MMMM yyyy"
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
-            TitleBar("Pattern")
             Section {
-                ScrollView {
+                ScrollView (showsIndicators: false) {
                     LazyVStack (alignment: .leading, pinnedViews: .sectionHeaders) {
-                        Section {
-                            ScrollView (.horizontal) {
-                                HStack {
-                                    // TODO: HStack has a limited number of elements, look into LazyHStack or horizontal Lists?
-                                    ForEach(pattern.photos, id: \.self.id) { photo in
+                        ScrollView (.horizontal, showsIndicators: false) {
+                            HStack {
+                                // TODO: Change to LazyHStack, resolve loading issues (same id?)
+                                if let photos = pattern.photos {
+                                    ForEach(photos, id: \.self.id) { photo in
                                         AsyncImage(url: photo.squareURL, content: { image in
                                             image
                                                 .resizable()
@@ -32,41 +43,52 @@ struct PatternDetailsView: View {
                                                 .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                                         })
                                         .onTapGesture {
-                                            // open photo.mediumURL modally
+                                            // TODO: preview photo.mediumURL modally
                                         }
                                     }
                                 }
-                                .frame(height: 150)
-                                // TODO: Good place for wishlist/favorite buttons
                             }
+                            // TODO: Add favorite/wishlist/ratings
                         }
                         Section {
                             VStack (alignment: .leading) {
                                 Group {
-                                    makeRow("Craft", content: [pattern.craft.name!])
-                                    Divider()
+                                    if let craft = pattern.craft {
+                                        makeRow("Craft", content: craft.toString)
+                                        Divider()
+                                    }
                                 }
                                 Group {
-                                    makeRow("Published", content: [pattern.createdAt!])
-                                    Divider()
+                                    if let created = pattern.createdAtDate {
+                                        makeRow("Published", content: formatDate(created))
+                                        Divider()
+                                    }
                                 }
                                 Group {
-                                    makeRow("Yardage", content: [String(pattern.yardage!)])
-                                    Divider()
+                                    if let yardage = pattern.yardage {
+                                        makeRow("Yardage", content: String(yardage))
+                                        Divider()
+                                    }
                                 }
                                 Group {
-                                    makeRow("Yarn weight", content: ["\(pattern.yarnWeight.name!) (\(pattern.yarnWeight.wpi!) wpi)"])
-                                    Divider()
+                                    if let weight = pattern.yarnWeight {
+                                        makeRow("Yarn weight", content: weight.toString)
+                                        Divider()
+                                    }
                                 }
                                 Group {
-                                    makeRow("Needle sizes", content: [pattern.needleSizes.first!.name!])
-                                    Divider()
+                                    if let sizes = pattern.needleSizes {
+                                        let sizeArray = sizes.map { $0.toString }
+                                        makeRow("Needle sizes", content: sizeArray)
+                                        Divider()
+                                    }
                                 }
                                 Group {
-                                    makeRow("Sizes available", content: [pattern.sizesAvailable!])
+                                    if let available = pattern.sizesAvailable {
+                                        makeRow("Sizes available", content: available)
+                                    }
                                 }
                             }
-//                            .padding(.horizontal)
                             .background(Color.KnitteryColor.backgroundLight)
                         } header: {
                             HStack {
@@ -82,6 +104,7 @@ struct PatternDetailsView: View {
                         Section {
                             Text(pattern.notes!)
                                 .padding(.horizontal)
+                                .padding(.bottom, 200)
                                 .background(Color.KnitteryColor.backgroundLight)
                                 .foregroundColor(.KnitteryColor.darkBlue)
                         } header: {
@@ -110,7 +133,6 @@ struct PatternDetailsView: View {
                                 .font(.custom("SF Pro", size: 18, relativeTo: .largeTitle))
                                 .foregroundColor(Color.KnitteryColor.darkBlue)
                         }
-                        // TODO: Not a bad place for rating/difficulty
                     }
                     .padding(.horizontal)
                     Spacer()
@@ -118,6 +140,15 @@ struct PatternDetailsView: View {
             }
         }
         .background(Color.KnitteryColor.backgroundLight)
+        .navigationTitle("Pattern")
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        dateFormatter.string(from: date)
+    }
+    
+    func makeRow(_ title: String, content: String) -> some View {
+        makeRow(title, content: [content])
     }
     
     func makeRow(_ title: String, content: [String]) -> some View {

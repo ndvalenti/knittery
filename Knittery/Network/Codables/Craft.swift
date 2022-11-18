@@ -12,6 +12,8 @@ struct Craft: Codable {
     let id: Int?
     let name: String?
     
+    var toString: String { name ?? "" }
+    
     init(id: Int?, name: String?) {
         self.id = id
         self.name = name

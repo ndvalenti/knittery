@@ -16,39 +16,35 @@ struct PatternResultsView: View {
     
     var body: some View {
         VStack {
-            List {
-                SinglePatternResultView(pattern: PatternResult.mockData)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
-                SinglePatternResultView(pattern: PatternResult.mockData)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                SinglePatternResultView(pattern: PatternResult.mockData)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                SinglePatternResultView(pattern: PatternResult.mockData)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                SinglePatternResultView(pattern: PatternResult.mockData)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                SinglePatternResultView(pattern: PatternResult.mockData)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                SinglePatternResultView(pattern: PatternResult.mockData)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                SinglePatternResultView(pattern: PatternResult.mockData)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
+            ScrollView (showsIndicators: false) {
+                LazyVStack {
+                    //            List {
+                    NavigationLink(destination: PatternDetailsView(pattern: Pattern.mockData)) {
+                        SinglePatternResultView(pattern: PatternResult.mockData)
+                    }
+                    NavigationLink(destination: PatternDetailsView(pattern: Pattern.mockData)) {
+                        SinglePatternResultView(pattern: PatternResult.mockData)
+                    }
+                    NavigationLink(destination: PatternDetailsView(pattern: Pattern.mockData)) {
+                        SinglePatternResultView(pattern: PatternResult.mockData)
+                    }
+                    NavigationLink(destination: PatternDetailsView(pattern: Pattern.mockData)) {
+                        SinglePatternResultView(pattern: PatternResult.mockData)
+                    }
+                    NavigationLink(destination: PatternDetailsView(pattern: Pattern.mockData)) {
+                        SinglePatternResultView(pattern: PatternResult.mockData)
+                    }
+                    NavigationLink(destination: PatternDetailsView(pattern: Pattern.mockData)) {
+                        SinglePatternResultView(pattern: PatternResult.mockData)
+                    }
+                    
+                }
+                .toolbarBackground(Color.KnitteryColor.backgroundDark, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .navigationTitle("Displaying results for \(searchViewModel.query.search)")
             }
-            .listStyle(.inset)
-            .scrollContentBackground(.hidden)
+            Spacer()
         }
-        .toolbarBackground(Color.KnitteryColor.backgroundDark, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .navigationTitle("Displaying results for \(searchViewModel.query.search)")
         .background(Color.KnitteryColor.backgroundLight)
     }
 }

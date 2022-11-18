@@ -16,6 +16,12 @@ struct YarnWeight: Codable {
     let ply: String?
     let wpi: String?
     
+    var toString: String {
+        if name != nil && wpi != nil {
+            return ("\(name!) (\(wpi!) wpi)")
+        } else { return "" }
+    }
+    
     enum CodingKeys: String, CodingKey {
         case crochetGauge = "crochet_gauge"
         case knitGauge = "knit_gauge"
