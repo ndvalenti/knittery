@@ -37,8 +37,9 @@ extension NetworkHandler {
     // yarns have fewer search options
     // TODO: Look into URLComponents and see if we can't work with URL? queries rathar than String? for a more pure experience
     // https://cocoacasts.com/working-with-nsurlcomponents-in-swift
-    static func requestPatternSearch(query: String? = "", page: Int? = 1, resultHandler: @escaping (Result<PatternSearch, ApiError>) -> Void) {
-        let apicall = domain + "patterns/search.json?craft=crochet%7Cknitting&query=dark%20matter%20shawl"
+    static func requestPatternSearch(query: String, resultHandler: @escaping (Result<PatternSearch, ApiError>) -> Void) {
+//        let apicall = domain + "patterns/search.json?craft=crochet%7Cknitting&query=dark%20matter%20shawl"
+        let apicall = domain + "patterns/search.json" + query
         guard let url = URL(string: apicall) else {
             resultHandler(.failure(ApiError.invalidUrl))
             return

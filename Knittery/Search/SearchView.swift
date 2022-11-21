@@ -47,13 +47,15 @@ struct SearchView: View {
                             .textFieldStyle(.roundedBorder)
                             .padding()
                             .onSubmit {
-                                print(QueryBuilder.build(searchViewModel.query))
+//                                searchViewModel.buildQuery()
+//                                QueryBuilder.build(searchViewModel.query)
                                 path.append(.result)
                             }
                             .navigationDestination(for: SearchViewModel.NavDestination.self) {
                                 switch $0 {
                                 case .result:
-                                    PatternResultsView(searchViewModel: searchViewModel, path: $path)
+                                    let query = QueryBuilder.build(searchViewModel.query)
+                                    PatternResultsView(query, path: $path)
                                 case .details:
                                     Text("Details View")
                                 }

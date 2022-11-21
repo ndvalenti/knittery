@@ -11,6 +11,9 @@ import SwiftUI
 
 class SearchViewModel: ObservableObject {
     @Published var query: Query
+    @Published private var queryURL: String
+    
+    @Published var searchResults = [PatternResult]()
     
     enum NavDestination: Hashable {
         case result , details
@@ -18,5 +21,20 @@ class SearchViewModel: ObservableObject {
     
     init() {
         query = .init()
+        queryURL = .init()
     }
+    
+    func buildQuery() {
+        queryURL = QueryBuilder.build(query)
+    }
+//    func getSearchResults() {
+//        NetworkHandler.requestPatternSearch() { [weak self] (result: Result<PatternSearch, ApiError>) in
+//            switch result {
+//            case .success (let search):
+//                self?.searchResults = search.patterns
+//            case .failure (let error):
+//                print(error)
+//            }
+//        }
+//    }
 }

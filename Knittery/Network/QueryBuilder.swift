@@ -56,7 +56,7 @@ class QueryBuilder {
     static private let startSymbol = "?"
     static private let separator = "%7C"
     static private let space = "%20"
-    static private let concat = "$"
+    static private let concat = "&"
     static private let invertSymbol = "_"
     
     static func build(_ query: Query) -> String {
