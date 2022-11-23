@@ -40,4 +40,5 @@ struct YarnWeight: Codable {
 
 extension YarnWeight {
     static let mockData = YarnWeight(id: 1, crochetGauge: "", knitGauge: "18", name: "Aran", ply: "10", wpi: "8")
+    static let emptyData = YarnWeight(id: nil, crochetGauge: nil, knitGauge: nil, name: nil, ply: nil, wpi: nil)
 }

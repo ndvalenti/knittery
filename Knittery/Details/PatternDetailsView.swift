@@ -9,19 +9,14 @@
 import SwiftUI
 
 struct PatternDetailsView: View {
-    @State var pattern: Pattern
+    @StateObject var patternDetailsViewModel = PatternDetailsViewModel()
+    @State var hasLoaded = false
+    
+    let patternId: Int?
     let dateFormatter = DateFormatter()
     
-//    var createdAtString: Date? {
-//        Pattern.dateFormatter.dateFormat = "MMM yyyy"
-//        if let created = createdAt {
-//            return Pattern.dateFormatter.date(from: created)
-//        }
-//        return nil
-//    }
-    init(pattern: Pattern) {
-        self.pattern = pattern
-        dateFormatter.dateFormat = "MMMM yyyy"
+    init(_ patternId: Int?) {
+        self.patternId = patternId
     }
     
     var body: some View {
@@ -32,7 +27,7 @@ struct PatternDetailsView: View {
                         ScrollView (.horizontal, showsIndicators: false) {
                             HStack {
                                 // TODO: Change to LazyHStack, resolve loading issues (same id?)
-                                if let photos = pattern.photos {
+                                if let photos = patternDetailsViewModel.pattern.photos {
                                     ForEach(photos, id: \.self.id) { photo in
                                         AsyncImage(url: photo.squareURL, content: { image in
                                             image
@@ -53,38 +48,38 @@ struct PatternDetailsView: View {
                         Section {
                             VStack (alignment: .leading) {
                                 Group {
-                                    if let craft = pattern.craft {
+                                    if let craft = patternDetailsViewModel.pattern.craft {
                                         makeRow("Craft", content: craft.toString)
                                         Divider()
                                     }
                                 }
                                 Group {
-                                    if let created = pattern.createdAtDate {
+                                    if let created = patternDetailsViewModel.pattern.createdAtDate {
                                         makeRow("Published", content: formatDate(created))
                                         Divider()
                                     }
                                 }
                                 Group {
-                                    if let yardage = pattern.yardage {
+                                    if let yardage = patternDetailsViewModel.pattern.yardage {
                                         makeRow("Yardage", content: String(yardage))
                                         Divider()
                                     }
                                 }
                                 Group {
-                                    if let weight = pattern.yarnWeight {
+                                    if let weight = patternDetailsViewModel.pattern.yarnWeight {
                                         makeRow("Yarn weight", content: weight.toString)
                                         Divider()
                                     }
                                 }
                                 Group {
-                                    if let sizes = pattern.needleSizes {
+                                    if let sizes = patternDetailsViewModel.pattern.needleSizes {
                                         let sizeArray = sizes.map { $0.toString }
                                         makeRow("Needle sizes", content: sizeArray)
                                         Divider()
                                     }
                                 }
                                 Group {
-                                    if let available = pattern.sizesAvailable {
+                                    if let available = patternDetailsViewModel.pattern.sizesAvailable {
                                         makeRow("Sizes available", content: available)
                                     }
                                 }
@@ -102,11 +97,13 @@ struct PatternDetailsView: View {
                         }
                         .background(Color.KnitteryColor.backgroundDark)
                         Section {
-                            Text(pattern.notes!)
-                                .padding(.horizontal)
-                                .padding(.bottom, 200)
-                                .background(Color.KnitteryColor.backgroundLight)
-                                .foregroundColor(.KnitteryColor.darkBlue)
+                            if let notes = patternDetailsViewModel.pattern.notes {
+                                Text(notes)
+                                    .padding(.horizontal)
+                                    .padding(.bottom, 200)
+                                    .background(Color.KnitteryColor.backgroundLight)
+                                    .foregroundColor(.KnitteryColor.darkBlue)
+                            }
                         } header: {
                             HStack {
                                 Text("Description")
@@ -123,12 +120,12 @@ struct PatternDetailsView: View {
             } header: {
                 HStack {
                     VStack(alignment: .leading) {
-                        if let name = pattern.name {
+                        if let name = patternDetailsViewModel.pattern.name {
                             Text(name)
                                 .font(.custom("SF Pro", size: 22, relativeTo: .largeTitle))
                                 .foregroundColor(Color.KnitteryColor.darkBlue)
                         }
-                        if let author = pattern.author {
+                        if let author = patternDetailsViewModel.pattern.author {
                             Text("By \(author.name!)")
                                 .font(.custom("SF Pro", size: 18, relativeTo: .largeTitle))
                                 .foregroundColor(Color.KnitteryColor.darkBlue)
@@ -141,6 +138,13 @@ struct PatternDetailsView: View {
         }
         .background(Color.KnitteryColor.backgroundLight)
         .navigationTitle("Pattern")
+        .onAppear() {
+            if !hasLoaded {
+                patternDetailsViewModel.retrievePattern(patternId: patternId)
+                dateFormatter.dateFormat = "MMMM yyyy"
+                hasLoaded = true
+            }
+        }
     }
     
     func formatDate(_ date: Date) -> String {
@@ -169,6 +173,6 @@ struct PatternDetailsView: View {
 
 struct PatternDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        PatternDetailsView(pattern: Pattern.mockData)
+        PatternDetailsView(nil)
     }
 }

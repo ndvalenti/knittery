@@ -27,4 +27,5 @@ struct PersonalAttributes: Codable {
 
 extension PersonalAttributes {
     static let mockData = PersonalAttributes(favorited: false, queued: false, inLibrary: true)
+    static let emptyData = PersonalAttributes(favorited: nil, queued: nil, inLibrary: nil)
 }

@@ -11,9 +11,9 @@ import Foundation
 struct Author: Codable {
     let id: Int?
     let name: String?
-    let users: [User]
+    let users: [User]?
     
-    init(id: Int?, name: String?, users: [User]) {
+    init(id: Int?, name: String?, users: [User]?) {
         self.id = id
         self.name = name
         self.users = users
@@ -22,4 +22,5 @@ struct Author: Codable {
 
 extension Author {
     static let mockData = Author(id: 1234, name: "Author Authorson", users: [User.mockData])
+    static let emptyData = Author(id: nil, name: nil, users: nil)
 }

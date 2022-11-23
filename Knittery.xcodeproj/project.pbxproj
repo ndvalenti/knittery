@@ -29,6 +29,7 @@
 		018783AC2912755A005DDE92 /* MultiPickerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783AB2912755A005DDE92 /* MultiPickerTab.swift */; };
 		018783AE29127ED1005DDE92 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783AD29127ED1005DDE92 /* SearchViewModel.swift */; };
 		01926981292BA75E00890535 /* PatternResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926980292BA75E00890535 /* PatternResultsViewModel.swift */; };
+		01926983292D13F400890535 /* PatternDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926982292D13F400890535 /* PatternDetailsViewModel.swift */; };
 		01960FB5291CE7AC002CB80C /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01960FB4291CE7AC002CB80C /* Author.swift */; };
 		01960FB7291CE7B4002CB80C /* Designer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01960FB6291CE7B4002CB80C /* Designer.swift */; };
 		01CAF58F28F56B44000C92C1 /* PatternResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF58E28F56B44000C92C1 /* PatternResult.swift */; };
@@ -97,6 +98,7 @@
 		018783AB2912755A005DDE92 /* MultiPickerTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPickerTab.swift; sourceTree = "<group>"; };
 		018783AD29127ED1005DDE92 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		01926980292BA75E00890535 /* PatternResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternResultsViewModel.swift; sourceTree = "<group>"; };
+		01926982292D13F400890535 /* PatternDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternDetailsViewModel.swift; sourceTree = "<group>"; };
 		01960FB4291CE7AC002CB80C /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
 		01960FB6291CE7B4002CB80C /* Designer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designer.swift; sourceTree = "<group>"; };
 		01CAF58E28F56B44000C92C1 /* PatternResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternResult.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				010E8B5529223458004E8F17 /* PatternDetailsView.swift */,
+				01926982292D13F400890535 /* PatternDetailsViewModel.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				0136EB3D290A615B008D1661 /* PatternSearchView.swift in Sources */,
 				010E644F2902B1E300F87789 /* KnitteryColors.swift in Sources */,
 				0136EB3B2907E285008D1661 /* SearchView.swift in Sources */,
+				01926983292D13F400890535 /* PatternDetailsViewModel.swift in Sources */,
 				01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */,
 				01CF06A128DC464600310665 /* ContentView.swift in Sources */,
 				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,

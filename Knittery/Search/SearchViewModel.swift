@@ -16,7 +16,7 @@ class SearchViewModel: ObservableObject {
     @Published var searchResults = [PatternResult]()
     
     enum NavDestination: Hashable {
-        case result , details
+        case result
     }
     
     init() {
@@ -27,14 +27,4 @@ class SearchViewModel: ObservableObject {
     func buildQuery() {
         queryURL = QueryBuilder.build(query)
     }
-//    func getSearchResults() {
-//        NetworkHandler.requestPatternSearch() { [weak self] (result: Result<PatternSearch, ApiError>) in
-//            switch result {
-//            case .success (let search):
-//                self?.searchResults = search.patterns
-//            case .failure (let error):
-//                print(error)
-//            }
-//        }
-//    }
 }

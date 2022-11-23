@@ -54,10 +54,9 @@ struct SearchView: View {
                             .navigationDestination(for: SearchViewModel.NavDestination.self) {
                                 switch $0 {
                                 case .result:
-                                    let query = QueryBuilder.build(searchViewModel.query)
-                                    PatternResultsView(query, path: $path)
-                                case .details:
-                                    Text("Details View")
+//                                    QueryBuilder.build(searchViewModel.query)
+//                                    print(query)
+                                    PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path)
                                 }
                             }
                         HStack {

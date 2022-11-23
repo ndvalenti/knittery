@@ -12,16 +12,20 @@ class PatternResultsViewModel: ObservableObject {
     @Published var patternResults = [PatternResult]()
     
     func performSearch(query: String?) {
-        guard let query else { return }
-        NetworkHandler.requestPatternSearch(query: query) { [weak self] (result: Result<PatternSearch, ApiError>) in
-            switch result {
-            case .success (let search):
-                DispatchQueue.main.async {
-                    self?.patternResults = search.patterns
+        if let query {
+            NetworkHandler.requestPatternSearch(query: query) { [weak self] (result: Result<PatternSearch, ApiError>) in
+                switch result {
+                case .success (let search):
+                    DispatchQueue.main.async {
+                        self?.patternResults = search.patterns
+                        self?.objectWillChange.send()
+                    }
+                case .failure (let error):
+                    print(error)
                 }
-            case .failure (let error):
-                print(error)
             }
+        } else {
+            //TODO: Handle nil query?
         }
     }
 }

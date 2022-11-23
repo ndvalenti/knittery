@@ -9,12 +9,19 @@
 import SwiftUI
 
 struct PatternResultsView: View {
-    @ObservedObject var patternResultsViewModel = PatternResultsViewModel()
+    @StateObject var patternResultsViewModel = PatternResultsViewModel()
     @Binding var path: [SearchViewModel.NavDestination]
+    @State var hasLoaded = false
+    
+    let query: String?
     
     init(_ query: String?, path: Binding<[SearchViewModel.NavDestination]>) {
         self._path = path
-        patternResultsViewModel.performSearch(query: query)
+        // TODO: the following line fails (sets nil) if query is a state variable and I don't know why
+        self.query = query
+        
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(Color.KnitteryColor.darkBlue)]
+        UINavigationBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
     }
     
     var body: some View {
@@ -22,18 +29,22 @@ struct PatternResultsView: View {
             ScrollView (showsIndicators: false) {
                 LazyVStack {
                     ForEach (patternResultsViewModel.patternResults, id: \.id) { result in
-                        NavigationLink(destination: PatternDetailsView(pattern: Pattern.mockData)) {
+                        NavigationLink(destination: PatternDetailsView(result.id)) {
                             SinglePatternResultView(pattern: result)
                         }
                     }
                 }
-                .toolbarBackground(Color.KnitteryColor.backgroundDark, for: .navigationBar)
-                .toolbarBackground(.visible, for: .navigationBar)
                 .navigationTitle("Pattern Search")
             }
             Spacer()
         }
         .background(Color.KnitteryColor.backgroundLight)
+        .onAppear() {
+            if !hasLoaded {
+                patternResultsViewModel.performSearch(query: query)
+                hasLoaded = true
+            }
+        }
     }
 }
 

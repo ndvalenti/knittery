@@ -22,4 +22,5 @@ struct Craft: Codable {
 
 extension Craft {
     static let mockData = Craft(id: 1, name: "Crochet")
+    static let emptyData = Craft(id: nil, name: nil)
 }

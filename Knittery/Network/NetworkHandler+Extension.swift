@@ -11,8 +11,8 @@ import Foundation
 extension NetworkHandler {
     static private let domain = "https://api.ravelry.com/"
     
-    static func requestPatternById(_ id: String, resultHandler: @escaping (Result<Pattern, ApiError>) -> Void) {
-        let apicall = domain + "patterns/" + id + ".json"
+    static func requestPatternById(_ id: Int, resultHandler: @escaping (Result<Pattern, ApiError>) -> Void) {
+        let apicall = domain + "patterns/" + String(id) + ".json"
         
         guard let url = URL(string: apicall) else {
             resultHandler(.failure(ApiError.invalidUrl))
