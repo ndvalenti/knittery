@@ -26,6 +26,7 @@ class PatternDetailsViewModel: ObservableObject {
             }
         } else {
             //TODO: handle nil id?
+            self.pattern = Pattern.mockData
         }
     }
 }

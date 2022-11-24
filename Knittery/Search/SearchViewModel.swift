@@ -11,7 +11,7 @@ import SwiftUI
 
 class SearchViewModel: ObservableObject {
     @Published var query: Query
-    @Published private var queryURL: String
+    @Published private var queryString: String
     
     @Published var searchResults = [PatternResult]()
     
@@ -21,10 +21,10 @@ class SearchViewModel: ObservableObject {
     
     init() {
         query = .init()
-        queryURL = .init()
+        queryString = .init()
     }
     
     func buildQuery() {
-        queryURL = QueryBuilder.build(query)
+        queryString = QueryBuilder.build(query)
     }
 }

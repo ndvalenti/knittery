@@ -21,6 +21,6 @@ struct Author: Codable {
 }
 
 extension Author {
-    static let mockData = Author(id: 1234, name: "Author Authorson", users: [User.mockData])
+    static let mockData = Author(id: 1234, name: "Per Persson", users: [User.mockData])
     static let emptyData = Author(id: nil, name: nil, users: nil)
 }

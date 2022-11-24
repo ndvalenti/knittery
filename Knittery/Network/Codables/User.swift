@@ -6,6 +6,8 @@
 //  Copyright © 2022 Nicholas Valenti. All rights reserved.
 //
 
+// TODO: fetch user information and cache it on log in
+
 import Foundation
 
 struct UserWrapper: Codable {

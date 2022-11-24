@@ -1,5 +1,5 @@
 //
-//  SinglePatternResultView.swift
+//  KnitteryPatternRow.swift
 //  Knittery
 //
 //  Created by Nick on 2022-11-12.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SinglePatternResultView: View {
+struct KnitteryPatternRow: View {
     var pattern: PatternResult
     
     var body: some View {
@@ -33,7 +33,9 @@ struct SinglePatternResultView: View {
                             .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                     })
                 } else {
-                    Image(systemName: "snowflake")
+//                    Image(systemName: "snowflake")
+                    Rectangle().frame(height: 150)
+                        .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                 }
             }
             .frame(height:225)
@@ -44,6 +46,6 @@ struct SinglePatternResultView: View {
 
 struct SingleResultView_Previews: PreviewProvider {
     static var previews: some View {
-        SinglePatternResultView(pattern: PatternResult.mockData)
+        KnitteryPatternRow(pattern: PatternResult.mockData)
     }
 }

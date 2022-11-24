@@ -13,11 +13,26 @@ struct LibraryView: View {
     var body: some View {
         VStack {
             TitleBar("Library")
+            /*
             Button {
-                testAPI()
+                print("Hej")
+//                testAPI()
             } label: {
                 Text("Test API")
             }
+            .buttonStyle(LButton())
+            List {
+                NavigationLink(destination: EmptyView()) {
+                    Text("One")
+                }
+                NavigationLink(destination: EmptyView()) {
+                    Text("Two")
+                }
+                NavigationLink(destination: EmptyView()) {
+                    Text("Three")
+                }
+            }
+             */
             Spacer()
         }
         .background(Color.KnitteryColor.backgroundLight)
@@ -25,6 +40,18 @@ struct LibraryView: View {
     
     func testAPI() {
         libraryViewModel.testAPICall()
+    }
+}
+
+struct LButton: ButtonStyle {
+    func makeBody(configuration: ButtonStyle.Configuration) -> some View {
+        configuration.label
+            .padding(.horizontal)
+            .frame(height: 41)
+            .foregroundColor(.white)
+            .background(Color.KnitteryColor.lightBlue)
+            .cornerRadius(46)
+            .font(.custom("Avenir", size: 16))
     }
 }
 

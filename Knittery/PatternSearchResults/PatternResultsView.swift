@@ -30,7 +30,7 @@ struct PatternResultsView: View {
                 LazyVStack {
                     ForEach (patternResultsViewModel.patternResults, id: \.id) { result in
                         NavigationLink(destination: PatternDetailsView(result.id)) {
-                            SinglePatternResultView(pattern: result)
+                            KnitteryPatternRow(pattern: result)
                         }
                     }
                 }
