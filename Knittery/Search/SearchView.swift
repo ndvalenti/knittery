@@ -30,7 +30,7 @@ struct SearchView: View {
     var body: some View {
         NavigationStack (path: $path) {
             VStack {
-                TitleBar("Search")
+//                TitleBar("Search")
                 VStack {
                     Picker("Title", selection: $selectedMode) {
                         ForEach(SearchModes.allCases) { value in
@@ -54,8 +54,6 @@ struct SearchView: View {
                             .navigationDestination(for: SearchViewModel.NavDestination.self) {
                                 switch $0 {
                                 case .result:
-//                                    QueryBuilder.build(searchViewModel.query)
-//                                    print(query)
                                     PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path)
                                 }
                             }
@@ -69,7 +67,6 @@ struct SearchView: View {
                     }
                     
                     VStack {
-//                        Text("List Selected Search Options Here")
                         switch(selectedMode) {
                         case .pattern:
                             PatternSearchView(searchViewModel: searchViewModel)
@@ -80,8 +77,18 @@ struct SearchView: View {
                     .background(Color.KnitteryColor.backgroundDark)
                 }
                 .background(Color.KnitteryColor.backgroundDark)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        CurrentUserView()
+                    }
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        TitleBar("Search")
+                        Text("Search")
+                    }
+                }
+                .toolbar(.visible, for: .navigationBar)
             }
-            .background(Color.KnitteryColor.backgroundLight)
+            .background(Color.KnitteryColor.backgroundDark)
         }
     }
 }

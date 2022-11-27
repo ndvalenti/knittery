@@ -8,12 +8,18 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var homeViewModel = HomeViewModel()
+    
     var body: some View {
-        VStack {
-            TitleBar("Home")
-            Spacer()
+        NavigationStack {
+            VStack {
+//                TitleBar("Home")
+                Spacer()
+            }
+            .background(Color.KnitteryColor.backgroundLight)
+            
         }
-        .background(Color.KnitteryColor.backgroundLight)
+        .navigationTitle("Home")
     }
 }
 

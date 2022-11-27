@@ -17,14 +17,14 @@ struct UserWrapper: Codable {
 struct User: Codable {
     let id: Int?
     let username: String?
-    let photo: String?
+    let photo: URL?
     
     enum CodingKeys: String, CodingKey {
         case photo = "tiny_photo_url"
         case id, username
     }
     
-    init(id: Int?, username: String?, photo: String?) {
+    init(id: Int?, username: String?, photo: URL?) {
         self.id = id
         self.username = username
         self.photo = photo
@@ -32,5 +32,5 @@ struct User: Codable {
 }
 
 extension User {
-    static let mockData = User(id: 3333, username: "User Userson", photo: "https://avatars-d.ravelrycache.com/SharpDog/886529785/knitteryS_tiny.jpeg")
+    static let mockData = User(id: 3333, username: "User Userson", photo: URL(string: "https://avatars-d.ravelrycache.com/SharpDog/886529785/knitteryS_tiny.jpeg"))
 }

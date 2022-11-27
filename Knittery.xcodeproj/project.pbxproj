@@ -32,6 +32,9 @@
 		01926983292D13F400890535 /* PatternDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926982292D13F400890535 /* PatternDetailsViewModel.swift */; };
 		01926985292E2BE800890535 /* DownloadLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926984292E2BE800890535 /* DownloadLocation.swift */; };
 		01926987292E48F200890535 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926986292E48F200890535 /* HomeViewModel.swift */; };
+		01926989292F765100890535 /* KnitteryPatternBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926988292F765100890535 /* KnitteryPatternBlock.swift */; };
+		0192698B292F8D9800890535 /* CurrentUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0192698A292F8D9800890535 /* CurrentUserView.swift */; };
+		0192698E2933520F00890535 /* PatternDetailsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0192698D2933520F00890535 /* PatternDetailsBlockView.swift */; };
 		01960FB5291CE7AC002CB80C /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01960FB4291CE7AC002CB80C /* Author.swift */; };
 		01960FB7291CE7B4002CB80C /* Designer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01960FB6291CE7B4002CB80C /* Designer.swift */; };
 		01CAF58F28F56B44000C92C1 /* PatternResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CAF58E28F56B44000C92C1 /* PatternResult.swift */; };
@@ -103,6 +106,9 @@
 		01926982292D13F400890535 /* PatternDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternDetailsViewModel.swift; sourceTree = "<group>"; };
 		01926984292E2BE800890535 /* DownloadLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadLocation.swift; sourceTree = "<group>"; };
 		01926986292E48F200890535 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		01926988292F765100890535 /* KnitteryPatternBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryPatternBlock.swift; sourceTree = "<group>"; };
+		0192698A292F8D9800890535 /* CurrentUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserView.swift; sourceTree = "<group>"; };
+		0192698D2933520F00890535 /* PatternDetailsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternDetailsBlockView.swift; sourceTree = "<group>"; };
 		01960FB4291CE7AC002CB80C /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
 		01960FB6291CE7B4002CB80C /* Designer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designer.swift; sourceTree = "<group>"; };
 		01CAF58E28F56B44000C92C1 /* PatternResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternResult.swift; sourceTree = "<group>"; };
@@ -165,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				010E8B30291F8588004E8F17 /* KnitteryPatternRow.swift */,
+				01926988292F765100890535 /* KnitteryPatternBlock.swift */,
 				010E644E2902B1E300F87789 /* KnitteryColors.swift */,
 				0136EB3429067E0D008D1661 /* KnitteryButtons.swift */,
 				0136EB3629067E28008D1661 /* KnitteryTitles.swift */,
@@ -177,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				010E8B5529223458004E8F17 /* PatternDetailsView.swift */,
+				0192698D2933520F00890535 /* PatternDetailsBlockView.swift */,
 				01926982292D13F400890535 /* PatternDetailsViewModel.swift */,
 			);
 			path = Details;
@@ -207,6 +215,14 @@
 				01926980292BA75E00890535 /* PatternResultsViewModel.swift */,
 			);
 			path = PatternSearchResults;
+			sourceTree = "<group>";
+		};
+		0192698C292F99F100890535 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				0192698A292F8D9800890535 /* CurrentUserView.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		01CAF5BA28F82B1C000C92C1 /* Search */ = {
@@ -246,10 +262,11 @@
 			children = (
 				01CF069E28DC464600310665 /* KnitteryApp.swift */,
 				01CF06CD28DC476900310665 /* Root */,
-				01CF06DB28DC7B8700310665 /* Home */,
 				01CAF5BA28F82B1C000C92C1 /* Search */,
+				0192698C292F99F100890535 /* User */,
 				0192697F292BA71B00890535 /* PatternSearchResults */,
 				010E8B5429223442004E8F17 /* Details */,
+				01CF06DB28DC7B8700310665 /* Home */,
 				01CF06D928DC7B6E00310665 /* Library */,
 				01CF06EB28DDFF6F00310665 /* Network */,
 				01CF071128E0872400310665 /* AppData */,
@@ -492,9 +509,11 @@
 				01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */,
 				01CF06A128DC464600310665 /* ContentView.swift in Sources */,
 				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,
+				0192698B292F8D9800890535 /* CurrentUserView.swift in Sources */,
 				01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */,
 				01CAF58F28F56B44000C92C1 /* PatternResult.swift in Sources */,
 				01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */,
+				0192698E2933520F00890535 /* PatternDetailsBlockView.swift in Sources */,
 				01D715C228E5B09D00B6BB8D /* NetworkHandler+Extension.swift in Sources */,
 				01CF06DD28DC7BB600310665 /* LibraryView.swift in Sources */,
 				018783AE29127ED1005DDE92 /* SearchViewModel.swift in Sources */,
@@ -512,6 +531,7 @@
 				01CAF59128F56EAA000C92C1 /* Photo.swift in Sources */,
 				010E8B5629223458004E8F17 /* PatternDetailsView.swift in Sources */,
 				01CF06D128DC47B000310665 /* RootViewModel.swift in Sources */,
+				01926989292F765100890535 /* KnitteryPatternBlock.swift in Sources */,
 				01960FB7291CE7B4002CB80C /* Designer.swift in Sources */,
 				01CAF59328F6A30A000C92C1 /* QueryBuilder.swift in Sources */,
 				01470A6428EC26A200F1DF00 /* Craft.swift in Sources */,

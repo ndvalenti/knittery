@@ -23,8 +23,6 @@ struct LoginView: View {
                     .scaledToFill()
                     .frame(height: 300)
                     .clipShape(Circle())
-                    .overlay(Circle()
-                        .stroke(Color.KnitteryColor.darkBlue, lineWidth: 0))
             }
             
             Text("Knittery")

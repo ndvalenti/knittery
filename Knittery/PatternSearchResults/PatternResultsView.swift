@@ -35,6 +35,11 @@ struct PatternResultsView: View {
                     }
                 }
                 .navigationTitle("Pattern Search")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        CurrentUserView()
+                    }
+                }
             }
             Spacer()
         }

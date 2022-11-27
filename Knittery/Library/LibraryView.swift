@@ -11,31 +11,14 @@ struct LibraryView: View {
     @StateObject var libraryViewModel = LibraryViewModel()
     
     var body: some View {
-        VStack {
-            TitleBar("Library")
-            /*
-            Button {
-                print("Hej")
-//                testAPI()
-            } label: {
-                Text("Test API")
+        NavigationStack {
+            VStack {
+                TitleBar("Library")
+                
+                Spacer()
             }
-            .buttonStyle(LButton())
-            List {
-                NavigationLink(destination: EmptyView()) {
-                    Text("One")
-                }
-                NavigationLink(destination: EmptyView()) {
-                    Text("Two")
-                }
-                NavigationLink(destination: EmptyView()) {
-                    Text("Three")
-                }
-            }
-             */
-            Spacer()
+            .background(Color.KnitteryColor.backgroundLight)
         }
-        .background(Color.KnitteryColor.backgroundLight)
     }
     
     func testAPI() {

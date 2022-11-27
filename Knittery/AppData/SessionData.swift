@@ -8,6 +8,5 @@
 import Foundation
 
 class SessionData: ObservableObject {
-//    @Published var authenticated: Bool = false
-    
+    static var currentUser: User?
 }

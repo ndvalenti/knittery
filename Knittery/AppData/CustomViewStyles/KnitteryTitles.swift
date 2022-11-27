@@ -28,7 +28,13 @@ struct TitleBar: View {
                 .foregroundColor(.KnitteryColor.lightBlue)
                 .font(.custom("Avenir", size: TitleBar.fontSize, relativeTo: .largeTitle).weight(.medium))
                 .padding(.vertical, TitleBar.paddingOffset)
-//                .shadow(color: .KnitteryColor.darkBlueTranslucent, radius: 6, x: 0, y: 3)
+            //                .shadow(color: .KnitteryColor.darkBlueTranslucent, radius: 6, x: 0, y: 3)
+//            HStack {
+//                Spacer()
+//                CurrentUserView()
+//                    .padding(.trailing)
+//            }
+            
         }
         .background(Color.KnitteryColor.backgroundDark)
     }

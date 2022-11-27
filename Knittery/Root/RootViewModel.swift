@@ -9,7 +9,6 @@ import Foundation
 
 class RootViewModel: ObservableObject {
     var networkHandler = NetworkHandler()
-    var sessionData = SessionData()
     
     enum State {
         case loading
@@ -22,6 +21,7 @@ class RootViewModel: ObservableObject {
     func checkAuthenticationState() {
         networkHandler.refreshAccessToken() { [weak self] success in
             if success {
+                self?.retrieveCurrentUser()
                 self?.state = .authenticated
             } else {
                 self?.state = .unauthenticated
@@ -32,9 +32,21 @@ class RootViewModel: ObservableObject {
     func signIn() {
         networkHandler.signIn() { [weak self] success in
             if success {
+                self?.retrieveCurrentUser()
                 self?.state = .authenticated
             } else {
                 self?.state = .unauthenticated
+            }
+        }
+    }
+    
+    func retrieveCurrentUser() {
+        NetworkHandler.requestCurrentUser() { (result: Result<User, ApiError>) in
+            switch result {
+            case .success (let user):
+                SessionData.currentUser = user
+            case .failure (let error):
+                print(error)
             }
         }
     }

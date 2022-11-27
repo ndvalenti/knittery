@@ -27,7 +27,9 @@ extension NetworkHandler {
         self.makeRequest(request) { (result: Result<PatternWrapper, ApiError>) in
             switch(result) {
             case .success(let patternWrapper):
-                resultHandler(.success(patternWrapper.pattern!))
+                if let pattern = patternWrapper.pattern {
+                    resultHandler(.success(pattern))
+                }
             case .failure(let error):
                 resultHandler(.failure(error))
             }
@@ -74,7 +76,9 @@ extension NetworkHandler {
         self.makeRequest(request) { (result: Result<UserWrapper, ApiError>) in
             switch(result) {
             case .success(let user):
-                resultHandler(.success(user.user!))
+                if let user = user.user {
+                    resultHandler(.success(user))
+                }
             case .failure(let error):
                 resultHandler(.failure(error))
             }
@@ -110,7 +114,7 @@ extension NetworkHandler {
                 return
             }
             
-//             will send a second request and dump the response to console, not ideal
+            // will send a second request and dump the response to console, not ideal
 //            guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
 //                return
 //            }

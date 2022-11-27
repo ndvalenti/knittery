@@ -1,14 +1,14 @@
 //
-//  KnitteryPatternRow.swift
+//  KnitteryPatternBlock.swift
 //  Knittery
 //
-//  Created by Nick on 2022-11-12.
+//  Created by Nick on 2022-11-24.
 //  Copyright © 2022 Nicholas Valenti. All rights reserved.
 //
 
 import SwiftUI
 
-struct KnitteryPatternRow: View {
+struct KnitteryPatternBlock: View {
     var pattern: PatternResult
     
     var body: some View {
@@ -43,8 +43,8 @@ struct KnitteryPatternRow: View {
     }
 }
 
-struct SingleResultView_Previews: PreviewProvider {
+struct KnitteryPatternBlock_Previews: PreviewProvider {
     static var previews: some View {
-        KnitteryPatternRow(pattern: PatternResult.mockData)
+        KnitteryPatternBlock(pattern: PatternResult.mockData)
     }
 }
