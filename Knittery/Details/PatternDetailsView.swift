@@ -108,7 +108,7 @@ struct PatternDetailsView: View {
         .navigationTitle("Pattern")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                CurrentUserView()
+//                CurrentUserView(currentUser: $sessionData.currentUser)
             }
         }
         .onAppear() {
@@ -117,14 +117,22 @@ struct PatternDetailsView: View {
                 hasLoaded = true
             }
         }
-        .sheet(item: $modalPhoto) { photo in
-            AsyncImage(url: photo.medium2URL, content: { image in
-                image
-            }, placeholder: {
-                ProgressView()
-            })
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
+        .sheet(item: $modalPhoto) { _ in
+            if let photos = patternDetailsViewModel.pattern.photos {
+                TabView(selection: $modalPhoto) {
+                    ForEach(photos, id: \.self.sortOrder) { photo in
+                        AsyncImage(url: photo.medium2URL, content: { image in
+                            image
+                        }, placeholder: {
+                            ProgressView()
+                        })
+                        
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle())
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+            }
         }
     }
 }

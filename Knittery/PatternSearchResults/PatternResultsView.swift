@@ -35,10 +35,11 @@ struct PatternResultsView: View {
                     }
                 }
                 .navigationTitle("Pattern Search")
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        CurrentUserView()
-                    }
+//                    ToolbarItem(placement: .navigationBarTrailing) {
+//                        CurrentUserView(currentUser: $sessionData.currentUser)
+//                    }
                 }
             }
             Spacer()

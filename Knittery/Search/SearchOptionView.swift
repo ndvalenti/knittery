@@ -19,7 +19,7 @@ struct SearchOptionView: View {
             case .notebook:
                 ForEach (QNotebook.allCases, id: \.self) { item in
                     if let name = item.displayName {
-                        MultiPickerTab(
+                        KnitteryMultiPickerTab(
                             title: name,
                             isChecked: searchViewModel.query.notebook[item] ?? false) { isOn in
                                 searchViewModel.query.notebook[item] = isOn
@@ -29,7 +29,7 @@ struct SearchOptionView: View {
             case .craft:
                 ForEach (QWeight.allCases, id: \.self) { item in
                     if let name = item.displayName {
-                        MultiPickerTab(
+                        KnitteryMultiPickerTab(
                             title: name,
                             isChecked: searchViewModel.query.weight[item] ?? false) { isOn in
                                 searchViewModel.query.weight[item] = isOn
@@ -39,7 +39,7 @@ struct SearchOptionView: View {
             case .availability:
                 ForEach (QAvailability.allCases, id: \.self) { item in
                     if let name = item.displayName {
-                        MultiPickerTab(
+                        KnitteryMultiPickerTab(
                             title: name,
                             isChecked: searchViewModel.query.availability[item] ?? false) { isOn in
                                 searchViewModel.query.availability[item] = isOn
@@ -49,7 +49,7 @@ struct SearchOptionView: View {
             case .weight:
                 ForEach (QWeight.allCases, id: \.self) { item in
                     if let name = item.displayName {
-                        MultiPickerTab(
+                        KnitteryMultiPickerTab(
                             title: name,
                             isChecked: searchViewModel.query.weight[item] ?? false) { isOn in
                                 searchViewModel.query.weight[item] = isOn

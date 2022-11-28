@@ -15,10 +15,22 @@ struct KnitteryPatternRow: View {
         Group {
             VStack (alignment: .leading) {
                 Group {
-                    Text(pattern.name!)
-                        .font(.headline)
-                    Text("by \(pattern.author!.name!)")
-                        .font(.caption)
+                    if let name = pattern.name {
+                        Text(name)
+                            .fontWeight(.medium)
+                            .font(.custom("Avenir", size: 18, relativeTo: .headline))
+                            .foregroundColor(Color.KnitteryColor.darkBlue)
+                            .lineLimit(1)
+                    }
+                    if let author = pattern.author {
+                        if let authorName = author.name {
+                            
+                            Text("by \(authorName)")
+                                .font(.custom("SF Pro", size: 14, relativeTo: .caption))
+                                .foregroundColor(Color.KnitteryColor.darkBlue)
+                                .lineLimit(1)
+                        }
+                    }
                 }
                 .padding(.leading)
                 if let firstImage = pattern.firstPhoto {

@@ -9,11 +9,20 @@
 import SwiftUI
 
 struct CurrentUserView: View {
-    @State var profilePicture: User? = SessionData.currentUser
+    @ObservedObject var sessionData: SessionData
     
+    @ViewBuilder
     var body: some View {
-        if let profilePicture {
-            if let photo = profilePicture.photo {
+        if let user = sessionData.currentUser {
+            if let image = sessionData.profilePicture {
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 32, height: 32)
+                    .clipShape(Circle())
+                    .overlay(Circle()
+                        .stroke(Color.KnitteryColor.darkBlue, lineWidth: 1))
+            } else if let photo = user.photoURL {
                 Group {
                     AsyncImage(url: photo, content: { image in
                         image
@@ -37,7 +46,8 @@ struct CurrentUserView: View {
 }
 
 struct CurrentUserView_Previews: PreviewProvider {
+    @State static var sessionData = SessionData()
     static var previews: some View {
-        CurrentUserView()
+        CurrentUserView(sessionData: sessionData)
     }
 }

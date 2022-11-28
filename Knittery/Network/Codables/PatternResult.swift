@@ -44,10 +44,10 @@ extension PatternSearch {
     static let mockData = PatternSearch(patterns: [PatternResult.mockData])
 }
 
-extension PatternResult{
+extension PatternResult {
     static let mockData = PatternResult(free: true,
                                         id: 1234,
-                                        name: "Sample Pattern",
+                                        name: "Sample Pattern Sample Pattern Sample Pattern Sample Pattern ",
                                         firstPhoto: Photo.mockData,
                                         author: Author.mockData,
                                         designer: Designer.mockData)

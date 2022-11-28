@@ -9,16 +9,27 @@ import SwiftUI
 
 struct LibraryView: View {
     @StateObject var libraryViewModel = LibraryViewModel()
+    @EnvironmentObject var sessionData: SessionData
     
     var body: some View {
         NavigationStack {
             VStack {
-                TitleBar("Library")
-                
                 Spacer()
+                VStack {
+                    Text("Thing")
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .background(Color.KnitteryColor.backgroundLight)
             }
-            .background(Color.KnitteryColor.backgroundLight)
+            .frame(maxWidth: .infinity)
+            .background(Color.KnitteryColor.backgroundDark)
+            .toolbar {
+                NavigationToolbar(title: "Library", sessionData: sessionData)
+            }
+            .toolbar(.visible, for: .navigationBar)
         }
+        .environmentObject(sessionData)
     }
     
     func testAPI() {
@@ -41,5 +52,6 @@ struct LButton: ButtonStyle {
 struct LibraryView_Previews: PreviewProvider {
     static var previews: some View {
         LibraryView()
+            .environmentObject(SessionData())
     }
 }

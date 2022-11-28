@@ -18,6 +18,7 @@ struct SearchView: View {
     @State private var selectedMode: SearchModes
     
     @StateObject var searchViewModel = SearchViewModel()
+    @EnvironmentObject var sessionData: SessionData
     
     init() {
         selectedMode = .pattern
@@ -30,71 +31,65 @@ struct SearchView: View {
     var body: some View {
         NavigationStack (path: $path) {
             VStack {
-//                TitleBar("Search")
-                VStack {
-                    Picker("Title", selection: $selectedMode) {
-                        ForEach(SearchModes.allCases) { value in
-                            Text(value.rawValue)
-                        }
+                Picker("Title", selection: $selectedMode) {
+                    ForEach(SearchModes.allCases) { value in
+                        Text(value.rawValue)
                     }
-                    .pickerStyle(.segmented)
-                    .blendMode(.normal)
-                    ZStack {
-                        TextField("Search", text: $searchViewModel.query.search)
-                            .autocorrectionDisabled()
-                            .textInputAutocapitalization(.never)
-                            .border(Color.KnitteryColor.darkBlueTranslucent)
-                            .textFieldStyle(.roundedBorder)
+                }
+                .pickerStyle(.segmented)
+                .blendMode(.normal)
+                .padding(.top)
+                ZStack {
+                    TextField("Search", text: $searchViewModel.query.search)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                        .border(Color.KnitteryColor.darkBlueTranslucent)
+                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .onSubmit {
+                            path.append(.result)
+                        }
+                        .navigationDestination(for: SearchViewModel.NavDestination.self) {
+                            switch $0 {
+                            case .result:
+                                PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path)
+                            }
+                        }
+                    HStack {
+                        Spacer()
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                             .padding()
-                            .onSubmit {
-//                                searchViewModel.buildQuery()
-//                                QueryBuilder.build(searchViewModel.query)
-                                path.append(.result)
-                            }
-                            .navigationDestination(for: SearchViewModel.NavDestination.self) {
-                                switch $0 {
-                                case .result:
-                                    PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path)
-                                }
-                            }
-                        HStack {
-                            Spacer()
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
-                                .padding()
-                        }
-                        .padding(.horizontal)
                     }
-                    
-                    VStack {
-                        switch(selectedMode) {
-                        case .pattern:
-                            PatternSearchView(searchViewModel: searchViewModel)
-                        case .yarn:
-                            YarnSearchView()
-                        }
+                    .padding(.horizontal)
+                }
+                
+                VStack {
+                    switch(selectedMode) {
+                    case .pattern:
+                        PatternSearchView(searchViewModel: searchViewModel)
+                    case .yarn:
+                        YarnSearchView()
                     }
-                    .background(Color.KnitteryColor.backgroundDark)
                 }
                 .background(Color.KnitteryColor.backgroundDark)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        CurrentUserView()
-                    }
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        TitleBar("Search")
-                        Text("Search")
-                    }
-                }
-                .toolbar(.visible, for: .navigationBar)
             }
             .background(Color.KnitteryColor.backgroundDark)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.visible, for: .navigationBar)
+            .toolbar {
+                NavigationToolbar(title: "Search", sessionData: sessionData)
+            }
         }
+        .environmentObject(sessionData)
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
+    @StateObject static var sessionData = SessionData()
+    
     static var previews: some View {
         SearchView()
+            .environmentObject(sessionData)
     }
 }

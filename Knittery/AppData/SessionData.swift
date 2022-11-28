@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 class SessionData: ObservableObject {
-    static var currentUser: User?
+    @Published var currentUser: User? = nil
+    
+    var profilePicture: Image? = nil
 }

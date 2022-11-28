@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Photo: Codable, Identifiable {
+struct Photo: Codable, Identifiable, Hashable {
     let id: Int?
     let sortOrder: Int?
     let thumbnail: URL?

@@ -41,10 +41,12 @@ class RootViewModel: ObservableObject {
     }
     
     func retrieveCurrentUser() {
-        NetworkHandler.requestCurrentUser() { (result: Result<User, ApiError>) in
+        NetworkHandler.requestCurrentUser() { [weak self] (result: Result<User, ApiError>) in
             switch result {
             case .success (let user):
-                SessionData.currentUser = user
+                DispatchQueue.main.async {
+                    self?.networkHandler.sessionData.currentUser = user
+                }
             case .failure (let error):
                 print(error)
             }

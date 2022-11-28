@@ -10,9 +10,9 @@ import SwiftUI
 struct RootView: View {
     @StateObject var rootViewModel = RootViewModel()
     
-        init() {
-            UITabBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
-        }
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
+    }
     
     @ViewBuilder var body: some View {
         Group {
@@ -37,16 +37,19 @@ struct RootView: View {
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }
+                    .environmentObject(rootViewModel.networkHandler.sessionData)
                 
                 SearchView()
                     .tabItem {
                         Label("Search", systemImage: "magnifyingglass")
                     }
+                    .environmentObject(rootViewModel.networkHandler.sessionData)
                 
                 LibraryView()
                     .tabItem {
                         Label("Library", systemImage: "books.vertical")
                     }
+                    .environmentObject(rootViewModel.networkHandler.sessionData)
             }
         }
         .toolbar(.visible, for: .tabBar)

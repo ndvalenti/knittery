@@ -14,6 +14,7 @@ extension Color {
         static var darkBlue = Color("KnDarkBlue")
         static var darkBlueTranslucent = Color("KnDarkBlueTranslucent")
         static var red = Color("KnRed")
+        static var darkBlueHalfTranslucent = Color("KnDarkBlueHalfTranslucent")
         static var yellow = Color("KnYellow")
         static var backgroundLight = Color("KnBackgroundLight")
         static var backgroundDark = Color ("KnBackgroundDark")

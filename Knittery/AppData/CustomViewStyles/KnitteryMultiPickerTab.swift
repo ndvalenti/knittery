@@ -1,5 +1,5 @@
 //
-//  MultiPickerTab.swift
+//  KnitteryMultiPickerTab.swift
 //  Knittery
 //
 //  Created by Nick on 2022-11-02.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MultiPickerTab: View {
+struct KnitteryMultiPickerTab: View {
     @State var title: String
     @State var isChecked: Bool
     @State var action: (Bool) -> Void
@@ -31,7 +31,7 @@ struct MultiPickerTab: View {
 
 struct MultiPickerTab_Previews: PreviewProvider {
     static var previews: some View {
-        MultiPickerTab(title: "Test", isChecked: true) { _ in
+        KnitteryMultiPickerTab(title: "Test Tab", isChecked: true) { _ in
             
         }
     }

@@ -10,7 +10,6 @@ import OAuthSwift
 
 @main
 struct KnitteryApp: App {
-//    let persistenceController = PersistenceController.shared
 
     var body: some Scene {
         WindowGroup {
@@ -20,8 +19,6 @@ struct KnitteryApp: App {
                         OAuthSwift.handle(url: url)
                     }
                 }
-//            ContentView()
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

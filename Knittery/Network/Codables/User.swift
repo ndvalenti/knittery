@@ -17,17 +17,17 @@ struct UserWrapper: Codable {
 struct User: Codable {
     let id: Int?
     let username: String?
-    let photo: URL?
+    let photoURL: URL?
     
     enum CodingKeys: String, CodingKey {
-        case photo = "tiny_photo_url"
+        case photoURL = "tiny_photo_url"
         case id, username
     }
     
     init(id: Int?, username: String?, photo: URL?) {
         self.id = id
         self.username = username
-        self.photo = photo
+        self.photoURL = photo
     }
 }
 

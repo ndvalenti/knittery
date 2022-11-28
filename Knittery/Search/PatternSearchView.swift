@@ -25,14 +25,14 @@ struct PatternSearchView: View {
                     }
                 }
                 Section {
+                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .availability)) {
+                        Text(QAvailability.categoryName)
+                    }
                     NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .notebook)) {
                         Text(QNotebook.categoryName)
                     }
                     NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .craft)) {
                         Text(QCraft.categoryName)
-                    }
-                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .availability)) {
-                        Text(QAvailability.categoryName)
                     }
                     NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .weight)) {
                         Text(QWeight.categoryName)
