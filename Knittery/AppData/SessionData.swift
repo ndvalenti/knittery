@@ -6,10 +6,19 @@
 //
 
 import Foundation
-import SwiftUI
+import UIKit
 
 class SessionData: ObservableObject {
-    @Published var currentUser: User? = nil
+    @Published var currentUser: User? { didSet {
+        guard let currentUser else { return }
+        guard let photoURL = currentUser.photoURL else { return }
+        
+        NetworkHandler.loadImageFrom(url: photoURL) { image in
+            self.profilePicture = image
+        }
+    } }
     
-    var profilePicture: Image? = nil
+    @Published var profilePicture: UIImage? = nil
 }
+
+

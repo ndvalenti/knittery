@@ -11,11 +11,10 @@ import SwiftUI
 struct CurrentUserView: View {
     @ObservedObject var sessionData: SessionData
     
-    @ViewBuilder
     var body: some View {
         if let user = sessionData.currentUser {
             if let image = sessionData.profilePicture {
-                image
+                Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 32, height: 32)
