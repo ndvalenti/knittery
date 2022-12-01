@@ -11,8 +11,10 @@ import SwiftUI
 struct PatternDetailsView: View {
     @StateObject var patternDetailsViewModel = PatternDetailsViewModel()
     @EnvironmentObject var sessionData: SessionData
-    @State var hasLoaded = false
-    @State var modalPhoto: Photo? = nil
+    @State private var hasLoaded = false
+//    @State private var modalPhoto: Photo? = nil
+    @State private var isSheetDisplayed: Bool = false
+    @State private var displayedPhoto: Int? = nil
     
     let patternId: Int?
     
@@ -43,7 +45,9 @@ struct PatternDetailsView: View {
                                             }
                                         })
                                         .onTapGesture {
-                                            modalPhoto = photo
+//                                            modalPhoto = photo
+                                            displayedPhoto = photo.id
+                                            isSheetDisplayed = true
                                         }
                                     }
                                 }
@@ -117,15 +121,17 @@ struct PatternDetailsView: View {
                 hasLoaded = true
             }
         }
-        .sheet(item: $modalPhoto) { _ in
+        .sheet(isPresented: $isSheetDisplayed) {
             if let photos = patternDetailsViewModel.pattern.photos {
-                TabView(selection: $modalPhoto) {
+                TabView(selection: $displayedPhoto) {
                     ForEach(photos, id: \.self.sortOrder) { photo in
                         AsyncImage(url: photo.medium2URL, content: { image in
                             image
                         }, placeholder: {
                             ProgressView()
                         })
+                        .tabItem {}
+                        .tag(photo.id)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())

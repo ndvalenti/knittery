@@ -58,4 +58,5 @@ extension Photo {
                                  mediumURL: URL(string:  "https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_medium.jpg"),
                                  medium2URL: URL(string:"https://images4-f.ravelrycache.com/uploads/redheartyarns/396471592/LW5414-insetA_medium2.jpg"),
                                  copyright: "Coats & Clark")
+    static let emptyData = Photo(id: nil, sortOrder: nil, thumbnail: nil, smallURL: nil, squareURL: nil, mediumURL: nil, medium2URL: nil, copyright: nil)
 }

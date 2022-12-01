@@ -88,7 +88,7 @@ extension NetworkHandler {
     
     static private func URLRequestBuilder(_ url: URL) -> URLRequest? {
         var request = URLRequest(url: url)
-        guard let token = KeychainHandler.readToken(type: .access) else {
+        guard let token = KeychainHandler.readToken(.access) else {
             print("Could not get access token")
             return nil
         }
