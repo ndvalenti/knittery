@@ -57,7 +57,7 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func refreshAccessToken(completion: @escaping (Bool) -> Void) {
-        if let refreshToken = KeychainHandler.readToken(type: .refresh) {
+        if let refreshToken = KeychainHandler.readToken(.refresh) {
             oauthswift.client.credential.headersFactory = XHeaders(credential: oauthswift.client.credential)
             oauthswift.renewAccessToken(withRefreshToken: refreshToken) { result in
                 switch result {
