@@ -14,8 +14,6 @@ import Security
 class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentationContextProviding {
     var oauthswift: OAuth2Swift!
     
-    @Published var sessionData = SessionData()
-    
     override init () {
         super.init()
         oauthswift = OAuth2Swift(
@@ -40,7 +38,7 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let state = generateState(withLength: 20)
         
         oauthswift.client.credential.headersFactory = XHeaders(credential: oauthswift.client.credential)
-//        oauthswift.allowMissingStateCheck = true
+        //        oauthswift.allowMissingStateCheck = true
         
         let _ = oauthswift.authorize(
             withCallbackURL: "knitteryapp://oauth-callback",
@@ -74,17 +72,6 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             }
         } else {
             completion(false)
-        }
-    }
-
-    
-    static private func decodedData<T: Codable>(_ data: Data) -> T? {
-        do {
-            let decode = try JSONDecoder().decode(T.self, from: data)
-            return decode
-        } catch let error {
-            print(error)
-            return nil
         }
     }
 }

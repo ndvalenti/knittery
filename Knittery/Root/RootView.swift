@@ -37,19 +37,19 @@ struct RootView: View {
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }
-                    .environmentObject(rootViewModel.networkHandler.sessionData)
+                    .environmentObject(rootViewModel.sessionData)
                 
                 SearchView()
                     .tabItem {
                         Label("Search", systemImage: "magnifyingglass")
                     }
-                    .environmentObject(rootViewModel.networkHandler.sessionData)
+                    .environmentObject(rootViewModel.sessionData)
                 
                 LibraryView()
                     .tabItem {
                         Label("Library", systemImage: "books.vertical")
                     }
-                    .environmentObject(rootViewModel.networkHandler.sessionData)
+                    .environmentObject(rootViewModel.sessionData)
             }
         }
         .toolbar(.visible, for: .tabBar)

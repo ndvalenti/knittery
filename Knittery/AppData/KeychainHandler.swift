@@ -19,8 +19,8 @@ class KeychainHandler {
         self.saveDataToKeychain(data, service: type.rawValue, account: "ravelry")
     }
     
-    static func readToken(type: TokenType) -> String? {
-        guard let tokenData = self.readDataFromKeychain(service: type.rawValue, account: "ravelry") else {
+    static func readToken(_ type: TokenType) -> String? {
+        guard let tokenData = self.readDataFromKeychain(type.rawValue, account: "ravelry") else {
             print("Error: \(KeychainError.noToken)")
             return nil
         }
@@ -33,8 +33,8 @@ class KeychainHandler {
         return accessToken
     }
     
-    static func deleteToken(type: TokenType) {
-        deleteItemFromKeychain(service: type.rawValue, account: "ravelry")
+    static func deleteToken(_ type: TokenType) {
+        deleteItemFromKeychain(type.rawValue, account: "ravelry")
     }
     
     static private func saveDataToKeychain(_ data: Data, service: String, account: String) {
@@ -63,7 +63,7 @@ class KeychainHandler {
         }
     }
     
-    static private func readDataFromKeychain(service: String, account: String) -> Data? {
+    static private func readDataFromKeychain(_ service: String, account: String) -> Data? {
         let query = [
             kSecAttrService: service,
             kSecAttrAccount: account,
@@ -77,7 +77,7 @@ class KeychainHandler {
         return (result as? Data)
     }
     
-    static private func deleteItemFromKeychain(service: String, account: String) {
+    static private func deleteItemFromKeychain(_ service: String, account: String) {
         let query = [
             kSecAttrService: service,
             kSecAttrAccount: account,

@@ -51,9 +51,13 @@ struct PatternDetailsBlockView: View {
                 }
             }
             Group {
+                // If this pattern is in your library or free display the link, else skip it
                 if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation {
-                    if downloadLocation.free == true {
-                        if let url = downloadLocation.url {
+                    if let url = downloadLocation.url {
+                        if (patternDetailsViewModel.pattern.personalAttributes?.inLibrary ?? false) {
+                            Divider()
+                            makeRow("URL", content: url)
+                        } else if downloadLocation.free ?? false {
                             Divider()
                             makeRow("URL", content: url)
                         }

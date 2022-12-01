@@ -9,9 +9,15 @@ import Foundation
 import UIKit
 
 class SessionData: ObservableObject {
+    weak var signOutDelegate: SignOutDelegate?
+    
+    @Published private var rootViewModel: RootViewModel?
+    
     @Published var currentUser: User? { didSet {
-        guard let currentUser else { return }
-        guard let photoURL = currentUser.photoURL else { return }
+        guard let currentUser, let photoURL = currentUser.photoURL else {
+            profilePicture = nil
+            return
+        }
         
         NetworkHandler.loadImageFrom(url: photoURL) { image in
             self.profilePicture = image
@@ -19,6 +25,14 @@ class SessionData: ObservableObject {
     } }
     
     @Published var profilePicture: UIImage? = nil
+    
+    func signOut() {
+        signOutDelegate?.signOut()
+    }
+    
+    func clearData() {
+        currentUser = nil
+    }
 }
 
 

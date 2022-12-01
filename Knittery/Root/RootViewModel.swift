@@ -7,20 +7,21 @@
 
 import Foundation
 
+enum LoginState: String {
+    case loading
+    case authenticated
+    case unauthenticated
+}
+
 class RootViewModel: ObservableObject {
-    var networkHandler = NetworkHandler()
-    
-    enum State {
-        case loading
-        case authenticated
-        case unauthenticated
-    }
-    
-    @Published var state: State = .loading
+    @Published var sessionData = SessionData()
+    @Published private(set) var state: LoginState = .loading
+    private var networkHandler = NetworkHandler()
     
     func checkAuthenticationState() {
         networkHandler.refreshAccessToken() { [weak self] success in
             if success {
+                print("success")
                 self?.retrieveCurrentUser()
                 self?.state = .authenticated
             } else {
@@ -45,11 +46,27 @@ class RootViewModel: ObservableObject {
             switch result {
             case .success (let user):
                 DispatchQueue.main.async {
-                    self?.networkHandler.sessionData.currentUser = user
+                    self?.sessionData.currentUser = user
+                    self?.sessionData.signOutDelegate = self
                 }
             case .failure (let error):
                 print(error)
             }
         }
     }
+}
+
+extension RootViewModel: SignOutDelegate {
+    func signOut() {
+        
+        sessionData.clearData()
+        KeychainHandler.deleteToken(.access)
+        KeychainHandler.deleteToken(.refresh)
+        state = .unauthenticated
+        print("Invalidated Session")
+    }
+}
+
+public protocol SignOutDelegate: AnyObject {
+    func signOut()
 }

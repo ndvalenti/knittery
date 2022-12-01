@@ -53,6 +53,7 @@ struct SearchView: View {
                             switch $0 {
                             case .result:
                                 PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path)
+                                    .environmentObject(sessionData)
                             }
                         }
                     HStack {

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PatternDetailsView: View {
     @StateObject var patternDetailsViewModel = PatternDetailsViewModel()
+    @EnvironmentObject var sessionData: SessionData
     @State var hasLoaded = false
     @State var modalPhoto: Photo? = nil
     
@@ -105,11 +106,10 @@ struct PatternDetailsView: View {
             }
         }
         .background(Color.KnitteryColor.backgroundLight)
-        .navigationTitle("Pattern")
+        .navigationTitle("Pattern Details")
+        .toolbar(.visible, for: .navigationBar)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-//                CurrentUserView(currentUser: $sessionData.currentUser)
-            }
+            NavigationToolbar(sessionData: sessionData)
         }
         .onAppear() {
             if !hasLoaded {
@@ -126,7 +126,6 @@ struct PatternDetailsView: View {
                         }, placeholder: {
                             ProgressView()
                         })
-                        
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
@@ -140,5 +139,6 @@ struct PatternDetailsView: View {
 struct PatternDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         PatternDetailsView(nil)
+            .environmentObject(SessionData())
     }
 }

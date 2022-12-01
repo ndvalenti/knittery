@@ -39,7 +39,7 @@ struct PatternSearchView: View {
                     }
                 }
             }
-            .listStyle(InsetGroupedListStyle())
+            .listStyle(.grouped)
         }
         .background(Color.KnitteryColor.backgroundLight)
     }

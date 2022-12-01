@@ -11,6 +11,8 @@ import SwiftUI
 struct PatternResultsView: View {
     @StateObject var patternResultsViewModel = PatternResultsViewModel()
     @Binding var path: [SearchViewModel.NavDestination]
+    @EnvironmentObject var sessionData: SessionData
+    
     @State var hasLoaded = false
     
     let query: String?
@@ -29,17 +31,15 @@ struct PatternResultsView: View {
             ScrollView (showsIndicators: false) {
                 LazyVStack {
                     ForEach (patternResultsViewModel.patternResults, id: \.id) { result in
-                        NavigationLink(destination: PatternDetailsView(result.id)) {
+                        NavigationLink(destination: PatternDetailsView(result.id).environmentObject(sessionData)) {
                             KnitteryPatternRow(pattern: result)
                         }
                     }
                 }
                 .navigationTitle("Pattern Search")
-                .navigationBarTitleDisplayMode(.inline)
+                .toolbar(.visible, for: .navigationBar)
                 .toolbar {
-//                    ToolbarItem(placement: .navigationBarTrailing) {
-//                        CurrentUserView(currentUser: $sessionData.currentUser)
-//                    }
+                    NavigationToolbar(sessionData: sessionData)
                 }
             }
             Spacer()
@@ -59,5 +59,6 @@ struct SearchResultsView_Previews: PreviewProvider {
     
     static var previews: some View {
         PatternResultsView(nil, path: $path)
+            .environmentObject(SessionData())
     }
 }
