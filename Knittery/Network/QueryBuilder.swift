@@ -8,36 +8,56 @@
 
 import Foundation
 
+//TODO: Add number of results
 class Query: ObservableObject {
     var search: String
     var sort: QSort
     var invert: Bool
     var page: String?
+    var pageSize: String?
     var notebook: [QNotebook : Bool]
     var craft: [QCraft : Bool]
     var availability: [QAvailability : Bool]
     var weight: [QWeight : Bool]
     
+    // There are a lot of search parameters that don't fit nicely in to a box and require
+    // complex user input such as searching by country, website etc
+    //
+    // Append allows a query to be modified with hard-coded strings,
+    // not ideal and needs to be tightly controlled though most queries will still work
+    //
+    // If necessary this variable can become an array of additional hard-coded queries but
+    // I'd like to avoid that if possible for obvious reasons
+    var append: String?
+    
     // TODO: Determine sorting behavior if sort argument is not supplied and adjust if necessary
-    init (
+    init(
         search: String = "",
         sort: QSort = QSort.best,
         invert: Bool = false,
-        page: String? = nil
+        page: String? = nil,
+        pageSize: String? = nil,
+        append: String? = nil,
+        notebook: [QNotebook] = [],
+        craft: [QCraft] = [],
+        availability: [QAvailability] = [],
+        weight: [QWeight] = []
     ) {
         self.search = search
         self.sort = sort
         self.invert = invert
         self.page = page
+        self.pageSize = pageSize
+        self.append = append
         self.notebook = .init()
         self.craft = .init()
         self.availability = .init()
         self.weight = .init()
         
-        QNotebook.allCases.forEach { self.notebook[$0] = false }
-        QCraft.allCases.forEach { self.craft[$0] = false }
-        QAvailability.allCases.forEach { self.availability[$0] = false }
-        QWeight.allCases.forEach { self.weight[$0] = false }
+        QNotebook.allCases.forEach { self.notebook[$0] = notebook.contains($0) }
+        QCraft.allCases.forEach { self.craft[$0] = craft.contains($0) }
+        QAvailability.allCases.forEach { self.availability[$0] = availability.contains($0) }
+        QWeight.allCases.forEach { self.weight[$0] = weight.contains($0) }
     }
     
     func clear() {
@@ -45,6 +65,7 @@ class Query: ObservableObject {
         sort = QSort.best
         invert = false
         page = nil
+        append = nil
         notebook.keys.forEach { notebook[$0] = false }
         craft.keys.forEach { craft[$0] = false }
         availability.keys.forEach { availability[$0] = false }
@@ -72,8 +93,12 @@ class QueryBuilder {
         }
         result += query.sort.rawValue
         
-        if let page = query.page {
+        if let page = query.page, let _ = Int(page) {
             result += QueryBuilder.concat + "page=" + page
+        }
+        
+        if let pageSize = query.pageSize, let _ = Int(pageSize) {
+            result += QueryBuilder.concat + "page_size" + pageSize
         }
         
         resultBuilder = ""
@@ -127,6 +152,10 @@ class QueryBuilder {
             }
         }
         result += resultBuilder
+        
+        if let append = query.append {
+            result += QueryBuilder.concat + append
+        }
         
         return result
     }
