@@ -1,5 +1,5 @@
 //
-//  CurrentUserView.swift
+//  KnitteryUserBadge.swift
 //  Knittery
 //
 //  Created by Nick on 2022-11-24.
@@ -8,9 +8,11 @@
 
 import SwiftUI
 
-struct CurrentUserView: View {
+struct KnitteryUserBadge: View {
     @ObservedObject var sessionData: SessionData
     @State private var isConfirmingLogout = false
+    @State var actionSize: Double = 44
+    @State var imageSize: Double = 32
     
     var body: some View {
         if let user = sessionData.currentUser {
@@ -40,6 +42,7 @@ struct CurrentUserView: View {
                         .foregroundColor(.KnitteryColor.darkBlueTranslucent)
                 }
             }
+            .frame(width: actionSize, height: actionSize)
             .alert(
                 "Are you sure you want to sign out?",
                 isPresented: $isConfirmingLogout
@@ -53,22 +56,22 @@ struct CurrentUserView: View {
             }
         }
     }
-}
-
-func makeProfileBadge(_ image: Image) -> some View {
-    image
-        .resizable()
-        .scaledToFit()
-        .frame(width: 32, height: 32)
-        .clipShape(Circle())
-        .overlay(Circle()
-            .stroke(Color.KnitteryColor.darkBlue, lineWidth: 1))
+    
+    func makeProfileBadge(_ image: Image) -> some View {
+        image
+            .resizable()
+            .scaledToFit()
+            .frame(width: imageSize, height: imageSize)
+            .clipShape(Circle())
+            .overlay(Circle()
+                .stroke(Color.KnitteryColor.darkBlue, lineWidth: 1))
+    }
 }
 
 
 struct CurrentUserView_Previews: PreviewProvider {
     @State static var sessionData = SessionData()
     static var previews: some View {
-        CurrentUserView(sessionData: sessionData)
+        KnitteryUserBadge(sessionData: sessionData)
     }
 }

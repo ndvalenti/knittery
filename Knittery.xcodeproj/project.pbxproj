@@ -25,6 +25,7 @@
 		01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6728EC270200F1DF00 /* PersonalAttributes.swift */; };
 		01470A6A28EC273B00F1DF00 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A6928EC273B00F1DF00 /* User.swift */; };
 		01470A8828EEC2F000F1DF00 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01470A8728EEC2F000F1DF00 /* APIKeys.swift */; };
+		01601B9D293DF8A700CED533 /* KnitteryFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01601B9C293DF8A700CED533 /* KnitteryFavoriteButton.swift */; };
 		0187839C290FBE52005DDE92 /* PatternResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187839B290FBE52005DDE92 /* PatternResultsView.swift */; };
 		018783AA291021FA005DDE92 /* SearchOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783A9291021FA005DDE92 /* SearchOptionView.swift */; };
 		018783AC2912755A005DDE92 /* KnitteryMultiPickerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783AB2912755A005DDE92 /* KnitteryMultiPickerTab.swift */; };
@@ -34,7 +35,7 @@
 		01926985292E2BE800890535 /* DownloadLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926984292E2BE800890535 /* DownloadLocation.swift */; };
 		01926987292E48F200890535 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926986292E48F200890535 /* HomeViewModel.swift */; };
 		01926989292F765100890535 /* KnitteryPatternPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926988292F765100890535 /* KnitteryPatternPreview.swift */; };
-		0192698B292F8D9800890535 /* CurrentUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0192698A292F8D9800890535 /* CurrentUserView.swift */; };
+		0192698B292F8D9800890535 /* KnitteryUserBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0192698A292F8D9800890535 /* KnitteryUserBadge.swift */; };
 		0192698E2933520F00890535 /* PatternDetailsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0192698D2933520F00890535 /* PatternDetailsBlockView.swift */; };
 		019269912933709E00890535 /* NavigationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019269902933709E00890535 /* NavigationToolbar.swift */; };
 		019269AD2934BB0C00890535 /* KnitteryPatternPreviewBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019269AC2934BB0B00890535 /* KnitteryPatternPreviewBlock.swift */; };
@@ -100,6 +101,7 @@
 		01470A6728EC270200F1DF00 /* PersonalAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalAttributes.swift; sourceTree = "<group>"; };
 		01470A6928EC273B00F1DF00 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01470A8728EEC2F000F1DF00 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		01601B9C293DF8A700CED533 /* KnitteryFavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryFavoriteButton.swift; sourceTree = "<group>"; };
 		0187839B290FBE52005DDE92 /* PatternResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternResultsView.swift; sourceTree = "<group>"; };
 		018783A9291021FA005DDE92 /* SearchOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionView.swift; sourceTree = "<group>"; };
 		018783AB2912755A005DDE92 /* KnitteryMultiPickerTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryMultiPickerTab.swift; sourceTree = "<group>"; };
@@ -109,7 +111,7 @@
 		01926984292E2BE800890535 /* DownloadLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadLocation.swift; sourceTree = "<group>"; };
 		01926986292E48F200890535 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		01926988292F765100890535 /* KnitteryPatternPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryPatternPreview.swift; sourceTree = "<group>"; };
-		0192698A292F8D9800890535 /* CurrentUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserView.swift; sourceTree = "<group>"; };
+		0192698A292F8D9800890535 /* KnitteryUserBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryUserBadge.swift; sourceTree = "<group>"; };
 		0192698D2933520F00890535 /* PatternDetailsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternDetailsBlockView.swift; sourceTree = "<group>"; };
 		019269902933709E00890535 /* NavigationToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbar.swift; sourceTree = "<group>"; };
 		019269AC2934BB0B00890535 /* KnitteryPatternPreviewBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryPatternPreviewBlock.swift; sourceTree = "<group>"; };
@@ -179,6 +181,8 @@
 				0136EB3429067E0D008D1661 /* KnitteryButtons.swift */,
 				0136EB3629067E28008D1661 /* KnitteryTitles.swift */,
 				018783AB2912755A005DDE92 /* KnitteryMultiPickerTab.swift */,
+				0192698A292F8D9800890535 /* KnitteryUserBadge.swift */,
+				01601B9C293DF8A700CED533 /* KnitteryFavoriteButton.swift */,
 			);
 			path = CustomViewStyles;
 			sourceTree = "<group>";
@@ -218,14 +222,6 @@
 				01926980292BA75E00890535 /* PatternResultsViewModel.swift */,
 			);
 			path = PatternSearchResults;
-			sourceTree = "<group>";
-		};
-		0192698C292F99F100890535 /* User */ = {
-			isa = PBXGroup;
-			children = (
-				0192698A292F8D9800890535 /* CurrentUserView.swift */,
-			);
-			path = User;
 			sourceTree = "<group>";
 		};
 		0192698F2933707900890535 /* Navigation */ = {
@@ -275,7 +271,6 @@
 				0192698F2933707900890535 /* Navigation */,
 				01CF06CD28DC476900310665 /* Root */,
 				01CAF5BA28F82B1C000C92C1 /* Search */,
-				0192698C292F99F100890535 /* User */,
 				0192697F292BA71B00890535 /* PatternSearchResults */,
 				010E8B5429223442004E8F17 /* Details */,
 				01CF06DB28DC7B8700310665 /* Home */,
@@ -508,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01CF06D628DC5B5200310665 /* LoginView.swift in Sources */,
+				01601B9D293DF8A700CED533 /* KnitteryFavoriteButton.swift in Sources */,
 				019269912933709E00890535 /* NavigationToolbar.swift in Sources */,
 				01926981292BA75E00890535 /* PatternResultsViewModel.swift in Sources */,
 				0187839C290FBE52005DDE92 /* PatternResultsView.swift in Sources */,
@@ -519,7 +515,7 @@
 				01926985292E2BE800890535 /* DownloadLocation.swift in Sources */,
 				01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */,
 				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,
-				0192698B292F8D9800890535 /* CurrentUserView.swift in Sources */,
+				0192698B292F8D9800890535 /* KnitteryUserBadge.swift in Sources */,
 				01470A6828EC270200F1DF00 /* PersonalAttributes.swift in Sources */,
 				01CAF58F28F56B44000C92C1 /* PatternResult.swift in Sources */,
 				01CF069F28DC464600310665 /* KnitteryApp.swift in Sources */,

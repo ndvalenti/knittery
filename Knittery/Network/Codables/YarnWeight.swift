@@ -16,10 +16,10 @@ struct YarnWeight: Codable {
     let ply: String?
     let wpi: String?
     
-    var toString: String {
+    var toString: String? {
         if name != nil && wpi != nil {
             return ("\(name!) (\(wpi!) wpi)")
-        } else { return "" }
+        } else { return nil }
     }
     
     enum CodingKeys: String, CodingKey {
