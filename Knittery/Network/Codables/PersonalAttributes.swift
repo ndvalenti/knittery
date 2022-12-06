@@ -12,20 +12,29 @@ struct PersonalAttributes: Codable {
     let favorited: Bool?
     let queued: Bool?
     let inLibrary: Bool?
+    let bookmarkId: Int?
     
     enum CodingKeys: String, CodingKey {
         case inLibrary = "in_library"
+        case bookmarkId = "bookmark_id"
         case favorited, queued
     }
     
-    init(favorited: Bool?, queued: Bool?, inLibrary: Bool?) {
+    init(favorited: Bool?, queued: Bool?, inLibrary: Bool?, bookmarkId: Int?) {
         self.favorited = favorited
         self.queued = queued
         self.inLibrary = inLibrary
+        self.bookmarkId = bookmarkId
     }
 }
 
 extension PersonalAttributes {
-    static let mockData = PersonalAttributes(favorited: false, queued: false, inLibrary: true)
-    static let emptyData = PersonalAttributes(favorited: nil, queued: nil, inLibrary: nil)
+    static let mockData = PersonalAttributes(favorited: true, queued: false, inLibrary: false, bookmarkId: 1111)
+    static let emptyData = PersonalAttributes(favorited: nil, queued: nil, inLibrary: nil, bookmarkId: nil)
 }
+//"personal_attributes": {
+//    "favorited": true,
+//    "bookmark_id": 412816337,
+//    "queued": false,
+//    "in_library": true
+//  },

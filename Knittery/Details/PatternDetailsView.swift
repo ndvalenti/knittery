@@ -101,10 +101,11 @@ struct PatternDetailsView: View {
                     .background(Color.KnitteryColor.backgroundLight)
                 }
             } header: {
-                HStack (alignment: .top){
+                HStack(alignment: .top) {
                     KnitteryFavoriteButton(
-                        isSelected: patternDetailsViewModel.pattern.personalAttributes?.favorited ?? false,
-                        action: {_ in })
+                        isSelected: $patternDetailsViewModel.isFavorited,
+                        action: {_ in}
+                        )
                     VStack(alignment: .leading) {
                         if let name = patternDetailsViewModel.pattern.name {
                             Text(name)

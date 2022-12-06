@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct KnitteryFavoriteButton: View {
-    @State var isSelected: Bool
+    @Binding var isSelected: Bool
     @State var action: (Bool) -> Void
-    @State var actionSize: Double = 44
-    @State var imageSize: Double = 32
-    @State var inactiveColor: Color = Color.KnitteryColor.backgroundLight
-    @State var activeColor: Color = Color.KnitteryColor.red
-    @State var borderColor: Color = Color.KnitteryColor.darkBlueTranslucent
+    let actionSize: Double = 44
+    let imageSize: Double = 32
+    let inactiveColor: Color = Color.KnitteryColor.backgroundLight
+    let activeColor: Color = Color.KnitteryColor.red
+    let borderColor: Color = Color.KnitteryColor.darkBlueTranslucent
     
     var body: some View {
         Button {
@@ -43,8 +43,9 @@ struct KnitteryFavoriteButton: View {
 }
 
 struct KnitteryFavoriteButton_Previews: PreviewProvider {
+    @State static var isFavorited = false
     static var previews: some View {
-        KnitteryFavoriteButton(isSelected: false) { _ in
+        KnitteryFavoriteButton(isSelected: $isFavorited) { _ in
             
         }
     }

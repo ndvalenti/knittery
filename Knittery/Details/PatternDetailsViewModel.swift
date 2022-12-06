@@ -11,6 +11,7 @@ import Foundation
 class PatternDetailsViewModel: ObservableObject {
     // TODO: pattern being nil should trigger some loading view and not just empty
     @Published var pattern = Pattern.emptyData
+    @Published var isFavorited: Bool = false
     
     func retrievePattern(patternId: Int?) {
         if let patternId  {
@@ -19,6 +20,7 @@ class PatternDetailsViewModel: ObservableObject {
                 case .success (let pattern):
                     DispatchQueue.main.async {
                         self?.pattern = pattern
+                        self?.isFavorited = pattern.personalAttributes?.favorited ?? false
                     }
                 case .failure (let error):
                     print(error)
