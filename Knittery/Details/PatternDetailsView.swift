@@ -104,7 +104,9 @@ struct PatternDetailsView: View {
                 HStack(alignment: .top) {
                     KnitteryFavoriteButton(
                         isSelected: $patternDetailsViewModel.isFavorited,
-                        action: {_ in}
+                        action: {
+                            patternDetailsViewModel.toggleFavorite(username: sessionData.currentUser?.username)
+                        }
                         )
                     VStack(alignment: .leading) {
                         if let name = patternDetailsViewModel.pattern.name {

@@ -16,7 +16,12 @@ struct LibraryView: View {
             VStack {
                 Spacer()
                 VStack {
-                    Text("Thing")
+                    Button("Add favorite") {
+                        libraryViewModel.addFavorite(username: sessionData.currentUser!.username!)
+                    }.padding()
+                    Button("Delete favorite") {
+                        libraryViewModel.deleteFavorite(username: sessionData.currentUser!.username!)
+                    }.padding()
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -30,10 +35,6 @@ struct LibraryView: View {
             .toolbar(.visible, for: .navigationBar)
         }
         .environmentObject(sessionData)
-    }
-    
-    func testAPI() {
-        libraryViewModel.testAPICall()
     }
 }
 

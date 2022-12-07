@@ -10,7 +10,7 @@ import SwiftUI
 
 struct KnitteryFavoriteButton: View {
     @Binding var isSelected: Bool
-    @State var action: (Bool) -> Void
+    @State var action: () -> Void
     let actionSize: Double = 44
     let imageSize: Double = 32
     let inactiveColor: Color = Color.KnitteryColor.backgroundLight
@@ -19,8 +19,8 @@ struct KnitteryFavoriteButton: View {
     
     var body: some View {
         Button {
-            isSelected.toggle()
-            action(isSelected)
+//            isSelected.toggle()
+            action()
         } label: {
             Image(systemName: ("heart.fill"))
                 .resizable()
@@ -45,7 +45,7 @@ struct KnitteryFavoriteButton: View {
 struct KnitteryFavoriteButton_Previews: PreviewProvider {
     @State static var isFavorited = false
     static var previews: some View {
-        KnitteryFavoriteButton(isSelected: $isFavorited) { _ in
+        KnitteryFavoriteButton(isSelected: $isFavorited) { 
             
         }
     }
