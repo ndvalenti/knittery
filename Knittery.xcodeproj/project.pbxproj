@@ -14,7 +14,6 @@
 		010E8B582924D1F1004E8F17 /* YarnWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E8B572924D1F1004E8F17 /* YarnWeight.swift */; };
 		010E8B5A2924E104004E8F17 /* NeedleSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E8B592924E104004E8F17 /* NeedleSize.swift */; };
 		0136EB3529067E0D008D1661 /* KnitteryButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3429067E0D008D1661 /* KnitteryButtons.swift */; };
-		0136EB3729067E28008D1661 /* KnitteryTitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3629067E28008D1661 /* KnitteryTitles.swift */; };
 		0136EB3B2907E285008D1661 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3A2907E285008D1661 /* SearchView.swift */; };
 		0136EB3D290A615B008D1661 /* PatternSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3C290A615B008D1661 /* PatternSearchView.swift */; };
 		0136EB3F290A616A008D1661 /* YarnSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136EB3E290A616A008D1661 /* YarnSearchView.swift */; };
@@ -92,7 +91,6 @@
 		010E8B572924D1F1004E8F17 /* YarnWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YarnWeight.swift; sourceTree = "<group>"; };
 		010E8B592924E104004E8F17 /* NeedleSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedleSize.swift; sourceTree = "<group>"; };
 		0136EB3429067E0D008D1661 /* KnitteryButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryButtons.swift; sourceTree = "<group>"; };
-		0136EB3629067E28008D1661 /* KnitteryTitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryTitles.swift; sourceTree = "<group>"; };
 		0136EB3A2907E285008D1661 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0136EB3C290A615B008D1661 /* PatternSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternSearchView.swift; sourceTree = "<group>"; };
 		0136EB3E290A616A008D1661 /* YarnSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YarnSearchView.swift; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 				01926988292F765100890535 /* KnitteryPatternPreview.swift */,
 				010E644E2902B1E300F87789 /* KnitteryColors.swift */,
 				0136EB3429067E0D008D1661 /* KnitteryButtons.swift */,
-				0136EB3629067E28008D1661 /* KnitteryTitles.swift */,
 				018783AB2912755A005DDE92 /* KnitteryMultiPickerTab.swift */,
 				0192698A292F8D9800890535 /* KnitteryUserBadge.swift */,
 				01601B9C293DF8A700CED533 /* KnitteryFavoriteButton.swift */,
@@ -557,7 +554,6 @@
 				010E8B582924D1F1004E8F17 /* YarnWeight.swift in Sources */,
 				01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */,
 				01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */,
-				0136EB3729067E28008D1661 /* KnitteryTitles.swift in Sources */,
 				01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

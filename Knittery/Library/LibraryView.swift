@@ -16,13 +16,12 @@ struct LibraryView: View {
             VStack {
                 Spacer()
                 VStack {
-                    Button("Add favorite") {
-                        libraryViewModel.addFavorite(username: sessionData.currentUser!.username!)
-                    }.padding()
-                    Button("Delete favorite") {
-                        libraryViewModel.deleteFavorite(username: sessionData.currentUser!.username!)
-                    }.padding()
-                    Spacer()
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 50) {
+                            KnitteryPatternPreviewBlock()
+                        }
+                    }
+                    .padding(.top)
                 }
                 .frame(maxWidth: .infinity)
                 .background(Color.KnitteryColor.backgroundLight)
