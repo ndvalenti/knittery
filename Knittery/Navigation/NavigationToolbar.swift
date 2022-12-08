@@ -19,7 +19,7 @@ struct NavigationToolbar: ToolbarContent {
     
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
-            CurrentUserView(sessionData: sessionData)
+            KnitteryUserBadge(sessionData: sessionData)
         }
         if let title {
             ToolbarItem(placement: .navigationBarLeading) {

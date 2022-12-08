@@ -11,8 +11,9 @@ import SwiftUI
 struct PatternDetailsView: View {
     @StateObject var patternDetailsViewModel = PatternDetailsViewModel()
     @EnvironmentObject var sessionData: SessionData
-    @State var hasLoaded = false
-    @State var modalPhoto: Photo? = nil
+    @State private var hasLoaded = false
+    @State private var isSheetDisplayed: Bool = false
+    @State private var displayedPhoto: Int? = nil
     
     let patternId: Int?
     
@@ -43,12 +44,12 @@ struct PatternDetailsView: View {
                                             }
                                         })
                                         .onTapGesture {
-                                            modalPhoto = photo
+                                            displayedPhoto = photo.id
+                                            isSheetDisplayed = true
                                         }
                                     }
                                 }
                             }
-                            // TODO: Add favorite/wishlist/ratings
                         }
                         Section {
                             PatternDetailsBlockView(patternDetailsViewModel: patternDetailsViewModel)
@@ -59,6 +60,20 @@ struct PatternDetailsView: View {
                                     .padding(.vertical)
                                     .padding(.leading)
                                 Spacer()
+                                if let rating = patternDetailsViewModel.pattern.rating, rating > 0.0 {
+                                    Label {
+                                        Text("\(rating, specifier: "%.2f")")
+                                            .foregroundColor(.KnitteryColor.darkBlueHalfTranslucent)
+                                    } icon: {
+                                        Image(systemName: "star.fill")
+                                            .foregroundColor(.KnitteryColor.yellow)
+                                            .overlay {
+                                                Image(systemName: "star")
+                                                    .foregroundColor(.KnitteryColor.darkBlueTranslucent)
+                                            }
+                                    }
+                                    .padding(.trailing)
+                                }
                             }
                         }
                         .background(Color.KnitteryColor.backgroundDark)
@@ -86,7 +101,12 @@ struct PatternDetailsView: View {
                     .background(Color.KnitteryColor.backgroundLight)
                 }
             } header: {
-                HStack {
+                HStack(alignment: .top) {
+                    KnitteryFavoriteButton(
+                        isSelected: $patternDetailsViewModel.isFavorited,
+                        action: {
+                            patternDetailsViewModel.toggleFavorite(username: sessionData.currentUser?.username)
+                        })
                     VStack(alignment: .leading) {
                         if let name = patternDetailsViewModel.pattern.name {
                             Text(name)
@@ -101,12 +121,14 @@ struct PatternDetailsView: View {
                     }
                     Spacer()
                 }
-                .padding()
+                .padding(.leading)
+                .padding(.vertical)
                 .background(Color.KnitteryColor.backgroundDark)
             }
         }
         .background(Color.KnitteryColor.backgroundLight)
         .navigationTitle("Pattern Details")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar(.visible, for: .navigationBar)
         .toolbar {
             NavigationToolbar(sessionData: sessionData)
@@ -117,15 +139,17 @@ struct PatternDetailsView: View {
                 hasLoaded = true
             }
         }
-        .sheet(item: $modalPhoto) { _ in
+        .sheet(isPresented: $isSheetDisplayed) {
             if let photos = patternDetailsViewModel.pattern.photos {
-                TabView(selection: $modalPhoto) {
+                TabView(selection: $displayedPhoto) {
                     ForEach(photos, id: \.self.sortOrder) { photo in
                         AsyncImage(url: photo.medium2URL, content: { image in
                             image
                         }, placeholder: {
                             ProgressView()
                         })
+                        .tabItem {}
+                        .tag(photo.id)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())

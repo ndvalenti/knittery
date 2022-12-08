@@ -21,7 +21,6 @@ class RootViewModel: ObservableObject {
     func checkAuthenticationState() {
         networkHandler.refreshAccessToken() { [weak self] success in
             if success {
-                print("success")
                 self?.retrieveCurrentUser()
                 self?.state = .authenticated
             } else {
@@ -58,7 +57,7 @@ class RootViewModel: ObservableObject {
 
 extension RootViewModel: SignOutDelegate {
     func signOut() {
-        
+        networkHandler.signOut()
         sessionData.clearData()
         KeychainHandler.deleteToken(.access)
         KeychainHandler.deleteToken(.refresh)

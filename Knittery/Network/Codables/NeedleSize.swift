@@ -20,13 +20,9 @@ struct NeedleSize: Codable {
     let name: String?
     let prettyMetric: String?
     
-    var toString: String {
-        name ?? ""
+    var toString: String? {
+        name
     }
-    
-//    var toArray: [String] {
-//
-//    }
     
     enum CodingKeys: String, CodingKey {
         case usSteel = "us_steel"

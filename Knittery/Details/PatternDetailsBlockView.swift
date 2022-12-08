@@ -15,8 +15,8 @@ struct PatternDetailsBlockView: View {
     var body: some View {
         VStack (alignment: .leading) {
             Group {
-                if let craft = patternDetailsViewModel.pattern.craft {
-                    makeRow("Craft", content: craft.toString)
+                if let craft = patternDetailsViewModel.pattern.craft?.toString, !craft.isEmpty {
+                    makeRow("Craft", content: craft)
                 }
             }
             Group {
@@ -32,20 +32,22 @@ struct PatternDetailsBlockView: View {
                 }
             }
             Group {
-                if let weight = patternDetailsViewModel.pattern.yarnWeight {
+                if let weight = patternDetailsViewModel.pattern.yarnWeight?.toString {
                     Divider()
-                    makeRow("Yarn weight", content: weight.toString)
+                    makeRow("Yarn weight", content: weight)
                 }
             }
             Group {
                 if let sizes = patternDetailsViewModel.pattern.needleSizes {
-                    let sizeArray = sizes.map { $0.toString }
+                    let sizeArray = sizes.compactMap { $0.toString }
                     Divider()
-                    makeRow("Needle sizes", content: sizeArray)
+                    if !sizeArray.isEmpty {
+                        makeRow("Needle sizes", content: sizeArray)
+                    }
                 }
             }
             Group {
-                if let available = patternDetailsViewModel.pattern.sizesAvailable {
+                if let available = patternDetailsViewModel.pattern.sizesAvailable, !available.isEmpty {
                     Divider()
                     makeRow("Sizes available", content: available)
                 }
@@ -54,10 +56,10 @@ struct PatternDetailsBlockView: View {
                 // If this pattern is in your library or free display the link, else skip it
                 if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation {
                     if let url = downloadLocation.url {
-                        if (patternDetailsViewModel.pattern.personalAttributes?.inLibrary ?? false) {
+                        if (patternDetailsViewModel.pattern.personalAttributes?.inLibrary == true) {
                             Divider()
                             makeRow("URL", content: url)
-                        } else if downloadLocation.free ?? false {
+                        } else if downloadLocation.free == true {
                             Divider()
                             makeRow("URL", content: url)
                         }
@@ -98,32 +100,3 @@ struct PatternDetailsBlockView_Previews: PreviewProvider {
         PatternDetailsBlockView(patternDetailsViewModel: PatternDetailsViewModel())
     }
 }
-
-//struct StarsView: View {
-//    var rating: CGFloat
-//    var maxRating: Int
-//
-//    var body: some View {
-//        let stars = HStack(spacing: 0) {
-//            ForEach(0..<maxRating, id: \.self) { _ in
-//                Image(systemName: "star.fill")
-//                    .resizable()
-//                    .frame(width: 20, height: 20)
-//                    .aspectRatio(contentMode: .fit)
-//                    .foregroundColor(.KnitteryColor.backgroundDark)
-//            }
-//        }
-//
-//        stars.overlay(
-//            GeometryReader { g in
-//                let width = rating / CGFloat(maxRating) * g.size.width
-//                ZStack(alignment: .leading) {
-//                    Rectangle()
-//                        .frame(width: width)
-//                        .foregroundColor(.KnitteryColor.yellow)
-//                }
-//            }
-//                .mask(stars)
-//        )
-//    }
-//}

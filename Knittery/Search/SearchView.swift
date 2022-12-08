@@ -14,9 +14,9 @@ struct SearchView: View {
         case yarn = "Yarns"
         var id: Self { self }
     }
+    
     @State private var path: [SearchViewModel.NavDestination] = []
     @State private var selectedMode: SearchModes
-    
     @StateObject var searchViewModel = SearchViewModel()
     @EnvironmentObject var sessionData: SessionData
     

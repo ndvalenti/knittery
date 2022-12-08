@@ -41,7 +41,6 @@ extension NetworkHandler {
     // TODO: Look into URLComponents and see if we can't work with URL? queries rathar than String? for a more pure experience
     // https://cocoacasts.com/working-with-nsurlcomponents-in-swift
     static func requestPatternSearch(query: String, resultHandler: @escaping (Result<PatternSearch, ApiError>) -> Void) {
-//        let apicall = domain + "patterns/search.json?craft=crochet%7Cknitting&query=dark%20matter%20shawl"
         let apicall = domain + "patterns/search.json" + query
         guard let url = URL(string: apicall) else {
             resultHandler(.failure(ApiError.invalidUrl))
@@ -62,9 +61,9 @@ extension NetworkHandler {
     }
     
     static func requestCurrentUser(resultHandler: @escaping (Result<User, ApiError>) -> Void) {
-        let request = domain + "current_user.json"
+        let apicall = domain + "current_user.json"
         
-        guard let url = URL(string:request) else {
+        guard let url = URL(string: apicall) else {
             resultHandler(.failure(ApiError.invalidUrl))
             return
         }
@@ -86,9 +85,63 @@ extension NetworkHandler {
         }
     }
     
+    static func addFavorite(patternId: String, username: String, resultHandler: @escaping (Result<Bookmark, ApiError>) -> Void) {
+        let dataModel = Favorite(id: patternId, type: "pattern", comment: "")
+        
+        let apicall = domain + "people/\(username)/favorites/create.json"
+        
+        guard let url = URL(string: apicall) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        guard var request = URLRequestBuilder(url) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        guard let model = dataModel.jsonData else { return }
+
+        request.httpMethod = "POST"
+        request.httpBody = model
+        
+        self.makeRequest(request) { (result: Result<BookmarkWrapper, ApiError>) in
+            switch(result) {
+            case .success(let wrapper):
+                resultHandler(.success(wrapper.bookmark))
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
+    static func deleteFavorite(bookmarkId: String, username: String, resultHandler: @escaping (Result<Bookmark, ApiError>) -> Void) {
+        let apicall = domain + "people/\(username)/favorites/\(bookmarkId).json"
+        
+        guard let url = URL(string: apicall) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        guard var request = URLRequestBuilder(url) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        request.httpMethod = "DELETE"
+        
+        self.makeRequest(request) { (result: Result<BookmarkWrapper, ApiError>) in
+            switch(result) {
+            case .success(let wrapper):
+                resultHandler(.success(wrapper.bookmark))
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
     static private func URLRequestBuilder(_ url: URL) -> URLRequest? {
         var request = URLRequest(url: url)
-        guard let token = KeychainHandler.readToken(type: .access) else {
+        guard let token = KeychainHandler.readToken(.access) else {
             print("Could not get access token")
             return nil
         }
