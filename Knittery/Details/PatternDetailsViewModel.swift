@@ -42,12 +42,11 @@ class PatternDetailsViewModel: ObservableObject {
             
             NetworkHandler.deleteFavorite(bookmarkId: String(bookmarkId), username: username) { [weak self] (result: Result<Bookmark, ApiError>) in
                 switch result {
-                case .success(let bookmark):
+                case .success:
                     DispatchQueue.main.sync {
                         self?.bookmarkId = nil
                         self?.isFavorited = false
                     }
-                    print(bookmark)
                 case .failure(let error):
                     print(error)
                 }
