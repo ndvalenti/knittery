@@ -28,7 +28,6 @@
 		01601B9F293F6CCE00CED533 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01601B9E293F6CCE00CED533 /* Bookmark.swift */; };
 		01601BA1293F79EE00CED533 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01601BA0293F79EE00CED533 /* Favorite.swift */; };
 		0187839C290FBE52005DDE92 /* PatternResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187839B290FBE52005DDE92 /* PatternResultsView.swift */; };
-		018783AA291021FA005DDE92 /* SearchOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783A9291021FA005DDE92 /* SearchOptionView.swift */; };
 		018783AC2912755A005DDE92 /* KnitteryMultiPickerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783AB2912755A005DDE92 /* KnitteryMultiPickerTab.swift */; };
 		018783AE29127ED1005DDE92 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783AD29127ED1005DDE92 /* SearchViewModel.swift */; };
 		01926981292BA75E00890535 /* PatternResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01926980292BA75E00890535 /* PatternResultsViewModel.swift */; };
@@ -105,7 +104,6 @@
 		01601B9E293F6CCE00CED533 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		01601BA0293F79EE00CED533 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		0187839B290FBE52005DDE92 /* PatternResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternResultsView.swift; sourceTree = "<group>"; };
-		018783A9291021FA005DDE92 /* SearchOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionView.swift; sourceTree = "<group>"; };
 		018783AB2912755A005DDE92 /* KnitteryMultiPickerTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryMultiPickerTab.swift; sourceTree = "<group>"; };
 		018783AD29127ED1005DDE92 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		01926980292BA75E00890535 /* PatternResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternResultsViewModel.swift; sourceTree = "<group>"; };
@@ -241,7 +239,6 @@
 				0136EB3A2907E285008D1661 /* SearchView.swift */,
 				0136EB3C290A615B008D1661 /* PatternSearchView.swift */,
 				0136EB3E290A616A008D1661 /* YarnSearchView.swift */,
-				018783A9291021FA005DDE92 /* SearchOptionView.swift */,
 				018783AD29127ED1005DDE92 /* SearchViewModel.swift */,
 			);
 			path = Search;
@@ -550,7 +547,6 @@
 				01470A6428EC26A200F1DF00 /* Craft.swift in Sources */,
 				01CF06EF28DE08F800310665 /* SessionData.swift in Sources */,
 				018783AC2912755A005DDE92 /* KnitteryMultiPickerTab.swift in Sources */,
-				018783AA291021FA005DDE92 /* SearchOptionView.swift in Sources */,
 				010E8B582924D1F1004E8F17 /* YarnWeight.swift in Sources */,
 				01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */,
 				01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */,

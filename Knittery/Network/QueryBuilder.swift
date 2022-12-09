@@ -60,6 +60,30 @@ class Query: ObservableObject {
         QWeight.allCases.forEach { self.weight[$0] = weight.contains($0) }
     }
     
+    /// Set search option key.rawValue in category to setValue for this query
+    /// Returns the value that was set or nil if operation fails
+    func updateSearchParameter(category: SearchOptionCategory?, key: String?, setValue: Bool?) -> Bool? {
+        guard let category, let key, let setValue else { return nil }
+        switch category {
+        case .notebook:
+            guard let targetKey = QNotebook(rawValue: key) else { return nil }
+            notebook[targetKey] = setValue
+        case .craft:
+            guard let targetKey = QCraft(rawValue: key) else { return nil }
+            craft[targetKey] = setValue
+        case .availability:
+            guard let targetKey = QAvailability(rawValue: key) else { return nil }
+            availability[targetKey] = setValue
+        case .weight:
+            guard let targetKey = QWeight(rawValue: key) else { return nil }
+            weight[targetKey] = setValue
+        default:
+            // For sort or other categories that don't rely on dict
+            return nil
+        }
+        return setValue
+    }
+    
     func clear() {
         search = ""
         sort = QSort.best

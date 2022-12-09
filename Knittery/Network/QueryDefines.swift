@@ -8,8 +8,9 @@
 
 import Foundation
 
-protocol SearchOption: RawRepresentable {
+protocol SearchOption: RawRepresentable, Hashable {
     static var allCases: Array<Self> { get }
+    static var categoryName: String { get }
     var displayName: String? { get }
 }
 
@@ -22,11 +23,11 @@ enum SearchOptionCategory: CaseIterable {
 
     var display: String {
         switch self {
-        case .notebook: return "Notebook"
-        case .craft: return "Craft"
-        case .sort: return "Sort"
-        case .availability: return "Availability"
-        case .weight: return "Weight"
+        case .notebook: return QNotebook.categoryName
+        case .craft: return QCraft.categoryName
+        case .sort: return QSort.categoryName
+        case .availability: return QAvailability.categoryName
+        case .weight: return QWeight.categoryName
         }
     }
 }

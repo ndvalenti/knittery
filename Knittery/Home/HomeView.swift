@@ -15,14 +15,12 @@ struct HomeView: View {
         NavigationStack {
             VStack {
                 Spacer()
-                    ScrollView(showsIndicators: false) {
-                        VStack(spacing: 50) {
-                            KnitteryPatternPreviewBlock()
-                            KnitteryPatternPreviewBlock()
-                            KnitteryPatternPreviewBlock()
-                        }
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 50) {
+                        KnitteryPatternPreviewBlock()
                     }
-                    .padding(.top)
+                }
+                .padding(.top)
                 .frame(maxWidth: .infinity)
                 .background(Color.KnitteryColor.backgroundLight)
             }
