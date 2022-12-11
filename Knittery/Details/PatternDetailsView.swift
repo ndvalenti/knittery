@@ -106,6 +106,7 @@ struct PatternDetailsView: View {
                         isSelected: $patternDetailsViewModel.isFavorited,
                         action: {
                             patternDetailsViewModel.toggleFavorite(username: sessionData.currentUser?.username)
+                            sessionData.invalidateDefaultQuery(.favoritePatterns)
                         })
                     VStack(alignment: .leading) {
                         if let name = patternDetailsViewModel.pattern.name {

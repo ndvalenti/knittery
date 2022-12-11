@@ -9,9 +9,10 @@ import Foundation
 import UIKit
 
 class SessionData: ObservableObject {
-    weak var signOutDelegate: SignOutDelegate?
-    
     @Published private var rootViewModel: RootViewModel?
+    @Published var defaultQueries = [DefaultQuery: [PatternResult]]()
+    
+    weak var signOutDelegate: SignOutDelegate?
     
     @Published var currentUser: User? { didSet {
         guard let currentUser, let photoURL = currentUser.photoURL else {
@@ -26,12 +27,44 @@ class SessionData: ObservableObject {
     
     @Published var profilePicture: UIImage? = nil
     
+    func populateQueries() {
+        DefaultQuery.allCases.forEach { defaultQuery in
+            populateDefaultQuery(defaultQuery)
+        }
+    }
+    
+    func populateDefaultQuery(_ defaultQuery: DefaultQuery) {
+        NetworkHandler.requestPatternSearch(query: defaultQuery.query) { [weak self] (result: Result<PatternSearch, ApiError>) in
+            switch result {
+            case .success (let search):
+                DispatchQueue.main.sync {
+                    self?.defaultQueries[defaultQuery] = search.patterns
+                }
+            case .failure:
+                DispatchQueue.main.sync {
+                    self?.defaultQueries[defaultQuery] = nil
+                }
+            }
+        }
+    }
+    
+    func invalidateDefaultQuery(_ query: DefaultQuery) {
+        defaultQueries[query] = nil
+    }
+    
+    private func invalidateAllDefaultQueries() {
+        DefaultQuery.allCases.forEach { query in
+            invalidateDefaultQuery(query)
+        }
+    }
+    
     func signOut() {
         signOutDelegate?.signOut()
     }
     
     func clearData() {
         currentUser = nil
+        invalidateAllDefaultQueries()
     }
 }
 

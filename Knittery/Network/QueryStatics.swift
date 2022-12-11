@@ -8,20 +8,28 @@
 
 import Foundation
 
-enum DefaultQuery: CaseIterable {
-    case newPatterns // recently added
-    case hotPatterns // hot right now, recently-popular
-    case randomPatterns
-    case debutPatterns // debut-pattern=yes
-    case libraryPatterns
-    case favoritePatterns
-}
-
-extension Query {
-    static let newQuery = Query(sort: QSort.newest)
-    static let hotQuery = Query(sort: QSort.best)
-    static let randomQuery = Query(sort: QSort.randomize)
-    static let debutQuery = Query(sort: QSort.newest, append: "debut-pattern=yes")
-    static let libraryQuery = Query(notebook: [.library])
-    static let favoriteQuery = Query(notebook: [.favorites])
+enum DefaultQuery: String, CaseIterable, RawRepresentable {
+    case newPatterns = "Recently Added"// recently added
+    case hotPatterns = "Hot Right Now"// hot right now, recently-popular
+    case randomPatterns = "Randomly Selected"
+    case debutPatterns = "Debut Patterns"// debut-pattern=yes
+    case libraryPatterns = "Library"
+    case favoritePatterns = "Favorited"
+    
+    var query: String {
+        switch self {
+        case .newPatterns:
+            return QueryBuilder.build(Query(sort: QSort.newest, requireImages: true, pageSize: "15"))
+        case .hotPatterns:
+            return QueryBuilder.build(Query(sort: QSort.best, requireImages: true, pageSize: "15"))
+        case .randomPatterns:
+            return QueryBuilder.build(Query(sort: QSort.randomize, requireImages: true, pageSize: "15"))
+        case .debutPatterns:
+            return QueryBuilder.build(Query(sort: QSort.newest, requireImages: true, pageSize: "15", append: "debut-pattern=yes"))
+        case .libraryPatterns:
+            return QueryBuilder.build(Query(pageSize: "15", notebook: [.library]))
+        case .favoritePatterns:
+            return QueryBuilder.build(Query(pageSize: "15", notebook: [.favorites]))
+        }
+    }
 }

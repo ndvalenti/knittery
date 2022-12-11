@@ -13,8 +13,6 @@ struct PatternResultsView: View {
     @Binding var path: [SearchViewModel.NavDestination]
     @EnvironmentObject var sessionData: SessionData
     
-    @State var hasLoaded = false
-    
     let query: String?
     
     init(_ query: String?, path: Binding<[SearchViewModel.NavDestination]>) {
@@ -46,10 +44,7 @@ struct PatternResultsView: View {
         }
         .background(Color.KnitteryColor.backgroundLight)
         .onAppear() {
-            if !hasLoaded {
-                patternResultsViewModel.performSearch(query: query)
-                hasLoaded = true
-            }
+            patternResultsViewModel.checkPopulatePatterns(query)
         }
     }
 }

@@ -11,7 +11,15 @@ import Foundation
 class PatternResultsViewModel: ObservableObject {
     @Published var patternResults = [PatternResult]()
     
-    func performSearch(query: String?) {
+    func checkPopulatePatterns(_ query: String?) {
+        if patternResults.isEmpty {
+            if let query {
+                performSearch(query: query)
+            }
+        }
+    }
+    
+    private func performSearch(query: String?) {
         if let query {
             NetworkHandler.requestPatternSearch(query: query) { [weak self] (result: Result<PatternSearch, ApiError>) in
                 switch result {
@@ -24,8 +32,6 @@ class PatternResultsViewModel: ObservableObject {
                     print(error)
                 }
             }
-        } else {
-            //TODO: Handle nil query?
         }
     }
 }

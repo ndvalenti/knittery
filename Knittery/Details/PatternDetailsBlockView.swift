@@ -53,7 +53,12 @@ struct PatternDetailsBlockView: View {
                 }
             }
             Group {
-                // If this pattern is in your library or free display the link, else skip it
+                // TODO: For now we are not generating download links for library items
+                if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation, let url = downloadLocation.url, downloadLocation.free == true {
+                    Divider()
+                    makeRow("URL", content: url)
+                }
+                /*
                 if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation {
                     if let url = downloadLocation.url {
                         if (patternDetailsViewModel.pattern.personalAttributes?.inLibrary == true) {
@@ -65,6 +70,7 @@ struct PatternDetailsBlockView: View {
                         }
                     }
                 }
+                */
             }
         }
         .background(Color.KnitteryColor.backgroundLight)

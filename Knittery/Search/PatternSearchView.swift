@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PatternSearchView: View {
     @ObservedObject var searchViewModel: SearchViewModel
+    @State var toggled: Bool = false
     
     var body: some View {
         VStack (alignment: .leading){

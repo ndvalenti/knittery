@@ -62,7 +62,6 @@ class PatternDetailsViewModel: ObservableObject {
                         self?.bookmarkId = bookmark.id
                         self?.isFavorited = true
                     }
-                    print(bookmark)
                 case .failure(let error):
                     print(error)
                 }

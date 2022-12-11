@@ -13,6 +13,7 @@ class Query: ObservableObject {
     var search: String
     var sort: QSort
     var invert: Bool
+    var requireImages: Bool
     var page: String?
     var pageSize: String?
     var notebook: [QNotebook : Bool]
@@ -35,6 +36,7 @@ class Query: ObservableObject {
         search: String = "",
         sort: QSort = QSort.best,
         invert: Bool = false,
+        requireImages: Bool = false,
         page: String? = nil,
         pageSize: String? = nil,
         append: String? = nil,
@@ -46,6 +48,7 @@ class Query: ObservableObject {
         self.search = search
         self.sort = sort
         self.invert = invert
+        self.requireImages = requireImages
         self.page = page
         self.pageSize = pageSize
         self.append = append
@@ -88,6 +91,7 @@ class Query: ObservableObject {
         search = ""
         sort = QSort.best
         invert = false
+        requireImages = true
         page = nil
         append = nil
         notebook.keys.forEach { notebook[$0] = false }
@@ -123,6 +127,10 @@ class QueryBuilder {
         
         if let pageSize = query.pageSize, let _ = Int(pageSize) {
             result += QueryBuilder.concat + "page_size" + pageSize
+        }
+        
+        if query.requireImages {
+            result += QueryBuilder.concat + "photo=yes"
         }
         
         resultBuilder = ""

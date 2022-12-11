@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var homeViewModel = HomeViewModel()
     @EnvironmentObject var sessionData: SessionData
+    let previewQueries: [DefaultQuery] = [.hotPatterns, .debutPatterns, .randomPatterns, .newPatterns]
     
     var body: some View {
         NavigationStack {
@@ -17,7 +18,10 @@ struct HomeView: View {
                 Spacer()
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 50) {
-                        KnitteryPatternPreviewBlock()
+                        ForEach (previewQueries, id: \.rawValue) { query in
+                            PatternSearchRowView(query.rawValue, results: $sessionData.defaultQueries[query])
+                                .environmentObject(sessionData)
+                        }
                     }
                 }
                 .padding(.top)
@@ -30,6 +34,13 @@ struct HomeView: View {
             }
             .toolbar(.visible, for: .navigationBar)
             .background(Color.KnitteryColor.backgroundDark)
+            .onAppear {
+                for query in previewQueries {
+                    if sessionData.defaultQueries[query] == nil {
+                        sessionData.populateDefaultQuery(query)
+                    }
+                }
+            }
         }
         .environmentObject(sessionData)
     }

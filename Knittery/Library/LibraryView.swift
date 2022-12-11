@@ -10,6 +10,7 @@ import SwiftUI
 struct LibraryView: View {
     @StateObject var libraryViewModel = LibraryViewModel()
     @EnvironmentObject var sessionData: SessionData
+    let previewQueries: [DefaultQuery] = [.favoritePatterns, .libraryPatterns]
     
     var body: some View {
         NavigationStack {
@@ -18,7 +19,10 @@ struct LibraryView: View {
                 VStack {
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 50) {
-                            KnitteryPatternPreviewBlock()
+                            ForEach (previewQueries, id: \.rawValue) { query in
+                                PatternSearchRowView(query.rawValue, results: $sessionData.defaultQueries[query])
+                                    .environmentObject(sessionData)
+                            }
                         }
                     }
                     .padding(.top)
@@ -32,6 +36,13 @@ struct LibraryView: View {
                 NavigationToolbar(title: "Library", sessionData: sessionData)
             }
             .toolbar(.visible, for: .navigationBar)
+            .onAppear {
+                for query in previewQueries {
+                    if sessionData.defaultQueries[query] == nil {
+                        sessionData.populateDefaultQuery(query)
+                    }
+                }
+            }
         }
         .environmentObject(sessionData)
     }
