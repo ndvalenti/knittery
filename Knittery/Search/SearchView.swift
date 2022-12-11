@@ -52,7 +52,7 @@ struct SearchView: View {
                         .navigationDestination(for: SearchViewModel.NavDestination.self) {
                             switch $0 {
                             case .result:
-                                PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path)
+                                PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path, search: searchViewModel.query.search)
                                     .environmentObject(sessionData)
                             }
                         }

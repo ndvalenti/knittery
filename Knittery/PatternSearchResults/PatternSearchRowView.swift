@@ -53,7 +53,7 @@ struct PatternSearchRowView: View {
                 }
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach (0..<5) { placeholder in
+                        ForEach (0..<4) { placeholder in
                             KnitteryPatternPreview(pattern: PatternResult.emptyData)
                         }
                     }

@@ -9,13 +9,11 @@
 import Foundation
 
 class PatternResultsViewModel: ObservableObject {
-    @Published var patternResults = [PatternResult]()
+    @Published var patternResults: [PatternResult]?
     
     func checkPopulatePatterns(_ query: String?) {
-        if patternResults.isEmpty {
-            if let query {
-                performSearch(query: query)
-            }
+        if patternResults == nil, let query {
+            performSearch(query: query)
         }
     }
     
@@ -30,6 +28,10 @@ class PatternResultsViewModel: ObservableObject {
                     }
                 case .failure (let error):
                     print(error)
+                    DispatchQueue.main.async {
+                        self?.patternResults = []
+                        self?.objectWillChange.send()
+                    }
                 }
             }
         }
