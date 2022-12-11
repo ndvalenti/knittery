@@ -34,15 +34,17 @@ class SessionData: ObservableObject {
     }
     
     func populateDefaultQuery(_ defaultQuery: DefaultQuery) {
-        NetworkHandler.requestPatternSearch(query: defaultQuery.query) { [weak self] (result: Result<PatternSearch, ApiError>) in
-            switch result {
-            case .success (let search):
-                DispatchQueue.main.sync {
-                    self?.defaultQueries[defaultQuery] = search.patterns
-                }
-            case .failure:
-                DispatchQueue.main.sync {
-                    self?.defaultQueries[defaultQuery] = nil
+        if currentUser != nil {
+            NetworkHandler.requestPatternSearch(query: defaultQuery.query) { [weak self] (result: Result<PatternSearch, ApiError>) in
+                switch result {
+                case .success (let search):
+                    DispatchQueue.main.sync {
+                        self?.defaultQueries[defaultQuery] = search.patterns
+                    }
+                case .failure:
+                    DispatchQueue.main.sync {
+                        self?.defaultQueries[defaultQuery] = nil
+                    }
                 }
             }
         }

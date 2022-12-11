@@ -7,8 +7,15 @@
 
 import SwiftUI
 
+enum TabID: Int, RawRepresentable {
+    case home = 1
+    case search = 2
+    case library = 3
+}
+
 struct RootView: View {
     @StateObject var rootViewModel = RootViewModel()
+    @State var tabID: TabID = .home
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
@@ -31,24 +38,27 @@ struct RootView: View {
     }
     
     var rootView: some View {
-        TabView {
+        TabView (selection: $tabID) {
             Group {
                 HomeView()
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }
+                    .tag(TabID.home)
                     .environmentObject(rootViewModel.sessionData)
                 
                 SearchView()
                     .tabItem {
                         Label("Search", systemImage: "magnifyingglass")
                     }
+                    .tag(TabID.search)
                     .environmentObject(rootViewModel.sessionData)
                 
-                LibraryView()
+                LibraryView(tabID: $tabID)
                     .tabItem {
                         Label("Library", systemImage: "books.vertical")
                     }
+                    .tag(TabID.library)
                     .environmentObject(rootViewModel.sessionData)
             }
         }

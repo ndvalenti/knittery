@@ -61,7 +61,6 @@
 		01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06EC28DDFF9B00310665 /* NetworkHandler.swift */; };
 		01CF06EF28DE08F800310665 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF06EE28DE08F800310665 /* SessionData.swift */; };
 		01CF071728E3381800310665 /* KeychainHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF071628E3381800310665 /* KeychainHandler.swift */; };
-		01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */; };
 		01D715C228E5B09D00B6BB8D /* NetworkHandler+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D715C128E5B09D00B6BB8D /* NetworkHandler+Extension.swift */; };
 		01DF4CA728FD682F0061E806 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 01DF4CA628FD682F0061E806 /* OAuthSwift */; };
 /* End PBXBuildFile section */
@@ -143,7 +142,6 @@
 		01CF071028DE566600310665 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		01CF071428E3314B00310665 /* APIKeys.swift.sample */ = {isa = PBXFileReference; lastKnownFileType = text; path = APIKeys.swift.sample; sourceTree = "<group>"; };
 		01CF071628E3381800310665 /* KeychainHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHandler.swift; sourceTree = "<group>"; };
-		01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		01D715C128E5B09D00B6BB8D /* NetworkHandler+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkHandler+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -328,7 +326,6 @@
 			isa = PBXGroup;
 			children = (
 				01CF06DC28DC7BB600310665 /* LibraryView.swift */,
-				01D7159F28E4B0F200B6BB8D /* LibraryViewModel.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -553,7 +550,6 @@
 				018783AC2912755A005DDE92 /* KnitteryMultiPickerTab.swift in Sources */,
 				010E8B582924D1F1004E8F17 /* YarnWeight.swift in Sources */,
 				01CAF59528F7F01A000C92C1 /* QueryDefines.swift in Sources */,
-				01D715A028E4B0F200B6BB8D /* LibraryViewModel.swift in Sources */,
 				01CF06ED28DDFF9B00310665 /* NetworkHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
