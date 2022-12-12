@@ -33,6 +33,7 @@ struct HomeView: View {
                 NavigationToolbar(title: "Home", sessionData: sessionData)
             }
             .toolbar(.visible, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
             .background(Color.KnitteryColor.backgroundDark)
             .onAppear {
                 for query in previewQueries {

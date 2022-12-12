@@ -65,6 +65,7 @@ struct LibraryView: View {
                 NavigationToolbar(title: "Library", sessionData: sessionData)
             }
             .toolbar(.visible, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 for query in previewQueries {
                     if let current = sessionData.defaultQueries[query] {

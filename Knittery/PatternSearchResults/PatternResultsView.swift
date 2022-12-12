@@ -17,18 +17,12 @@ struct PatternResultsView: View {
     
     init(_ query: String?, path: Binding<[SearchViewModel.NavDestination]>, search: String) {
         self._path = path
-        // TODO: the following line fails (sets nil) if query is a state variable and I don't know why
         self.query = query
         self.search = search
         
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(Color.KnitteryColor.darkBlue)]
         UINavigationBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
     }
-    
-    // viewmodel.patternresults
-    // nil if search hasn't started
-    // empty if no results
-    // full if results
     
     var body: some View {
         VStack (alignment: .leading){

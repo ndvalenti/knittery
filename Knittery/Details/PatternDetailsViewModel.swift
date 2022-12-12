@@ -9,7 +9,6 @@
 import Foundation
 
 class PatternDetailsViewModel: ObservableObject {
-    // TODO: pattern being nil should trigger some loading view and not just empty
     @Published var pattern = Pattern.emptyData
     @Published var isFavorited: Bool = false
     @Published var bookmarkId: Int?
@@ -28,9 +27,6 @@ class PatternDetailsViewModel: ObservableObject {
                     print(error)
                 }
             }
-        } else {
-            //TODO: handle nil id?
-            self.pattern = Pattern.mockData
         }
     }
     
