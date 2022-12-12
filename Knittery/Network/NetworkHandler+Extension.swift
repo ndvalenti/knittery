@@ -46,10 +46,12 @@ extension NetworkHandler {
             resultHandler(.failure(ApiError.invalidUrl))
             return
         }
+        
         guard let request = URLRequestBuilder(url) else {
             resultHandler(.failure(ApiError.invalidUrl))
             return
         }
+        
         self.makeRequest(request) { (result: Result<PatternSearch, ApiError>) in
             switch(result) {
             case .success(let search):
@@ -79,6 +81,29 @@ extension NetworkHandler {
                 if let user = user.user {
                     resultHandler(.success(user))
                 }
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
+    static func requestCategories(resultHandler: @escaping (Result<PatternCategories, ApiError>) -> Void) {
+        let apicall = domain + "/pattern_categories/list.json"
+        
+        guard let url = URL(string: apicall) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        guard let request = URLRequestBuilder(url) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        self.makeRequest(request) { (result: Result<PatternCategories, ApiError>) in
+            switch(result) {
+            case .success(let category):
+                resultHandler(.success(category))
             case .failure(let error):
                 resultHandler(.failure(error))
             }
@@ -145,6 +170,7 @@ extension NetworkHandler {
             print("Could not get access token")
             return nil
         }
+        
         let responseToken = "Bearer: \(token)"
         request.addValue(responseToken, forHTTPHeaderField: "Authorization")
         return request
@@ -168,12 +194,11 @@ extension NetworkHandler {
                 return
             }
             
-            // will send a second request and dump the response to console, not ideal
+            // will send a second request and dump the response to console, only enable for testing
 //            guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
 //                return
 //            }
 //            print("JSON:", json)
-            
             
             guard let decoded:T = self.decodedData(data) else {
                 resultHandler(.failure(.decodeError))

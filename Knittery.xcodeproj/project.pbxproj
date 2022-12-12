@@ -28,6 +28,7 @@
 		01601B9F293F6CCE00CED533 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01601B9E293F6CCE00CED533 /* Bookmark.swift */; };
 		01601BA1293F79EE00CED533 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01601BA0293F79EE00CED533 /* Favorite.swift */; };
 		016D727229460F1400D253A6 /* KnitteryString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016D727129460F1400D253A6 /* KnitteryString.swift */; };
+		01784AD0294721A700BEF7FA /* PatternCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01784ACF294721A700BEF7FA /* PatternCategories.swift */; };
 		0187839C290FBE52005DDE92 /* PatternResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187839B290FBE52005DDE92 /* PatternResultsView.swift */; };
 		018783AC2912755A005DDE92 /* KnitteryMultiPickerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783AB2912755A005DDE92 /* KnitteryMultiPickerTab.swift */; };
 		018783AE29127ED1005DDE92 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018783AD29127ED1005DDE92 /* SearchViewModel.swift */; };
@@ -104,6 +105,7 @@
 		01601B9E293F6CCE00CED533 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		01601BA0293F79EE00CED533 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		016D727129460F1400D253A6 /* KnitteryString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryString.swift; sourceTree = "<group>"; };
+		01784ACF294721A700BEF7FA /* PatternCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternCategories.swift; sourceTree = "<group>"; };
 		0187839B290FBE52005DDE92 /* PatternResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternResultsView.swift; sourceTree = "<group>"; };
 		018783AB2912755A005DDE92 /* KnitteryMultiPickerTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnitteryMultiPickerTab.swift; sourceTree = "<group>"; };
 		018783AD29127ED1005DDE92 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				01470A6328EC26A200F1DF00 /* Craft.swift */,
 				01470A5F28E9A71500F1DF00 /* Pattern.swift */,
 				01470A6728EC270200F1DF00 /* PersonalAttributes.swift */,
+				01784ACF294721A700BEF7FA /* PatternCategories.swift */,
 				01470A6928EC273B00F1DF00 /* User.swift */,
 				01CAF58E28F56B44000C92C1 /* PatternResult.swift */,
 				01960FB4291CE7AC002CB80C /* Author.swift */,
@@ -514,6 +517,7 @@
 				01926983292D13F400890535 /* PatternDetailsViewModel.swift in Sources */,
 				01926985292E2BE800890535 /* DownloadLocation.swift in Sources */,
 				01470A6028E9A71500F1DF00 /* Pattern.swift in Sources */,
+				01784AD0294721A700BEF7FA /* PatternCategories.swift in Sources */,
 				01601BA1293F79EE00CED533 /* Favorite.swift in Sources */,
 				01470A6228EB05E600F1DF00 /* ErrorTypes.swift in Sources */,
 				0192698B292F8D9800890535 /* KnitteryUserBadge.swift in Sources */,

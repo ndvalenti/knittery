@@ -48,6 +48,7 @@ class RootViewModel: ObservableObject {
                     self?.sessionData.currentUser = user
                     self?.sessionData.signOutDelegate = self
                     self?.sessionData.populateQueries()
+                    self?.sessionData.populateCategories()
                 }
             case .failure (let error):
                 print(error)

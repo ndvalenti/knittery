@@ -67,6 +67,7 @@ class Query: ObservableObject {
     /// Returns the value that was set or nil if operation fails
     func updateSearchParameter(category: SearchOptionCategory?, key: String?, setValue: Bool?) -> Bool? {
         guard let category, let key, let setValue else { return nil }
+        
         switch category {
         case .notebook:
             guard let targetKey = QNotebook(rawValue: key) else { return nil }
@@ -126,7 +127,7 @@ class QueryBuilder {
         }
         
         if let pageSize = query.pageSize, let _ = Int(pageSize) {
-            result += QueryBuilder.concat + "page_size" + pageSize
+            result += QueryBuilder.concat + "page_size=" + pageSize
         }
         
         if query.requireImages {

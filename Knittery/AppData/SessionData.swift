@@ -9,10 +9,17 @@ import Foundation
 import UIKit
 
 class SessionData: ObservableObject {
-    @Published private var rootViewModel: RootViewModel?
+//    @Published private var rootViewModel: RootViewModel?
     @Published var defaultQueries = [DefaultQuery: [PatternResult]]()
+    let defaults = UserDefaults.standard
+    var lastCategoryFetch: Date?
+    var categories: PatternCategory?
     
     weak var signOutDelegate: SignOutDelegate?
+    
+    init() {
+        lastCategoryFetch = defaults.object(forKey: "categoriesFetched") as? Date
+    }
     
     @Published var currentUser: User? { didSet {
         guard let currentUser, let photoURL = currentUser.photoURL else {
@@ -30,6 +37,35 @@ class SessionData: ObservableObject {
     func populateQueries() {
         DefaultQuery.allCases.forEach { defaultQuery in
             populateDefaultQuery(defaultQuery)
+        }
+    }
+    
+    func populateCategories() {
+        if let lastCategoryFetch {
+            if Date().timeIntervalSince(lastCategoryFetch) < 86400 {
+                if let data = defaults.object(forKey: "categoriesCache") as? Data,
+                   let categories = try? JSONDecoder().decode(PatternCategory.self, from: data) {
+                    self.categories = categories
+                    return
+                }
+            }
+        }
+        if currentUser != nil {
+            NetworkHandler.requestCategories() { [weak self] (result: Result<PatternCategories, ApiError>) in
+                switch result {
+                case .success (let categories):
+                    if let categories = categories.rootCategory
+                    {
+                        self?.categories = categories
+                        self?.defaults.set(Date(), forKey: "categoriesFetched")
+                        if let encoded = try? JSONEncoder().encode(categories) {
+                            self?.defaults.set(encoded, forKey: "categoriesCache")
+                        }
+                    }
+                case .failure (let error):
+                    print(error)
+                }
+            }
         }
     }
     
