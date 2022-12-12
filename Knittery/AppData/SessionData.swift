@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 class SessionData: ObservableObject {
-    @Published private var rootViewModel: RootViewModel?
     @Published var defaultQueries = [DefaultQuery: [PatternResult]]()
     
     weak var signOutDelegate: SignOutDelegate?

@@ -126,7 +126,7 @@ class QueryBuilder {
         }
         
         if let pageSize = query.pageSize, let _ = Int(pageSize) {
-            result += QueryBuilder.concat + "page_size" + pageSize
+            result += QueryBuilder.concat + "page_size=" + pageSize
         }
         
         if query.requireImages {
