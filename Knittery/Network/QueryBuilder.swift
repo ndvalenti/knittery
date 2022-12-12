@@ -8,7 +8,6 @@
 
 import Foundation
 
-//TODO: Add number of results
 class Query: ObservableObject {
     var search: String
     var sort: QSort
@@ -23,10 +22,10 @@ class Query: ObservableObject {
     
     // There are a lot of search parameters that don't fit nicely in to a box and require
     // complex user input such as searching by country, website etc
-    //
+    
     // Append allows a query to be modified with hard-coded strings,
-    // not ideal and needs to be tightly controlled though most queries will still work
-    //
+    // needs to be tightly controlled though most queries will still work
+
     // If necessary this variable can become an array of additional hard-coded queries but
     // I'd like to avoid that if possible for obvious reasons
     var append: String?
@@ -104,7 +103,8 @@ class Query: ObservableObject {
 
 class QueryBuilder {
     static private let startSymbol = "?"
-    static private let separator = "%7C"
+    static private let orSeparator = "%7C"
+    static private let andSeparator = "%2B"
     static private let space = "%20"
     static private let concat = "&"
     static private let invertSymbol = "_"
@@ -140,7 +140,7 @@ class QueryBuilder {
                 if resultBuilder == "" {
                     resultBuilder += QueryBuilder.concat + "notebook-p="
                 } else {
-                    resultBuilder += QueryBuilder.separator
+                    resultBuilder += QueryBuilder.andSeparator
                 }
                 resultBuilder += notebook.key.rawValue
             }
@@ -153,7 +153,7 @@ class QueryBuilder {
                 if resultBuilder == "" {
                     resultBuilder += QueryBuilder.concat + "craft="
                 } else {
-                    resultBuilder += QueryBuilder.separator
+                    resultBuilder += QueryBuilder.andSeparator
                 }
                 resultBuilder += craft.key.rawValue
             }
@@ -166,7 +166,7 @@ class QueryBuilder {
                 if resultBuilder == "" {
                     resultBuilder += QueryBuilder.concat + "availability="
                 } else {
-                    resultBuilder += QueryBuilder.separator
+                    resultBuilder += QueryBuilder.andSeparator
                 }
                 resultBuilder += availability.key.rawValue
             }
@@ -179,7 +179,7 @@ class QueryBuilder {
                 if resultBuilder == "" {
                     resultBuilder += QueryBuilder.concat + "weight="
                 } else {
-                    resultBuilder += QueryBuilder.separator
+                    resultBuilder += QueryBuilder.andSeparator
                 }
                 resultBuilder += weight.key.rawValue
             }

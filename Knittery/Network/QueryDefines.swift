@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol SearchOption: RawRepresentable, Hashable {
+protocol SearchOption: RawRepresentable where Self: Hashable {
     static var allCases: Array<Self> { get }
     static var categoryName: String { get }
     var displayName: String? { get }

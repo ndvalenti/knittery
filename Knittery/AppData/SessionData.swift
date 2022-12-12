@@ -9,16 +9,14 @@ import Foundation
 import UIKit
 
 class SessionData: ObservableObject {
-//    @Published private var rootViewModel: RootViewModel?
     @Published var defaultQueries = [DefaultQuery: [PatternResult]]()
-    let defaults = UserDefaults.standard
     var lastCategoryFetch: Date?
     var categories: PatternCategory?
     
     weak var signOutDelegate: SignOutDelegate?
     
     init() {
-        lastCategoryFetch = defaults.object(forKey: "categoriesFetched") as? Date
+        lastCategoryFetch = UserDefaults.standard.object(forKey: "categoriesFetched") as? Date
     }
     
     @Published var currentUser: User? { didSet {
@@ -43,7 +41,7 @@ class SessionData: ObservableObject {
     func populateCategories() {
         if let lastCategoryFetch {
             if Date().timeIntervalSince(lastCategoryFetch) < 86400 {
-                if let data = defaults.object(forKey: "categoriesCache") as? Data,
+                if let data = UserDefaults.standard.object(forKey: "categoriesCache") as? Data,
                    let categories = try? JSONDecoder().decode(PatternCategory.self, from: data) {
                     self.categories = categories
                     return
@@ -57,9 +55,9 @@ class SessionData: ObservableObject {
                     if let categories = categories.rootCategory
                     {
                         self?.categories = categories
-                        self?.defaults.set(Date(), forKey: "categoriesFetched")
+                        UserDefaults.standard.set(Date(), forKey: "categoriesFetched")
                         if let encoded = try? JSONEncoder().encode(categories) {
-                            self?.defaults.set(encoded, forKey: "categoriesCache")
+                            UserDefaults.standard.set(encoded, forKey: "categoriesCache")
                         }
                     }
                 case .failure (let error):
