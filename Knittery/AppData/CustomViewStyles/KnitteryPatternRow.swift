@@ -15,22 +15,16 @@ struct KnitteryPatternRow: View {
         Group {
             VStack (alignment: .leading) {
                 Group {
-                    if let name = pattern.name {
-                        Text(name)
-                            .fontWeight(.medium)
-                            .font(.custom("Avenir", size: 18, relativeTo: .headline))
-                            .foregroundColor(Color.KnitteryColor.darkBlue)
-                            .lineLimit(1)
-                    }
-                    if let author = pattern.author {
-                        if let authorName = author.name {
-                            
-                            Text("by \(authorName)")
-                                .font(.custom("SF Pro", size: 14, relativeTo: .caption))
-                                .foregroundColor(Color.KnitteryColor.darkBlue)
-                                .lineLimit(1)
-                        }
-                    }
+                    Text(pattern.name ?? .placeholder(length: Int.random(in: 5...20)))
+                        .fontWeight(.medium)
+                        .font(.custom("Avenir", size: 18, relativeTo: .headline))
+                        .foregroundColor(Color.KnitteryColor.darkBlue)
+                        .lineLimit(1)
+                    
+                    Text(pattern.author?.name ?? .placeholder(length: Int.random(in: 10...25)))
+                        .font(.custom("SF Pro", size: 14, relativeTo: .caption))
+                        .foregroundColor(Color.KnitteryColor.darkBlue)
+                        .lineLimit(1)
                 }
                 .padding(.leading)
                 if let firstImage = pattern.firstPhoto {
@@ -51,6 +45,7 @@ struct KnitteryPatternRow: View {
             }
             .frame(height:225)
             .background(Color.KnitteryColor.backgroundLight)
+            .redacted(reason: pattern.id == nil ? .placeholder : [])
         }
     }
 }

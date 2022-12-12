@@ -30,24 +30,22 @@ struct KnitteryPatternPreview: View {
                         Rectangle().frame(width: previewSize, height: previewSize)
                             .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                     })
+                } else {
+                    Rectangle().frame(width: previewSize, height: previewSize)
+                        .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
+                        .clipShape(Rectangle())
                 }
                 VStack (alignment: .leading) {
                     HStack {
                         VStack(alignment: .leading) {
-                            if let name = pattern.name {
-                                Text(name)
+                            Text(pattern.name ?? .placeholder(length: Int.random(in: 5...20)))
                                     .font(.headline)
                                     .foregroundColor(Color.KnitteryColor.backgroundDark)
                                     .lineLimit(1)
-                            }
-                            if let author = pattern.author {
-                                if let authorName = author.name {
-                                    Text(authorName)
-                                        .font(.caption2)
-                                        .foregroundColor(Color.KnitteryColor.backgroundDark)
-                                        .lineLimit(1)
-                                }
-                            }
+                            Text(pattern.author?.name ?? .placeholder(length: Int.random(in:8...23)))
+                                    .font(.caption2)
+                                    .foregroundColor(Color.KnitteryColor.backgroundDark)
+                                    .lineLimit(1)
                         }
                         .padding(.vertical, topPadding)
                         .padding(.leading, leadPadding)
@@ -64,6 +62,7 @@ struct KnitteryPatternPreview: View {
             .cornerRadius(cornerRadius)
             .overlay(RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(Color.KnitteryColor.lightBlue, lineWidth: lineWidth))
+            .redacted(reason: pattern.firstPhoto == nil ? .placeholder : [])
         }
     }
 }

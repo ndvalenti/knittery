@@ -47,6 +47,7 @@ class RootViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self?.sessionData.currentUser = user
                     self?.sessionData.signOutDelegate = self
+                    self?.sessionData.populateQueries()
                 }
             case .failure (let error):
                 print(error)

@@ -13,6 +13,7 @@ class Query: ObservableObject {
     var search: String
     var sort: QSort
     var invert: Bool
+    var requireImages: Bool
     var page: String?
     var pageSize: String?
     var notebook: [QNotebook : Bool]
@@ -35,6 +36,7 @@ class Query: ObservableObject {
         search: String = "",
         sort: QSort = QSort.best,
         invert: Bool = false,
+        requireImages: Bool = false,
         page: String? = nil,
         pageSize: String? = nil,
         append: String? = nil,
@@ -46,6 +48,7 @@ class Query: ObservableObject {
         self.search = search
         self.sort = sort
         self.invert = invert
+        self.requireImages = requireImages
         self.page = page
         self.pageSize = pageSize
         self.append = append
@@ -60,10 +63,35 @@ class Query: ObservableObject {
         QWeight.allCases.forEach { self.weight[$0] = weight.contains($0) }
     }
     
+    /// Set search option key.rawValue in category to setValue for this query
+    /// Returns the value that was set or nil if operation fails
+    func updateSearchParameter(category: SearchOptionCategory?, key: String?, setValue: Bool?) -> Bool? {
+        guard let category, let key, let setValue else { return nil }
+        switch category {
+        case .notebook:
+            guard let targetKey = QNotebook(rawValue: key) else { return nil }
+            notebook[targetKey] = setValue
+        case .craft:
+            guard let targetKey = QCraft(rawValue: key) else { return nil }
+            craft[targetKey] = setValue
+        case .availability:
+            guard let targetKey = QAvailability(rawValue: key) else { return nil }
+            availability[targetKey] = setValue
+        case .weight:
+            guard let targetKey = QWeight(rawValue: key) else { return nil }
+            weight[targetKey] = setValue
+        default:
+            // For sort or other categories that don't rely on dict
+            return nil
+        }
+        return setValue
+    }
+    
     func clear() {
         search = ""
         sort = QSort.best
         invert = false
+        requireImages = true
         page = nil
         append = nil
         notebook.keys.forEach { notebook[$0] = false }
@@ -99,6 +127,10 @@ class QueryBuilder {
         
         if let pageSize = query.pageSize, let _ = Int(pageSize) {
             result += QueryBuilder.concat + "page_size" + pageSize
+        }
+        
+        if query.requireImages {
+            result += QueryBuilder.concat + "photo=yes"
         }
         
         resultBuilder = ""

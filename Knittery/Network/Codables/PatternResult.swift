@@ -51,4 +51,6 @@ extension PatternResult {
                                         firstPhoto: Photo.mockData,
                                         author: Author.mockData,
                                         designer: Designer.mockData)
+    
+    static let emptyData = PatternResult(free: nil, id: nil, name: nil, firstPhoto: nil, author: nil, designer: nil)
 }

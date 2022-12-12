@@ -48,8 +48,14 @@ struct PatternDetailsView: View {
                                             isSheetDisplayed = true
                                         }
                                     }
+                                } else {
+                                    ForEach (0..<5) { placeholder in
+                                        Rectangle().frame(width: 150, height: 150)
+                                            .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
+                                    }
                                 }
                             }
+                            .padding(.leading, 5)
                         }
                         Section {
                             PatternDetailsBlockView(patternDetailsViewModel: patternDetailsViewModel)
@@ -78,13 +84,12 @@ struct PatternDetailsView: View {
                         }
                         .background(Color.KnitteryColor.backgroundDark)
                         Section {
-                            if let notes = patternDetailsViewModel.pattern.notes {
-                                Text(LocalizedStringKey(notes))
-                                    .padding(.horizontal)
-                                    .padding(.bottom, 200)
-                                    .background(Color.KnitteryColor.backgroundLight)
-                                    .foregroundColor(.KnitteryColor.darkBlue)
-                            }
+                            Text(LocalizedStringKey(patternDetailsViewModel.pattern.notes ?? .lipsum))
+                                .padding(.horizontal)
+                                .padding(.bottom, 200)
+                                .background(Color.KnitteryColor.backgroundLight)
+                                .foregroundColor(.KnitteryColor.darkBlue)
+                                .redacted(reason: patternDetailsViewModel.pattern.id == nil ? .placeholder : [])
                         } header: {
                             HStack {
                                 Text("Description")
@@ -106,32 +111,42 @@ struct PatternDetailsView: View {
                         isSelected: $patternDetailsViewModel.isFavorited,
                         action: {
                             patternDetailsViewModel.toggleFavorite(username: sessionData.currentUser?.username)
+                            sessionData.invalidateDefaultQuery(.favoritePatterns)
                         })
                     VStack(alignment: .leading) {
-                        if let name = patternDetailsViewModel.pattern.name {
-                            Text(name)
-                                .font(.custom("SF Pro", size: 22, relativeTo: .headline))
-                                .foregroundColor(Color.KnitteryColor.darkBlue)
-                        }
-                        if let author = patternDetailsViewModel.pattern.author {
-                            Text("By \(author.name!)")
-                                .font(.custom("SF Pro", size: 18, relativeTo: .subheadline))
-                                .foregroundColor(Color.KnitteryColor.darkBlue)
-                        }
+                        Text(patternDetailsViewModel.pattern.name ?? .placeholder(length: Int.random(in: 5...20)))
+                            .font(.custom("SF Pro", size: 22, relativeTo: .headline))
+                            .foregroundColor(Color.KnitteryColor.darkBlue)
+                        Text(patternDetailsViewModel.pattern.author?.name ?? .placeholder(length: Int.random(in: 8...23)))
+                            .font(.custom("SF Pro", size: 18, relativeTo: .subheadline))
+                            .foregroundColor(Color.KnitteryColor.darkBlue)
                     }
+                    .redacted(reason: patternDetailsViewModel.pattern.id == nil ? .placeholder : [])
                     Spacer()
                 }
                 .padding(.leading)
                 .padding(.vertical)
                 .background(Color.KnitteryColor.backgroundDark)
             }
-        }
-        .background(Color.KnitteryColor.backgroundLight)
-        .navigationTitle("Pattern Details")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(.visible, for: .navigationBar)
-        .toolbar {
-            NavigationToolbar(sessionData: sessionData)
+            .background(Color.KnitteryColor.backgroundLight)
+            .sheet(isPresented: $isSheetDisplayed) {
+                if let photos = patternDetailsViewModel.pattern.photos {
+                    TabView(selection: $displayedPhoto) {
+                        ForEach(photos, id: \.self.sortOrder) { photo in
+                            AsyncImage(url: photo.medium2URL, content: { image in
+                                image
+                            }, placeholder: {
+                                ProgressView()
+                            })
+                            .tabItem {}
+                            .tag(photo.id)
+                        }
+                    }
+                    .tabViewStyle(PageTabViewStyle())
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.visible)
+                }
+            }
         }
         .onAppear() {
             if !hasLoaded {
@@ -139,23 +154,11 @@ struct PatternDetailsView: View {
                 hasLoaded = true
             }
         }
-        .sheet(isPresented: $isSheetDisplayed) {
-            if let photos = patternDetailsViewModel.pattern.photos {
-                TabView(selection: $displayedPhoto) {
-                    ForEach(photos, id: \.self.sortOrder) { photo in
-                        AsyncImage(url: photo.medium2URL, content: { image in
-                            image
-                        }, placeholder: {
-                            ProgressView()
-                        })
-                        .tabItem {}
-                        .tag(photo.id)
-                    }
-                }
-                .tabViewStyle(PageTabViewStyle())
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
-            }
+        .navigationTitle("Pattern Details")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.visible, for: .navigationBar)
+        .toolbar {
+            NavigationToolbar(sessionData: sessionData)
         }
     }
 }

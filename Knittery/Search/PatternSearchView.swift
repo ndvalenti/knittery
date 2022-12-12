@@ -10,36 +10,55 @@ import SwiftUI
 
 struct PatternSearchView: View {
     @ObservedObject var searchViewModel: SearchViewModel
+    @State var toggled: Bool = false
     
     var body: some View {
-        VStack {
-            List {
-                Section {
-                    Picker("Sort By", selection: $searchViewModel.query.sort) {
-                        ForEach(QSort.allCases, id: \.self) { sortBy in
-                            if let title = sortBy.displayName {
-                                Text(title)
-                                    .tag(sortBy)
-                            }
+        VStack (alignment: .leading){
+            Menu {
+                Picker("Sort By", selection: $searchViewModel.query.sort) {
+                    ForEach(QSort.allCases, id: \.self) { sortBy in
+                        if let title = sortBy.displayName {
+                            Text(title)
+                                .tag(sortBy)
                         }
                     }
                 }
-                Section {
-                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .availability)) {
-                        Text(QAvailability.categoryName)
+            } label: {
+                HStack {
+                    Text("Sort By")
+                        .foregroundColor(.black)
+                    Spacer()
+                    if let name = searchViewModel.query.sort.displayName {
+                        Text(name)
+                            .foregroundColor(.KnitteryColor.darkBlue)
                     }
-                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .notebook)) {
-                        Text(QNotebook.categoryName)
+                    Image(systemName: "chevron.up.chevron.down")
+                        .foregroundColor(.KnitteryColor.darkBlue)
+                }
+                .padding(.vertical, 13)
+                .padding(.horizontal, 20)
+            }
+            .background(.white)
+            
+            List(searchViewModel.searchCategories, children: \.items) { row in
+                if let checked = row.isChecked {
+                    KnitteryMultiPickerTab(title: row.categoryTitle, isChecked: checked) { isOn in
+                        row.set(searchViewModel.query.updateSearchParameter(category: row.category, key: row.categoryRaw, setValue: isOn))
                     }
-                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .craft)) {
-                        Text(QCraft.categoryName)
+                    .foregroundColor(Color.KnitteryColor.lightBlue)
+                } else {
+                    VStack (alignment: .leading) {
+                        Text(row.categoryTitle)
+                        Text(row.itemSubstring)
+                            .foregroundColor(.KnitteryColor.darkBlueHalfTranslucent)
+                            .font(.caption)
+                            .lineLimit(1)
+                            .padding(.leading, 5)
                     }
-                    NavigationLink(destination: SearchOptionView(searchViewModel: searchViewModel, currentCategory: .weight)) {
-                        Text(QWeight.categoryName)
-                    }
+                    .padding(.top, 3)
                 }
             }
-            .listStyle(.grouped)
+            .listStyle(.plain)
         }
         .background(Color.KnitteryColor.backgroundLight)
     }

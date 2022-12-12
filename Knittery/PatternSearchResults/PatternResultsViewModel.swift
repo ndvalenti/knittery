@@ -9,9 +9,15 @@
 import Foundation
 
 class PatternResultsViewModel: ObservableObject {
-    @Published var patternResults = [PatternResult]()
+    @Published var patternResults: [PatternResult]?
     
-    func performSearch(query: String?) {
+    func checkPopulatePatterns(_ query: String?) {
+        if patternResults == nil, let query {
+            performSearch(query: query)
+        }
+    }
+    
+    private func performSearch(query: String?) {
         if let query {
             NetworkHandler.requestPatternSearch(query: query) { [weak self] (result: Result<PatternSearch, ApiError>) in
                 switch result {
@@ -22,10 +28,12 @@ class PatternResultsViewModel: ObservableObject {
                     }
                 case .failure (let error):
                     print(error)
+                    DispatchQueue.main.async {
+                        self?.patternResults = []
+                        self?.objectWillChange.send()
+                    }
                 }
             }
-        } else {
-            //TODO: Handle nil query?
         }
     }
 }

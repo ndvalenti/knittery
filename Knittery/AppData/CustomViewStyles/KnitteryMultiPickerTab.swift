@@ -11,7 +11,7 @@ import SwiftUI
 struct KnitteryMultiPickerTab: View {
     @State var title: String
     @State var isChecked: Bool
-    @State var action: (Bool) -> Void
+    @State var action: (Bool?) -> Void
     
     var body: some View {
         Button {

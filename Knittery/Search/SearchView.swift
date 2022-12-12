@@ -31,14 +31,14 @@ struct SearchView: View {
     var body: some View {
         NavigationStack (path: $path) {
             VStack {
-                Picker("Title", selection: $selectedMode) {
-                    ForEach(SearchModes.allCases) { value in
-                        Text(value.rawValue)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .blendMode(.normal)
-                .padding(.top)
+//                Picker("Title", selection: $selectedMode) {
+//                    ForEach(SearchModes.allCases) { value in
+//                        Text(value.rawValue)
+//                    }
+//                }
+//                .pickerStyle(.segmented)
+//                .blendMode(.normal)
+//                .padding(.top)
                 ZStack {
                     TextField("Search", text: $searchViewModel.query.search)
                         .autocorrectionDisabled()
@@ -52,7 +52,7 @@ struct SearchView: View {
                         .navigationDestination(for: SearchViewModel.NavDestination.self) {
                             switch $0 {
                             case .result:
-                                PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path)
+                                PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path, search: searchViewModel.query.search)
                                     .environmentObject(sessionData)
                             }
                         }
