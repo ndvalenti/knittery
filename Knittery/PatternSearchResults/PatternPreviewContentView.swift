@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct PatternSearchRowView: View {
+struct PatternPreviewContentView: View {
     @EnvironmentObject var sessionData: SessionData
     @Binding var results: [PatternResult]?
     let title: String
@@ -69,7 +69,7 @@ struct PatternSearchRowView: View {
 struct KnitteryDisplayBlock_Previews: PreviewProvider {
     @State static private var results:  [PatternResult]? = []
     static var previews: some View {
-        PatternSearchRowView("Test", results: $results)
+        PatternPreviewContentView("Test", results: $results)
             .environmentObject(SessionData())
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DefaultQuery: String, CaseIterable, RawRepresentable {
+enum DefaultContent: String, CaseIterable, RawRepresentable {
     case newPatterns = "Recently Added"// recently added
     case hotPatterns = "Hot Right Now"// hot right now, recently-popular
     case randomPatterns = "Randomly Selected"
@@ -16,7 +16,7 @@ enum DefaultQuery: String, CaseIterable, RawRepresentable {
     case libraryPatterns = "Library"
     case favoritePatterns = "Favorited"
     
-    var query: String {
+    var query: String? {
         switch self {
         case .newPatterns:
             return QueryBuilder.build(Query(sort: QSort.newest, requireImages: true, pageSize: "15"))

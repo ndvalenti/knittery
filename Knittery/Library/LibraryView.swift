@@ -11,7 +11,7 @@ struct LibraryView: View {
     @EnvironmentObject var sessionData: SessionData
     @Binding var tabID: TabID
     @State var empty = true
-    let previewQueries: [DefaultQuery] = [.favoritePatterns, .libraryPatterns]
+    //    let previewQueries: [DefaultContent] = [.favoritePatterns, .libraryPatterns]
     
     var body: some View {
         NavigationStack {
@@ -47,10 +47,10 @@ struct LibraryView: View {
                     } else {
                         ScrollView(showsIndicators: false) {
                             VStack(spacing: 50) {
-                                ForEach (previewQueries, id: \.rawValue) { query in
-                                    PatternSearchRowView(query.rawValue, results: $sessionData.defaultQueries[query])
-                                        .environmentObject(sessionData)
-                                }
+                                PatternPreviewContentView(DefaultContent.favoritePatterns.rawValue, results: $sessionData.defaultQueries[.favoritePatterns])
+                                    .environmentObject(sessionData)
+                                PatternPreviewContentView(DefaultContent.libraryPatterns.rawValue, results: $sessionData.defaultQueries[.libraryPatterns])
+                                    .environmentObject(sessionData)
                             }
                         }
                         .padding(.top)
@@ -67,28 +67,11 @@ struct LibraryView: View {
             .toolbar(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                for query in previewQueries {
-                    if let current = sessionData.defaultQueries[query] {
-                        if !current.isEmpty { empty = false }
-                    } else {
-                        sessionData.populateDefaultQuery(query)
-                    }
-                }
+                empty = sessionData.checkEmptyDefaultContent(defaults: [.favoritePatterns, .libraryPatterns])
+                sessionData.populateQueries()
             }
         }
         .environmentObject(sessionData)
-    }
-}
-
-struct LButton: ButtonStyle {
-    func makeBody(configuration: ButtonStyle.Configuration) -> some View {
-        configuration.label
-            .padding(.horizontal)
-            .frame(height: 41)
-            .foregroundColor(.white)
-            .background(Color.KnitteryColor.lightBlue)
-            .cornerRadius(46)
-            .font(.custom("Avenir", size: 16))
     }
 }
 

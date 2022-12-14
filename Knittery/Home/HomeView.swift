@@ -10,7 +10,6 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var homeViewModel = HomeViewModel()
     @EnvironmentObject var sessionData: SessionData
-    let previewQueries: [DefaultQuery] = [.hotPatterns, .debutPatterns, .randomPatterns, .newPatterns]
     
     var body: some View {
         NavigationStack {
@@ -18,10 +17,21 @@ struct HomeView: View {
                 Spacer()
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 50) {
-                        ForEach (previewQueries, id: \.rawValue) { query in
-                            PatternSearchRowView(query.rawValue, results: $sessionData.defaultQueries[query])
-                                .environmentObject(sessionData)
-                        }
+                        PatternPreviewContentView(DefaultContent.hotPatterns.rawValue,
+                                                  results: $sessionData.defaultQueries[.hotPatterns])
+                        .environmentObject(sessionData)
+                        
+                        PatternPreviewContentView(DefaultContent.debutPatterns.rawValue,
+                                                  results: $sessionData.defaultQueries[.debutPatterns])
+                        .environmentObject(sessionData)
+                        
+                        PatternPreviewContentView(DefaultContent.randomPatterns.rawValue,
+                                                  results: $sessionData.defaultQueries[.randomPatterns])
+                        .environmentObject(sessionData)
+                        
+                        PatternPreviewContentView(DefaultContent.newPatterns.rawValue,
+                                                  results: $sessionData.defaultQueries[.newPatterns])
+                        .environmentObject(sessionData)
                     }
                 }
                 .padding(.top)
@@ -36,11 +46,7 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .background(Color.KnitteryColor.backgroundDark)
             .onAppear {
-                for query in previewQueries {
-                    if sessionData.defaultQueries[query] == nil {
-                        sessionData.populateDefaultQuery(query)
-                    }
-                }
+                sessionData.populateQueries()
             }
         }
         .environmentObject(sessionData)

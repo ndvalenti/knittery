@@ -9,9 +9,13 @@ import Foundation
 import UIKit
 
 class SessionData: ObservableObject {
-    @Published var defaultQueries = [DefaultQuery: [PatternResult]]()
+    @Published var defaultQueries = [DefaultContent: [PatternResult]]()
     var lastCategoryFetch: Date?
+    
+    // These categories almost never change and when they do it's generally just display names
+    // we try to cache them for 24 hours and will display some defaults that we can rely on to exist
     var categories: PatternCategory?
+    var sessionDisplayCategory: PatternCategory?
     
     weak var signOutDelegate: SignOutDelegate?
     
@@ -32,9 +36,27 @@ class SessionData: ObservableObject {
     
     @Published var profilePicture: UIImage? = nil
     
+    func signOut() {
+        signOutDelegate?.signOut()
+    }
+    
+    func clearData() {
+        currentUser = nil
+        invalidateAllDefaultQueries()
+    }
+    
     func populateQueries() {
-        DefaultQuery.allCases.forEach { defaultQuery in
-            populateDefaultQuery(defaultQuery)
+        DefaultContent.allCases.forEach { defaultQuery in
+            if defaultQueries[defaultQuery] == nil {
+                populateDefaultQuery(defaultQuery)
+            }
+        }
+    }
+    
+    func setSessionDisplayCategory() {
+        while sessionDisplayCategory == nil {
+            var id = PatternCategory.defaultIDList.randomElement()
+            sessionDisplayCategory = categories?.flatChildren?.first { $0.id == id }
         }
     }
     
@@ -44,10 +66,12 @@ class SessionData: ObservableObject {
                 if let data = UserDefaults.standard.object(forKey: "categoriesCache") as? Data,
                    let categories = try? JSONDecoder().decode(PatternCategory.self, from: data) {
                     self.categories = categories
+                    self.setSessionDisplayCategory()
                     return
                 }
             }
         }
+        
         if currentUser != nil {
             NetworkHandler.requestCategories() { [weak self] (result: Result<PatternCategories, ApiError>) in
                 switch result {
@@ -55,6 +79,7 @@ class SessionData: ObservableObject {
                     if let categories = categories.rootCategory
                     {
                         self?.categories = categories
+                        self?.setSessionDisplayCategory()
                         UserDefaults.standard.set(Date(), forKey: "categoriesFetched")
                         if let encoded = try? JSONEncoder().encode(categories) {
                             UserDefaults.standard.set(encoded, forKey: "categoriesCache")
@@ -67,9 +92,9 @@ class SessionData: ObservableObject {
         }
     }
     
-    func populateDefaultQuery(_ defaultQuery: DefaultQuery) {
-        if currentUser != nil {
-            NetworkHandler.requestPatternSearch(query: defaultQuery.query) { [weak self] (result: Result<PatternSearch, ApiError>) in
+    func populateDefaultQuery(_ defaultQuery: DefaultContent) {
+        if currentUser != nil, let query = defaultQuery.query {
+            NetworkHandler.requestPatternSearch(query: query) { [weak self] (result: Result<PatternSearch, ApiError>) in
                 switch result {
                 case .success (let search):
                     DispatchQueue.main.sync {
@@ -84,23 +109,24 @@ class SessionData: ObservableObject {
         }
     }
     
-    func invalidateDefaultQuery(_ query: DefaultQuery) {
+    func invalidateDefaultQuery(_ query: DefaultContent) {
         defaultQueries[query] = nil
     }
     
     private func invalidateAllDefaultQueries() {
-        DefaultQuery.allCases.forEach { query in
+        DefaultContent.allCases.forEach { query in
             invalidateDefaultQuery(query)
         }
     }
     
-    func signOut() {
-        signOutDelegate?.signOut()
-    }
-    
-    func clearData() {
-        currentUser = nil
-        invalidateAllDefaultQueries()
+    func checkEmptyDefaultContent (defaults: [DefaultContent]) -> Bool {
+        var stale = true
+        defaults.forEach { d in
+            if defaultQueries[d]?.isEmpty == false {
+                stale = false
+            }
+        }
+        return stale
     }
 }
 
