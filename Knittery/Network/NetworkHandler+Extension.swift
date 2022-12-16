@@ -33,6 +33,10 @@ extension NetworkHandler {
     static func requestCurrentUser() -> AnyPublisher<User, Error> {
         let apicall = domain + "current_user.json"
         return execute(apicall)
+            .compactMap { (wrapper: UserWrapper) -> User? in
+                wrapper.user
+            }
+            .eraseToAnyPublisher()
     }
 
     static func addFavorite(patternId: String, username: String) -> AnyPublisher<Bookmark, Error> {
