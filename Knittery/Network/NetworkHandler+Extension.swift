@@ -53,11 +53,19 @@ extension NetworkHandler {
         request.httpBody = model
 
         return execute(request)
+            .compactMap { (wrapper: BookmarkWrapper) -> Bookmark? in
+                wrapper.bookmark
+            }
+            .eraseToAnyPublisher()
     }
 
     static func deleteFavorite(bookmarkId: String, username: String) -> AnyPublisher<Bookmark, Error> {
         let apicall = domain + "people/\(username)/favorites/\(bookmarkId).json"
         return execute(apicall, httpMethod: "DELETE")
+            .compactMap { (wrapper: BookmarkWrapper) -> Bookmark? in
+                wrapper.bookmark
+            }
+            .eraseToAnyPublisher()
     }
 }
 

@@ -48,7 +48,7 @@ class PatternDetailsViewModel: ObservableObject {
                         print("Error deleting bookmark: \(error)")
                     default: return
                     }
-                }, receiveValue: { [weak self] bookmark in
+                }, receiveValue: { [weak self] _ in
                     self?.bookmarkId = nil
                     self?.isFavorited = false
                 })
