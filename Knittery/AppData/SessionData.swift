@@ -5,12 +5,13 @@
 //  Created by Nicholas Valenti on 2022-09-23.
 //
 
+import Combine
 import Foundation
 import UIKit
 
 class SessionData: ObservableObject {
     @Published var defaultQueries = [DefaultQuery: [PatternResult]]()
-    
+    private var cancellables = Set<AnyCancellable>()
     weak var signOutDelegate: SignOutDelegate?
     
     @Published var currentUser: User? { didSet {
@@ -34,18 +35,20 @@ class SessionData: ObservableObject {
     
     func populateDefaultQuery(_ defaultQuery: DefaultQuery) {
         if currentUser != nil {
-            NetworkHandler.requestPatternSearch(query: defaultQuery.query) { [weak self] (result: Result<PatternSearch, ApiError>) in
-                switch result {
-                case .success (let search):
-                    DispatchQueue.main.sync {
-                        self?.defaultQueries[defaultQuery] = search.patterns
-                    }
-                case .failure:
-                    DispatchQueue.main.sync {
+            NetworkHandler.requestPatternSearch(query: defaultQuery.query)
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { [weak self] result in
+                    switch result {
+                    case .failure(let error):
+                        print("Error fetching default queries: \(error)")
                         self?.defaultQueries[defaultQuery] = nil
+
+                    default: return
                     }
-                }
-            }
+                }, receiveValue: { [weak self] search in
+                    self?.defaultQueries[defaultQuery] = search.patterns
+                })
+                .store(in: &cancellables)
         }
     }
     
