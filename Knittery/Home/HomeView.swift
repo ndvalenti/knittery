@@ -17,20 +17,23 @@ struct HomeView: View {
                 Spacer()
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 50) {
-                        PatternPreviewContentView(DefaultContent.hotPatterns.rawValue,
-                                                  results: $sessionData.defaultQueries[.hotPatterns])
+                        PatternPreviewContentView(DefaultContent.hotPatterns.rawValue, results: $sessionData.defaultQueries[.hotPatterns], fullQuery: DefaultContent.hotPatterns.query)
                         .environmentObject(sessionData)
                         
-                        PatternPreviewContentView(DefaultContent.debutPatterns.rawValue,
-                                                  results: $sessionData.defaultQueries[.debutPatterns])
+                        if let categoryName = sessionData.sampleCategory?.longname {
+                            VStack {
+//                                PatternPreviewContentView("Category: \(categoryName)", results: $sessionData.sampleCategoryResults, categorySearchLink: true, fullQuery: sessionData.sampleQuery)
+                                PatternPreviewContentView("Category: \(categoryName)", results: $sessionData.sampleCategoryResults, fullQuery: sessionData.sampleQuery)
+                            }
+                        }
+                        
+                        PatternPreviewContentView(DefaultContent.debutPatterns.rawValue,  results: $sessionData.defaultQueries[.debutPatterns], fullQuery: DefaultContent.debutPatterns.query)
                         .environmentObject(sessionData)
                         
-                        PatternPreviewContentView(DefaultContent.randomPatterns.rawValue,
-                                                  results: $sessionData.defaultQueries[.randomPatterns])
+                        PatternPreviewContentView(DefaultContent.randomPatterns.rawValue, results: $sessionData.defaultQueries[.randomPatterns], fullQuery: DefaultContent.randomPatterns.query)
                         .environmentObject(sessionData)
                         
-                        PatternPreviewContentView(DefaultContent.newPatterns.rawValue,
-                                                  results: $sessionData.defaultQueries[.newPatterns])
+                        PatternPreviewContentView(DefaultContent.newPatterns.rawValue, results: $sessionData.defaultQueries[.newPatterns], fullQuery: DefaultContent.randomPatterns.query)
                         .environmentObject(sessionData)
                     }
                 }

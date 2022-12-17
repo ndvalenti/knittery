@@ -9,9 +9,7 @@ import SwiftUI
 
 struct LibraryView: View {
     @EnvironmentObject var sessionData: SessionData
-    @Binding var tabID: TabID
     @State var empty = true
-    //    let previewQueries: [DefaultContent] = [.favoritePatterns, .libraryPatterns]
     
     var body: some View {
         NavigationStack {
@@ -19,9 +17,7 @@ struct LibraryView: View {
                 Spacer()
                 VStack {
                     if empty {
-                        Button {
-                            tabID = .search
-                        } label: {
+                        NavigationLink(destination: SearchView()) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 16)
                                     .frame(maxHeight: 200)
@@ -30,13 +26,6 @@ struct LibraryView: View {
                                     Text("There doesn't seem to be anything here yet")
                                         .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                                         .padding()
-                                    Text("Get started")
-                                        .padding()
-                                        .frame(width: 200, height: 30)
-                                        .foregroundColor(.white)
-                                        .background(Color.KnitteryColor.lightBlue)
-                                        .cornerRadius(48)
-                                        .font(.custom("Avenir", size: 20, relativeTo: .largeTitle))
                                 }
                             }
                             .overlay(RoundedRectangle(cornerRadius: 16)
@@ -47,10 +36,10 @@ struct LibraryView: View {
                     } else {
                         ScrollView(showsIndicators: false) {
                             VStack(spacing: 50) {
-                                PatternPreviewContentView(DefaultContent.favoritePatterns.rawValue, results: $sessionData.defaultQueries[.favoritePatterns])
-                                    .environmentObject(sessionData)
-                                PatternPreviewContentView(DefaultContent.libraryPatterns.rawValue, results: $sessionData.defaultQueries[.libraryPatterns])
-                                    .environmentObject(sessionData)
+                                PatternPreviewContentView(DefaultContent.favoritePatterns.rawValue, results: $sessionData.defaultQueries[.favoritePatterns], fullQuery: DefaultContent.favoritePatterns.query)
+                                .environmentObject(sessionData)
+                                PatternPreviewContentView(DefaultContent.libraryPatterns.rawValue, results: $sessionData.defaultQueries[.libraryPatterns], fullQuery: DefaultContent.libraryPatterns.query)
+                                .environmentObject(sessionData)
                             }
                         }
                         .padding(.top)
@@ -76,10 +65,8 @@ struct LibraryView: View {
 }
 
 struct LibraryView_Previews: PreviewProvider {
-    @State static var tabID: TabID = .search
-    
     static var previews: some View {
-        LibraryView(tabID: $tabID)
+        LibraryView()
             .environmentObject(SessionData())
     }
 }

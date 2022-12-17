@@ -11,54 +11,86 @@ import SwiftUI
 struct PatternPreviewContentView: View {
     @EnvironmentObject var sessionData: SessionData
     @Binding var results: [PatternResult]?
-    let title: String
+    let title: String?
+    let categorySearchLink: Bool
+    let fullQuery: Query?
     
-    init(_ title: String, results: Binding<[PatternResult]?>) {
+    init(_ title: String?, results: Binding<[PatternResult]?>, categorySearchLink: Bool = false, fullQuery: Query? = nil) {
         self.title = title
         self._results = results
+        self.categorySearchLink = categorySearchLink
+        fullQuery?.pageSize = nil
+        self.fullQuery = fullQuery
     }
     
     var body: some View {
         VStack (spacing: 0) {
-            if let results, !results.isEmpty {
-                HStack {
-                    Text(title)
-                        .fontWeight(.bold)
-                        .font(.custom("Avenir", size: 22))
-                        .foregroundColor(Color.KnitteryColor.darkBlue)
-                        .padding(.leading, 10)
-                        .padding(.top, 10)
-                    Spacer()
-                }
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack {
-                        ForEach (results, id: \.id) { result in
-                            NavigationLink(destination: PatternDetailsView(result.id).environmentObject(sessionData)) {
-                                KnitteryPatternPreview(pattern: result)
+            if let title {
+                if let results, !results.isEmpty, let fullQuery {
+                    NavigationLink(destination: PatternResultsView(QueryBuilder.build(fullQuery))
+                    ) {
+                        HStack {
+                            Text(title)
+                                .fontWeight(.bold)
+                                .font(.custom("Avenir", size: 22))
+                                .lineLimit(1)
+                                .foregroundColor(Color.KnitteryColor.darkBlue)
+                            Spacer()
+                            Text("More")
+                            Image(systemName: "chevron.right")
+                        }
+                    }
+                    .padding([.horizontal, .top], 15)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack {
+                            ForEach (results, id: \.id) { result in
+                                NavigationLink(destination: PatternDetailsView(result.id).environmentObject(sessionData)) {
+                                    KnitteryPatternPreview(pattern: result)
+                                }
                             }
                         }
+                        .padding([.top, .trailing], 5)
+                        .padding(.leading)
                     }
-                    .padding(.bottom)
-                    .padding([.top, .leading, .trailing], 5)
-                }
-            } else if results == nil {
-                HStack {
-                    Text(title)
-                        .fontWeight(.bold)
-                        .font(.custom("Avenir", size: 22))
-                        .foregroundColor(Color.KnitteryColor.darkBlue)
-                        .padding(.leading, 10)
-                        .padding(.top, 10)
-                    Spacer()
-                }
-                ScrollView(.horizontal, showsIndicators: false) {
+                    
+//                    if categorySearchLink {
+//                        NavigationLink(destination: SearchView("", selectedMode: .categories)) {
+//                            HStack {
+//                                Text("Browse All Categories")
+//                                    .fontWeight(.medium)
+//                                    .padding(.leading, 10)
+//                                Spacer()
+//                                Image(systemName: "chevron.right")
+////                                    .padding(.trailing, 10)
+//                            }
+//                            .padding(.all, 10)
+//                            .background(Color.KnitteryColor.backgroundDark)
+//                            .foregroundColor(Color.KnitteryColor.darkBlue)
+//                            .cornerRadius(8)
+//                        }
+//                        .padding()
+//                    }
+                    
+                } else if results == nil {
                     HStack {
-                        ForEach (0..<4) { placeholder in
-                            KnitteryPatternPreview(pattern: PatternResult.emptyData)
-                        }
+                        Text(title)
+                            .fontWeight(.bold)
+                            .font(.custom("Avenir", size: 22))
+                            .foregroundColor(Color.KnitteryColor.darkBlue)
+                        Spacer()
                     }
-                    .padding(.bottom)
-                    .padding([.top, .leading, .trailing], 5)
+                    .padding([.horizontal, .top], 15)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach (0..<4) { placeholder in
+                                KnitteryPatternPreview(pattern: PatternResult.emptyData)
+                            }
+                        }
+                        .padding([.top, .trailing], 5)
+                        .padding(.leading)
+                    }
                 }
             }
         }

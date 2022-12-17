@@ -28,6 +28,8 @@ struct Pattern: Codable {
     let needleSizes: [NeedleSize]?
     let sizesAvailable: String?
     let photos: [Photo]?
+    let patternCategories: [PatternCategory]?
+    let pdfInLibrary: Bool?
     let createdAt: String?
     let url: String?
     let permalink: String?
@@ -53,13 +55,15 @@ struct Pattern: Codable {
         case rating = "rating_average"
         case difficulty = "difficulty_average"
         case needleSizes = "pattern_needle_sizes"
+        case patternCategories = "pattern_categories"
+        case pdfInLibrary = "pdf_in_library"
         case author = "pattern_author"
         case ravelryDownload = "ravelry_download"
         case downloadLocation = "download_location"
         case id, name, free, craft, yardage, photos, url, notes, permalink
     }
 
-    init(id: Int?, name: String?, author: Author?, free: Bool = false, craft: Craft?, difficulty: Double? = 0.0, rating: Double? = 3.72, personalAttributes: PersonalAttributes?, yardage: Int?, yarnWeight: YarnWeight?, needleSizes: [NeedleSize]?, sizesAvailable: String?, photos: [Photo]?, createdAt: String?, url: String?, permalink: String?, ravelryDownload: Bool?, downloadLocation: DownloadLocation?, notes: String?) {
+    init(id: Int?, name: String?, author: Author?, free: Bool = false, craft: Craft?, difficulty: Double? = 0.0, rating: Double? = 3.72, personalAttributes: PersonalAttributes?, yardage: Int?, yarnWeight: YarnWeight?, needleSizes: [NeedleSize]?, sizesAvailable: String?, photos: [Photo]?, patternCategories: [PatternCategory]? = nil, pdfInLibrary: Bool? = false, createdAt: String?, url: String?, permalink: String?, ravelryDownload: Bool?, downloadLocation: DownloadLocation?, notes: String?) {
         self.id = id
         self.name = name
         self.author = author
@@ -73,6 +77,8 @@ struct Pattern: Codable {
         self.needleSizes = needleSizes
         self.sizesAvailable = sizesAvailable
         self.photos = photos
+        self.patternCategories = patternCategories
+        self.pdfInLibrary = pdfInLibrary
         self.createdAt = createdAt
         self.url = url
         self.permalink = permalink
@@ -83,8 +89,7 @@ struct Pattern: Codable {
 }
 
 extension Pattern {
-    static let mockData = Pattern(id: 688190, name: "Speckled Super Scarf", author: Author.mockData, free: true, craft: Craft.mockData, difficulty: 2.29, personalAttributes: PersonalAttributes.mockData, yardage: 708, yarnWeight: YarnWeight.mockData, needleSizes: [NeedleSize.mockData, NeedleSize.mockData], sizesAvailable: "Scarf measures 10.5” [26.5 cm] wide by 90” [228.5 cm] long.", photos: [Photo.mockData, Photo.mockData2], createdAt: "2016/09/06 14:58:22 -0400", url: "https://www.yarnspirations.com/row-en/red-heart-speckled-super-scarf/RHC0125-024654M.html", permalink: "speckled-super-scarf", ravelryDownload: true,
-                                  downloadLocation: DownloadLocation.mockData, notes: "Simple, but oh so attractive, this over-sized scarf is just what you need to update last year’s wardrobe. Ours is 90” long in a neutral heather, but you can make your Super Scarf any length and any color you desire. This is an easy crochet in a variation of the basic ripple stitch.\r\n\r\nGAUGE: 24 sts (2 ripples) = 7” (18 cm); 5 rows = 4” (10cm) CHECK YOUR GAUGE.\r\n\r\nAlso as [Speckled Super Scarf][1] and [Wavy Ridge][2]\r\n\r\n\r\n  [1]: http://www.redheart.com/free-patterns/speckled-super-scarf\r\n  [2]: https://www.yarnspirations.com/red-heart-wavy-ridge-super-scarf/RHC0125-016921M.html#q=Wavy+ridge&includeContent=true&start=2")
+    static let mockData = Pattern(id: 688190, name: "Speckled Super Scarf", author: Author.mockData, free: true, craft: Craft.mockData, difficulty: 2.29, personalAttributes: PersonalAttributes.mockData, yardage: 708, yarnWeight: YarnWeight.mockData, needleSizes: [NeedleSize.mockData, NeedleSize.mockData], sizesAvailable: "Scarf measures 10.5” [26.5 cm] wide by 90” [228.5 cm] long.", photos: [Photo.mockData, Photo.mockData2], createdAt: "2016/09/06 14:58:22 -0400", url: "https://www.yarnspirations.com/row-en/red-heart-speckled-super-scarf/RHC0125-024654M.html", permalink: "speckled-super-scarf", ravelryDownload: true, downloadLocation: DownloadLocation.mockData, notes: "Simple, but oh so attractive, this over-sized scarf is just what you need to update last year’s wardrobe. Ours is 90” long in a neutral heather, but you can make your Super Scarf any length and any color you desire. This is an easy crochet in a variation of the basic ripple stitch.\r\n\r\nGAUGE: 24 sts (2 ripples) = 7” (18 cm); 5 rows = 4” (10cm) CHECK YOUR GAUGE.\r\n\r\nAlso as [Speckled Super Scarf][1] and [Wavy Ridge][2]\r\n\r\n\r\n  [1]: http://www.redheart.com/free-patterns/speckled-super-scarf\r\n  [2]: https://www.yarnspirations.com/red-heart-wavy-ridge-super-scarf/RHC0125-016921M.html#q=Wavy+ridge&includeContent=true&start=2")
     
-    static let emptyData = Pattern(id: nil, name: nil, author: nil, free: false, craft: nil, difficulty: nil, rating: nil, personalAttributes: nil, yardage: nil, yarnWeight: nil, needleSizes: nil, sizesAvailable: nil, photos: nil, createdAt: nil, url: nil, permalink: nil, ravelryDownload: false, downloadLocation: nil, notes: nil)
+    static let emptyData = Pattern(id: nil, name: nil, author: nil, free: false, craft: nil, difficulty: nil, rating: nil, personalAttributes: nil, yardage: nil, yarnWeight: nil, needleSizes: nil, sizesAvailable: nil, photos: nil, patternCategories: nil, pdfInLibrary: nil, createdAt: nil, url: nil, permalink: nil, ravelryDownload: false, downloadLocation: nil, notes: nil)
 }

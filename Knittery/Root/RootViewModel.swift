@@ -16,6 +16,7 @@ enum LoginState: String {
 class RootViewModel: ObservableObject {
     @Published var sessionData = SessionData()
     @Published private(set) var state: LoginState = .loading
+    @Published var selectedSearchMode: SearchModes = .advanced
     private var networkHandler = NetworkHandler()
     
     func checkAuthenticationState() {
