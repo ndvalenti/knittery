@@ -39,7 +39,7 @@ class PatternDetailsViewModel: ObservableObject {
             NetworkHandler.deleteFavorite(bookmarkId: String(bookmarkId), username: username) { [weak self] (result: Result<Bookmark, ApiError>) in
                 switch result {
                 case .success:
-                    DispatchQueue.main.sync {
+                    DispatchQueue.main.async {
                         self?.bookmarkId = nil
                         self?.isFavorited = false
                     }
@@ -54,7 +54,7 @@ class PatternDetailsViewModel: ObservableObject {
             NetworkHandler.addFavorite(patternId: String(patternId), username: username) { [weak self] (result: Result<Bookmark, ApiError>) in
                 switch result {
                 case .success(let bookmark):
-                    DispatchQueue.main.sync {
+                    DispatchQueue.main.async {
                         self?.bookmarkId = bookmark.id
                         self?.isFavorited = true
                     }

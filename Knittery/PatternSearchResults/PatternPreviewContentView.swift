@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// TODO: this is a mess that needs to be standardized to take a DefaultContent case and spit out the proper view with no external fuss
 struct PatternPreviewContentView: View {
     @EnvironmentObject var sessionData: SessionData
     @Binding var results: [PatternResult]?
@@ -53,24 +54,6 @@ struct PatternPreviewContentView: View {
                         .padding([.top, .trailing], 5)
                         .padding(.leading)
                     }
-                    
-//                    if categorySearchLink {
-//                        NavigationLink(destination: SearchView("", selectedMode: .categories)) {
-//                            HStack {
-//                                Text("Browse All Categories")
-//                                    .fontWeight(.medium)
-//                                    .padding(.leading, 10)
-//                                Spacer()
-//                                Image(systemName: "chevron.right")
-////                                    .padding(.trailing, 10)
-//                            }
-//                            .padding(.all, 10)
-//                            .background(Color.KnitteryColor.backgroundDark)
-//                            .foregroundColor(Color.KnitteryColor.darkBlue)
-//                            .cornerRadius(8)
-//                        }
-//                        .padding()
-//                    }
                     
                 } else if results == nil {
                     HStack {

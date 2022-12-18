@@ -36,8 +36,15 @@ struct LibraryView: View {
                     } else {
                         ScrollView(showsIndicators: false) {
                             VStack(spacing: 50) {
+                                if sessionData.relatedCategoryResults != nil,
+                                   let trigger = sessionData.relatedCategoryTrigger {
+                                    PatternPreviewContentView("More Like \(trigger)", results: $sessionData.relatedCategoryResults, fullQuery: sessionData.relatedCategoryQuery)
+                                        .environmentObject(sessionData)
+                                }
+                                
                                 PatternPreviewContentView(DefaultContent.favoritePatterns.rawValue, results: $sessionData.defaultQueries[.favoritePatterns], fullQuery: DefaultContent.favoritePatterns.query)
                                 .environmentObject(sessionData)
+                                
                                 PatternPreviewContentView(DefaultContent.libraryPatterns.rawValue, results: $sessionData.defaultQueries[.libraryPatterns], fullQuery: DefaultContent.libraryPatterns.query)
                                 .environmentObject(sessionData)
                             }

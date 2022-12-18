@@ -16,11 +16,6 @@ enum DefaultContent: String, CaseIterable, RawRepresentable {
     case libraryPatterns = "Library"
     case favoritePatterns = "Favorited"
     
-//    static func getCategorySearchQuery(category: String?) -> String? {
-//        guard let category else { return nil }
-//        return QueryBuilder.build(Query(sort: QSort.best, requireImages: true, pageSize: "15", category: category))
-//    }
-    
     var query: Query? {
         switch self {
         case .newPatterns:
@@ -32,9 +27,9 @@ enum DefaultContent: String, CaseIterable, RawRepresentable {
         case .debutPatterns:
             return Query(sort: QSort.newest, requireImages: true, pageSize: "15", append: "debut-pattern=yes")
         case .libraryPatterns:
-            return Query(pageSize: "15", notebook: [.library])
+            return Query(sort: QSort.randomize, pageSize: "15", notebook: [.library])
         case .favoritePatterns:
-            return Query(pageSize: "15", notebook: [.favorites])
+            return Query(sort: QSort.randomize, pageSize: "15", notebook: [.favorites])
         }
     }
 }

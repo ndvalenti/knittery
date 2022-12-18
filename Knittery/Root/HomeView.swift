@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var homeViewModel = HomeViewModel()
     @EnvironmentObject var sessionData: SessionData
     
     var body: some View {
@@ -22,8 +21,8 @@ struct HomeView: View {
                         
                         if let categoryName = sessionData.sampleCategory?.longname {
                             VStack {
-//                                PatternPreviewContentView("Category: \(categoryName)", results: $sessionData.sampleCategoryResults, categorySearchLink: true, fullQuery: sessionData.sampleQuery)
-                                PatternPreviewContentView("Category: \(categoryName)", results: $sessionData.sampleCategoryResults, fullQuery: sessionData.sampleQuery)
+                                PatternPreviewContentView("Category: \(categoryName)", results: $sessionData.sampleCategoryResults, fullQuery: sessionData.sampleCategoryQuery)
+                                    .environmentObject(sessionData)
                             }
                         }
                         
@@ -42,12 +41,12 @@ struct HomeView: View {
                 .background(Color.KnitteryColor.backgroundLight)
             }
             .frame(maxWidth: .infinity)
+            .background(Color.KnitteryColor.backgroundDark)
             .toolbar {
                 NavigationToolbar(title: "Home", sessionData: sessionData)
             }
             .toolbar(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
-            .background(Color.KnitteryColor.backgroundDark)
             .onAppear {
                 sessionData.populateQueries()
             }

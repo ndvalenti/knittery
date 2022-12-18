@@ -25,11 +25,11 @@ struct CategorySearchView: View {
                 .padding()
 
             if categorySearchViewModel.filter == "" {
-                if let categories = sessionData.categories?.children {
+                if let categories = sessionData.allCategories?.children {
                     CategorySearchTreeView(categorySearchViewModel: categorySearchViewModel, categories: categories)
                 }
             } else {
-                if let flatChildren = sessionData.categories?.flatChildren {
+                if let flatChildren = sessionData.allCategories?.flatChildren {
                     CategorySearchListView(categorySearchViewModel: categorySearchViewModel, flatChildren: flatChildren)
                 }
             }

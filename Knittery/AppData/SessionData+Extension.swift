@@ -26,28 +26,69 @@ extension SessionData {
         }
     }
     
+    ///  Randomly store a category from a random result from a supplied DefaultContent query in relatedCategory
+    func tryPopulateRelatedCategoryFrom(_ query: DefaultContent) {
+        if let query = defaultQueries[query] {
+            if let randomItem = query.randomElement(), let resultID = randomItem.id {
+                NetworkHandler.requestPatternById(resultID) { [weak self] (result: Result<Pattern, ApiError>) in
+                    switch result {
+                    case .success(let pattern):
+                        DispatchQueue.main.async {
+                            if let related = pattern.patternCategories?.randomElement()?.flatChildren?.randomElement(),
+                               let name = randomItem.name {
+                                self?.tryPopulateRelatedResults(trigger: name, category: related)
+                            }
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Attempt to populate relatedCategoryResults and associated related* values
+    func tryPopulateRelatedResults(trigger: String, category: PatternCategory) {
+        let query = Query(patternCategory: category, pageSize: "15")
+        let queryString = QueryBuilder.build(query)
+        
+        NetworkHandler.requestPatternSearch(query: queryString) { [weak self] (result: Result<PatternSearch, ApiError>) in
+            switch result {
+            case .success(let search):
+                DispatchQueue.main.async {
+                    self?.relatedCategory = category
+                    self?.relatedCategoryTrigger = trigger
+                    self?.relatedCategoryQuery = query
+                    self?.relatedCategoryResults = search.patterns
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     func setSessionDisplayCategory() {
         while sampleCategory == nil {
             let id = PatternCategory.defaultIDList.randomElement()
-            sampleCategory = categories?.flatChildren?.first { $0.id == id }
+            sampleCategory = allCategories?.flatChildren?.first { $0.id == id }
         }
         
         guard let sampleCategory else { return }
         
         if currentUser != nil {
-            sampleQuery = Query(patternCategory: sampleCategory, pageSize: "15")
+            sampleCategoryQuery = Query(patternCategory: sampleCategory, pageSize: "15")
             
-            guard let sampleQuery else { return }
+            guard let sampleCategoryQuery else { return }
             
-            let query = QueryBuilder.build(sampleQuery)
+            let query = QueryBuilder.build(sampleCategoryQuery)
             NetworkHandler.requestPatternSearch(query: query) { [weak self] (result: Result<PatternSearch, ApiError>) in
                 switch result {
                 case .success (let search):
-                    DispatchQueue.main.sync {
+                    DispatchQueue.main.async {
                         self?.sampleCategoryResults = search.patterns
                     }
                 case .failure:
-                    DispatchQueue.main.sync {
+                    DispatchQueue.main.async {
                         self?.sampleCategoryResults = nil
                     }
                 }
@@ -61,7 +102,7 @@ extension SessionData {
             if Date().timeIntervalSince(lastCategoryFetch) < 86400 {
                 if let data = UserDefaults.standard.object(forKey: "categoriesCache") as? Data,
                    let categories = try? JSONDecoder().decode(PatternCategory.self, from: data) {
-                    self.categories = categories
+                    self.allCategories = categories
                     self.setSessionDisplayCategory()
                     return
                 }
@@ -74,8 +115,8 @@ extension SessionData {
                 case .success (let categories):
                     if let categories = categories.rootCategory
                     {
-                        DispatchQueue.main.sync {
-                            self?.categories = categories
+                        DispatchQueue.main.async {
+                            self?.allCategories = categories
                             self?.setSessionDisplayCategory()
                             UserDefaults.standard.set(Date(), forKey: "categoriesFetched")
                             if let encoded = try? JSONEncoder().encode(categories) {
@@ -95,11 +136,14 @@ extension SessionData {
             NetworkHandler.requestPatternSearch(query: QueryBuilder.build(query)) { [weak self] (result: Result<PatternSearch, ApiError>) in
                 switch result {
                 case .success (let search):
-                    DispatchQueue.main.sync {
+                    DispatchQueue.main.async {
                         self?.defaultQueries[defaultQuery] = search.patterns
+                        if defaultQuery == .favoritePatterns, self?.relatedCategory == nil {
+                            self?.tryPopulateRelatedCategoryFrom(.favoritePatterns)
+                        }
                     }
                 case .failure:
-                    DispatchQueue.main.sync {
+                    DispatchQueue.main.async {
                         self?.defaultQueries[defaultQuery] = nil
                     }
                 }
