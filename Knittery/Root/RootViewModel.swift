@@ -50,6 +50,7 @@ class RootViewModel: ObservableObject {
                     self?.sessionData.signOutDelegate = self
                     self?.sessionData.populateQueries()
                     self?.sessionData.populateCategories()
+                    self?.sessionData.populateLibraryItems()
                 }
             case .failure (let error):
                 print(error)
@@ -64,6 +65,7 @@ extension RootViewModel: SignOutDelegate {
         sessionData.clearData()
         KeychainHandler.deleteToken(.access)
         KeychainHandler.deleteToken(.refresh)
+        KeychainHandler.deleteToken(.library)
         state = .unauthenticated
         print("Invalidated Session")
     }

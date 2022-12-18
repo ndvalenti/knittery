@@ -11,8 +11,10 @@ import SwiftUI
 struct PatternDetailsView: View {
     @StateObject var patternDetailsViewModel = PatternDetailsViewModel()
     @EnvironmentObject var sessionData: SessionData
+    
     @State private var hasLoaded = false
-    @State private var isSheetDisplayed: Bool = false
+    @State private var isSheetPresented: Bool = false
+//    @State private var isDownloadPresented: Bool = false
     @State private var displayedPhoto: Int? = nil
     
     let patternId: Int?
@@ -45,7 +47,7 @@ struct PatternDetailsView: View {
                                         })
                                         .onTapGesture {
                                             displayedPhoto = photo.id
-                                            isSheetDisplayed = true
+                                            isSheetPresented = true
                                         }
                                     }
                                 } else {
@@ -58,7 +60,7 @@ struct PatternDetailsView: View {
                             .padding(.leading, 5)
                         }
                         Section {
-                            PatternDetailsBlockView(patternDetailsViewModel: patternDetailsViewModel)
+                            PatternDetailsBlockView(patternDetailsViewModel: patternDetailsViewModel, isDownloadPresented: $patternDetailsViewModel.isPresentingDownload)
                         } header: {
                             HStack {
                                 Text("Details")
@@ -129,7 +131,7 @@ struct PatternDetailsView: View {
                 .background(Color.KnitteryColor.backgroundDark)
             }
             .background(Color.KnitteryColor.backgroundLight)
-            .sheet(isPresented: $isSheetDisplayed) {
+            .sheet(isPresented: $isSheetPresented) {
                 if let photos = patternDetailsViewModel.pattern.photos {
                     TabView(selection: $displayedPhoto) {
                         ForEach(photos, id: \.self.sortOrder) { photo in
@@ -147,9 +149,39 @@ struct PatternDetailsView: View {
                     .presentationDragIndicator(.visible)
                 }
             }
+            .sheet(isPresented: $patternDetailsViewModel.isPresentingDownload) {
+                if patternDetailsViewModel.downloadLink.isEmpty {
+                    if let urlString = patternDetailsViewModel.downloadURL, let url = URL(string: urlString) {
+                        Link("View On Ravelry", destination: url)
+                            .padding()
+                            .frame(width: 300, height: 50)
+                            .foregroundColor(.white)
+                            .background(Color.KnitteryColor.lightBlue)
+                            .cornerRadius(48)
+                            .font(.custom("Avenir", size: 20, relativeTo: .largeTitle))
+                            .presentationDetents([.fraction(0.25)])
+                    }
+                } else {
+                    ForEach (patternDetailsViewModel.downloadLink, id: \.url) { link in
+                        if let urlString = link.url, let url = URL(string: urlString) {
+                            Link("Download As PDF", destination: url)
+                                .padding()
+                                .frame(width: 300, height: 50)
+                                .foregroundColor(.white)
+                                .background(Color.KnitteryColor.lightBlue)
+                                .cornerRadius(48)
+                                .font(.custom("Avenir", size: 20, relativeTo: .largeTitle))
+                                .presentationDetents([.fraction(0.25)])
+                        }
+                    }
+                }
+            }
         }
         .onAppear() {
             if !hasLoaded {
+                if let id = sessionData.libraryItems?.getVolumeIdByPatternId(patternId) {
+                    patternDetailsViewModel.libraryId = id
+                }
                 patternDetailsViewModel.retrievePattern(patternId: patternId)
                 hasLoaded = true
             }

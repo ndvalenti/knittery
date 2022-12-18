@@ -12,6 +12,13 @@ class PatternDetailsViewModel: ObservableObject {
     @Published var pattern = Pattern.emptyData
     @Published var isFavorited: Bool = false
     @Published var bookmarkId: Int?
+    @Published var libraryId: Int?
+    @Published var libraryVolumeFull: LibraryVolumeFull?
+    @Published var downloadLink: [DownloadLink] = []
+    @Published var isPresentingDownload: Bool = false
+    @Published var downloadURL: String?
+    
+    private var networkHandler = NetworkHandler()
     
     func retrievePattern(patternId: Int?) {
         if let patternId  {
@@ -25,6 +32,74 @@ class PatternDetailsViewModel: ObservableObject {
                     }
                 case .failure (let error):
                     print(error)
+                }
+            }
+            
+            if let libraryId {
+                NetworkHandler.requestLibraryVolumeFull(id: String(libraryId)) { [weak self] (result: Result<LibraryVolumeFull, ApiError>) in
+                    switch result {
+                    case .success(let volume):
+                        DispatchQueue.main.async {
+                            self?.libraryVolumeFull = volume
+                            print(volume)
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
+        }
+    }
+    
+    func retrieveDownloadLink() {
+        if let patternId = pattern.id, let attachments = libraryVolumeFull?.attachments {
+            downloadLink.removeAll()
+            
+            attachments.forEach { attachment in
+                guard let id = attachment.attachmentId else { return }
+                
+                NetworkHandler.requestDownloadLinkById(id) { [weak self] (result: Result<DownloadLink, ApiError>) in
+                    switch result {
+                    case .success (let link):
+                        DispatchQueue.main.async {
+                            self?.downloadLink.append(DownloadLink(link, patternID: patternId))
+                            self?.isPresentingDownload = true
+                        }
+                    case .failure (let error):
+                        if error == .badToken || error == .noToken {
+                            DispatchQueue.main.async {
+                                self?.networkHandler.requestLibraryToken() { [weak self] success in
+                                    if success {
+                                        self?.retrieveDownloadLinkNoReauth(patternId: patternId)
+                                    } else {
+                                        print(error)
+                                    }
+                                }
+                            }
+                        } else {
+                            print(error)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func retrieveDownloadLinkNoReauth(patternId: Int?) {
+        if let patternId, let attachments = libraryVolumeFull?.attachments {
+            attachments.forEach { attachment in
+                guard let id = attachment.attachmentId else { return }
+                
+                NetworkHandler.requestDownloadLinkById(id) { [weak self] (result: Result<DownloadLink, ApiError>) in
+                    switch result {
+                    case .success (let link):
+                        DispatchQueue.main.async {
+                            self?.downloadLink.append(DownloadLink(link, patternID: patternId))
+                            self?.isPresentingDownload = true
+                        }
+                    case .failure (let error):
+                        print(error)
+                    }
                 }
             }
         }

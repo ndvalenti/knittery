@@ -15,6 +15,7 @@ enum DefaultContent: String, CaseIterable, RawRepresentable {
     case debutPatterns = "Debut Patterns"// debut-pattern=yes
     case libraryPatterns = "Library"
     case favoritePatterns = "Favorited"
+    case freePatterns = "Free Patterns"
     
     var query: Query? {
         switch self {
@@ -30,6 +31,8 @@ enum DefaultContent: String, CaseIterable, RawRepresentable {
             return Query(sort: QSort.randomize, pageSize: "15", notebook: [.library])
         case .favoritePatterns:
             return Query(sort: QSort.randomize, pageSize: "15", notebook: [.favorites])
+        case .freePatterns:
+            return Query(sort: QSort.best, pageSize: "15", availability: [.nocost])
         }
     }
 }

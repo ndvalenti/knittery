@@ -17,6 +17,8 @@ class SessionData: ObservableObject {
     var allCategories: PatternCategory?
     var lastCategoryFetch: Date?
     
+    var libraryItems: LibraryVolumeList?
+    
     // On app start we randomly choose a sample category from a curated list and run a query similar to our
     // defaults above, the following two variables contain relevant information
     // TODO: Make a class to store and handle all of the following data and move these functions/variables out of SessionData

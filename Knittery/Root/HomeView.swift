@@ -26,6 +26,9 @@ struct HomeView: View {
                             }
                         }
                         
+                        PatternPreviewContentView(DefaultContent.freePatterns.rawValue, results: $sessionData.defaultQueries[.freePatterns], fullQuery: DefaultContent.freePatterns.query)
+                            .environmentObject(sessionData)
+                        
                         PatternPreviewContentView(DefaultContent.debutPatterns.rawValue,  results: $sessionData.defaultQueries[.debutPatterns], fullQuery: DefaultContent.debutPatterns.query)
                         .environmentObject(sessionData)
                         

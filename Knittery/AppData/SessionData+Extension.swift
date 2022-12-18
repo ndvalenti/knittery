@@ -16,6 +16,16 @@ extension SessionData {
     func clearData() {
         currentUser = nil
         invalidateAllDefaultQueries()
+        allCategories = nil
+        lastCategoryFetch = nil
+        libraryItems = nil
+        sampleCategory = nil
+        sampleCategoryQuery = nil
+        sampleCategoryResults = nil
+        relatedCategory = nil
+        relatedCategoryQuery = nil
+        relatedCategoryResults = nil
+        relatedCategoryTrigger = nil
     }
     
     func populateQueries() {
@@ -93,6 +103,22 @@ extension SessionData {
                     }
                 }
                 
+            }
+        }
+    }
+    
+    func populateLibraryItems() {
+        if let user = currentUser?.username {
+            NetworkHandler.requestLibraryVolumeList(username: user) { [weak self] (result: Result<LibraryVolumeList, ApiError>) in
+                switch result {
+                case .success(let list):
+                    DispatchQueue.main.async {
+                        self?.libraryItems = list
+                    }
+                case .failure(let error):
+                    print(error)
+                        
+                }
             }
         }
     }
