@@ -100,7 +100,7 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         
         let _ = oauthswift.authorize(
             withCallbackURL: "knitteryapp://oauth-callback",
-            scope: "offline library-pdf",
+            scope: "library-pdf",
             state: state) { result in
                 switch result {
                 case .success(let (credential, _, _)):

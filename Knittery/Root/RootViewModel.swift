@@ -17,7 +17,7 @@ class RootViewModel: ObservableObject {
     @Published var sessionData = SessionData()
     @Published private(set) var state: LoginState = .loading
     @Published var selectedSearchMode: SearchModes = .advanced
-    private var networkHandler = NetworkHandler()
+    var networkHandler = NetworkHandler()
     
     func checkAuthenticationState() {
         networkHandler.refreshAccessToken() { [weak self] success in
@@ -31,6 +31,7 @@ class RootViewModel: ObservableObject {
     }
     
     func signIn() {
+        sessionData.networkHandler = networkHandler
         networkHandler.signIn() { [weak self] success in
             if success {
                 self?.retrieveCurrentUser()

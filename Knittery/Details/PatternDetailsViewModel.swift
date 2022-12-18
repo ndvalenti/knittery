@@ -41,7 +41,6 @@ class PatternDetailsViewModel: ObservableObject {
                     case .success(let volume):
                         DispatchQueue.main.async {
                             self?.libraryVolumeFull = volume
-                            print(volume)
                         }
                     case .failure(let error):
                         print(error)
@@ -66,7 +65,8 @@ class PatternDetailsViewModel: ObservableObject {
                             self?.isPresentingDownload = true
                         }
                     case .failure (let error):
-                        if error == .badToken || error == .noToken {
+                        if error == .badToken || error == .noToken || error == .invalidResponse {
+                            print(error)
                             DispatchQueue.main.async {
                                 self?.networkHandler.requestLibraryToken() { [weak self] success in
                                     if success {

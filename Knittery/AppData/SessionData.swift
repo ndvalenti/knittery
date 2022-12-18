@@ -18,6 +18,7 @@ class SessionData: ObservableObject {
     var lastCategoryFetch: Date?
     
     var libraryItems: LibraryVolumeList?
+    var networkHandler: NetworkHandler?
     
     // On app start we randomly choose a sample category from a curated list and run a query similar to our
     // defaults above, the following two variables contain relevant information
@@ -35,6 +36,7 @@ class SessionData: ObservableObject {
     
     init() {
         lastCategoryFetch = UserDefaults.standard.object(forKey: "categoriesFetched") as? Date
+        self.networkHandler = nil
     }
     
     @Published var currentUser: User? { didSet {
