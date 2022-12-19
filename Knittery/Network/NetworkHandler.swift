@@ -85,6 +85,33 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             completion(false)
         }
     }
+    
+    func requestLibraryToken(completion: @escaping (Bool) -> Void) {
+        oauthswift.authorizeURLHandler = ASWebAuthenticationURLHandler(
+            callbackUrlScheme: "knitteryapp",
+            presentationContextProvider: self,
+            prefersEphemeralWebBrowserSession: true
+        )
+        
+        let state = generateState(withLength: 20)
+        
+        oauthswift.client.credential.headersFactory = XHeaders(credential: oauthswift.client.credential)
+//        oauthswift.allowMissingStateCheck = true
+        
+        let _ = oauthswift.authorize(
+            withCallbackURL: "knitteryapp://oauth-callback",
+            scope: "library-pdf",
+            state: state) { result in
+                switch result {
+                case .success(let (credential, _, _)):
+                    KeychainHandler.saveToken(credential.oauthToken, type: .library)
+                    completion(true)
+                case .failure(let error):
+                    print(error.description)
+                    completion(false)
+                }
+            }
+    }
 }
 
 // Ravelry only supports auth headers using "Authorization: " pattern and not body auth

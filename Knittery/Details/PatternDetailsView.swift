@@ -11,8 +11,9 @@ import SwiftUI
 struct PatternDetailsView: View {
     @StateObject var patternDetailsViewModel = PatternDetailsViewModel()
     @EnvironmentObject var sessionData: SessionData
+    
     @State private var hasLoaded = false
-    @State private var isSheetDisplayed: Bool = false
+    @State private var isSheetPresented: Bool = false
     @State private var displayedPhoto: Int? = nil
     
     let patternId: Int?
@@ -45,7 +46,7 @@ struct PatternDetailsView: View {
                                         })
                                         .onTapGesture {
                                             displayedPhoto = photo.id
-                                            isSheetDisplayed = true
+                                            isSheetPresented = true
                                         }
                                     }
                                 } else {
@@ -58,7 +59,7 @@ struct PatternDetailsView: View {
                             .padding(.leading, 5)
                         }
                         Section {
-                            PatternDetailsBlockView(patternDetailsViewModel: patternDetailsViewModel)
+                            PatternDetailsBlockView(patternDetailsViewModel: patternDetailsViewModel, isPresentingDownload: $patternDetailsViewModel.isPresentingDownload)
                         } header: {
                             HStack {
                                 Text("Details")
@@ -129,7 +130,7 @@ struct PatternDetailsView: View {
                 .background(Color.KnitteryColor.backgroundDark)
             }
             .background(Color.KnitteryColor.backgroundLight)
-            .sheet(isPresented: $isSheetDisplayed) {
+            .sheet(isPresented: $isSheetPresented) {
                 if let photos = patternDetailsViewModel.pattern.photos {
                     TabView(selection: $displayedPhoto) {
                         ForEach(photos, id: \.self.sortOrder) { photo in
@@ -147,9 +148,60 @@ struct PatternDetailsView: View {
                     .presentationDragIndicator(.visible)
                 }
             }
+            .sheet(isPresented: $patternDetailsViewModel.isPresentingDownload) {
+                VStack {
+                    HStack {
+                        Text("FILES:")
+                            .font(.subheadline)
+                            .foregroundColor(.KnitteryColor.darkBlueHalfTranslucent)
+                            .padding([.horizontal, .top])
+                        Spacer()
+                    }
+                    if patternDetailsViewModel.downloadLink.isEmpty {
+                        List {
+                            if let urlString = patternDetailsViewModel.downloadURL, let url = URL(string: urlString) {
+                                HStack {
+                                    Link("Free On Ravelry", destination: url)
+                                        .foregroundColor(.KnitteryColor.lightBlue)
+                                        .lineLimit(1)
+                                        .padding(.leading)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.KnitteryColor.lightBlue)
+                                }
+                            }
+                        }
+                    } else {
+                        List (patternDetailsViewModel.downloadLink, id: \.url) { link in
+                            if let urlString = link.url, let url = URL(string: urlString) {
+                                HStack {
+                                    Link(link.filename ?? urlString, destination: url)
+                                        .foregroundColor(.KnitteryColor.lightBlue)
+                                        .lineLimit(3)
+                                        .padding(.leading)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.KnitteryColor.lightBlue)
+                                }
+                            }
+                        }
+//                        Text("Note: Fetching premium content requires Ravelry reauthentication")
+//                            .font(.footnote)
+//                            .padding()
+//                        Spacer()
+                    }
+                }
+                .padding(.top)
+                .listStyle(.inset)
+                .presentationDetents([.fraction(0.35), .medium, .large])
+            }
         }
         .onAppear() {
             if !hasLoaded {
+                patternDetailsViewModel.sessionData = sessionData
+                if let id = sessionData.libraryItems?.getVolumeIdByPatternId(patternId) {
+                    patternDetailsViewModel.libraryId = id
+                }
                 patternDetailsViewModel.retrievePattern(patternId: patternId)
                 hasLoaded = true
             }

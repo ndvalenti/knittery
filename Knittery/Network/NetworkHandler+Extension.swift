@@ -21,12 +21,12 @@ extension NetworkHandler {
         }
         
         guard let request = URLRequestBuilder(url) else {
-            resultHandler(.failure(ApiError.invalidUrl))
+            resultHandler(.failure(ApiError.badToken))
             return
         }
-            
+        
         self.makeRequest(request) { (result: Result<PatternWrapper, ApiError>) in
-            switch(result) {
+            switch result {
             case .success(let patternWrapper):
                 if let pattern = patternWrapper.pattern {
                     resultHandler(.success(pattern))
@@ -46,14 +46,40 @@ extension NetworkHandler {
             resultHandler(.failure(ApiError.invalidUrl))
             return
         }
+        
         guard let request = URLRequestBuilder(url) else {
             resultHandler(.failure(ApiError.invalidUrl))
             return
         }
+        
         self.makeRequest(request) { (result: Result<PatternSearch, ApiError>) in
-            switch(result) {
+            switch result  {
             case .success(let search):
                 resultHandler(.success(search))
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
+    static func requestDownloadLinkById(_ id: Int, resultHandler: @escaping (Result<DownloadLink, ApiError>) -> Void) {
+        let apicall = domain + "product_attachments/" + String(id) + "/generate_download_link.json"
+        guard let url = URL(string: apicall) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        guard var request = URLRequestBuilder(url, tokenType: .library) else {
+            resultHandler(.failure(ApiError.noToken))
+            return
+        }
+        
+        request.httpMethod = "POST"
+        
+        self.makeRequest(request) { (result: Result<DownloadLinkWrapper, ApiError>) in
+            switch result {
+            case .success(let link):
+                resultHandler(.success(link.downloadLink))
             case .failure(let error):
                 resultHandler(.failure(error))
             }
@@ -68,17 +94,88 @@ extension NetworkHandler {
             return
         }
         
+        guard var request = URLRequestBuilder(url) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        request.httpMethod = "POST"
+        
+        self.makeRequest(request) { (result: Result<UserWrapper, ApiError>) in
+            switch result {
+            case .success(let user):
+                if let user = user.user {
+                    resultHandler(.success(user))
+                }
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
+    static func requestLibraryVolumeList(username: String, resultHandler: @escaping (Result<LibraryVolumeList, ApiError>) -> Void) {
+        let apicall = domain + "people/\(username)/library/search.json"
+        
+        guard let url = URL(string: apicall) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
         guard let request = URLRequestBuilder(url) else {
             resultHandler(.failure(ApiError.invalidUrl))
             return
         }
         
-        self.makeRequest(request) { (result: Result<UserWrapper, ApiError>) in
-            switch(result) {
-            case .success(let user):
-                if let user = user.user {
-                    resultHandler(.success(user))
-                }
+        self.makeRequest(request) { (result: Result<LibraryVolumeList, ApiError>) in
+            switch result {
+            case .success(let list):
+                resultHandler(.success(list))
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
+    static func requestLibraryVolumeFull(id: String, resultHandler: @escaping (Result<LibraryVolumeFull, ApiError>) -> Void) {
+        let apicall = domain + "volumes/\(id).json"
+        
+        guard let url = URL(string: apicall) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        guard let request = URLRequestBuilder(url) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        self.makeRequest(request) { (result: Result<LibraryVolumeFullWrapper, ApiError>) in
+            switch result {
+            case .success(let volume):
+                resultHandler(.success(volume.volume))
+            case .failure(let error):
+                resultHandler(.failure(error))
+            }
+        }
+    }
+    
+    static func requestCategories(resultHandler: @escaping (Result<PatternCategories, ApiError>) -> Void) {
+        let apicall = domain + "/pattern_categories/list.json"
+        
+        guard let url = URL(string: apicall) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        guard let request = URLRequestBuilder(url) else {
+            resultHandler(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        self.makeRequest(request) { (result: Result<PatternCategories, ApiError>) in
+            switch result {
+            case .success(let category):
+                resultHandler(.success(category))
             case .failure(let error):
                 resultHandler(.failure(error))
             }
@@ -100,12 +197,12 @@ extension NetworkHandler {
             return
         }
         guard let model = dataModel.jsonData else { return }
-
+        
         request.httpMethod = "POST"
         request.httpBody = model
         
         self.makeRequest(request) { (result: Result<BookmarkWrapper, ApiError>) in
-            switch(result) {
+            switch result {
             case .success(let wrapper):
                 resultHandler(.success(wrapper.bookmark))
             case .failure(let error):
@@ -130,7 +227,7 @@ extension NetworkHandler {
         request.httpMethod = "DELETE"
         
         self.makeRequest(request) { (result: Result<BookmarkWrapper, ApiError>) in
-            switch(result) {
+            switch result {
             case .success(let wrapper):
                 resultHandler(.success(wrapper.bookmark))
             case .failure(let error):
@@ -139,12 +236,14 @@ extension NetworkHandler {
         }
     }
     
-    static private func URLRequestBuilder(_ url: URL) -> URLRequest? {
+    static private func URLRequestBuilder(_ url: URL, tokenType: KeychainHandler.TokenType = .access) -> URLRequest? {
         var request = URLRequest(url: url)
-        guard let token = KeychainHandler.readToken(.access) else {
+        
+        guard let token = KeychainHandler.readToken(tokenType) else {
             print("Could not get access token")
             return nil
         }
+        
         let responseToken = "Bearer: \(token)"
         request.addValue(responseToken, forHTTPHeaderField: "Authorization")
         return request
@@ -163,17 +262,22 @@ extension NetworkHandler {
                 return
             }
             
+            if 401...403 ~= r.statusCode {
+                resultHandler(.failure(.badToken))
+                print(response.debugDescription)
+                return
+            }
+            
             guard let data = data else {
                 resultHandler(.failure(.noData))
                 return
             }
             
-            // will send a second request and dump the response to console, not ideal
-//            guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-//                return
-//            }
-//            print("JSON:", json)
-            
+            // will send a second request and dump the response to console, only enable for testing
+            //            guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+            //                return
+            //            }
+            //            print("JSON:", json)
             
             guard let decoded:T = self.decodedData(data) else {
                 resultHandler(.failure(.decodeError))

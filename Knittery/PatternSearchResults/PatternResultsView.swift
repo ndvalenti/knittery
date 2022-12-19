@@ -10,15 +10,13 @@ import SwiftUI
 
 struct PatternResultsView: View {
     @StateObject var patternResultsViewModel = PatternResultsViewModel()
-    @Binding var path: [SearchViewModel.NavDestination]
     @EnvironmentObject var sessionData: SessionData
-    let search: String
+    let searchTitle: String?
     let query: String?
     
-    init(_ query: String?, path: Binding<[SearchViewModel.NavDestination]>, search: String) {
-        self._path = path
+    init(_ query: String?, searchTitle: String? = nil) {
         self.query = query
-        self.search = search
+        self.searchTitle = searchTitle
         
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(Color.KnitteryColor.darkBlue)]
         UINavigationBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
@@ -27,10 +25,12 @@ struct PatternResultsView: View {
     var body: some View {
         VStack (alignment: .leading){
             Spacer()
-            Text("Displaying results for \"\(search)\"")
-                .font(.headline)
-                .padding(.horizontal)
-                .padding(.top)
+            if let searchTitle {
+                Text(searchTitle)
+                    .font(.headline)
+                    .padding(.horizontal)
+                    .padding(.top)
+            }
             ScrollView (showsIndicators: false) {
                 LazyVStack {
                     if let patternResults = patternResultsViewModel.patternResults {
@@ -75,10 +75,8 @@ struct PatternResultsView: View {
 }
 
 struct SearchResultsView_Previews: PreviewProvider {
-    @State static var path: [SearchViewModel.NavDestination] = []
-    
     static var previews: some View {
-        PatternResultsView(nil, path: $path, search: "Search")
+        PatternResultsView(nil, searchTitle: "Search")
             .environmentObject(SessionData())
     }
 }

@@ -8,20 +8,22 @@
 
 import SwiftUI
 
+enum SearchModes: String, CaseIterable, Identifiable {
+    case advanced = "Advanced Search"
+    case categories = "Categories"
+    var id: Self { self }
+}
+
 struct SearchView: View {
-    enum SearchModes: String, CaseIterable, Identifiable {
-        case pattern = "Patterns"
-        case yarn = "Yarns"
-        var id: Self { self }
-    }
-    
     @State private var path: [SearchViewModel.NavDestination] = []
-    @State private var selectedMode: SearchModes
+    @State var selectedMode: SearchModes
     @StateObject var searchViewModel = SearchViewModel()
     @EnvironmentObject var sessionData: SessionData
+    let navigationTitle: String
     
-    init() {
-        selectedMode = .pattern
+    init(_ navigationTitle: String = "Search", selectedMode: SearchModes = .advanced) {
+        self.selectedMode = selectedMode
+        self.navigationTitle = navigationTitle
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color.KnitteryColor.lightBlue)
         UISegmentedControl.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.KnitteryColor.backgroundLight)], for: .selected)
@@ -31,66 +33,68 @@ struct SearchView: View {
     var body: some View {
         NavigationStack (path: $path) {
             VStack {
-//                Picker("Title", selection: $selectedMode) {
-//                    ForEach(SearchModes.allCases) { value in
-//                        Text(value.rawValue)
-//                    }
-//                }
-//                .pickerStyle(.segmented)
-//                .blendMode(.normal)
-//                .padding(.top)
-                ZStack {
-                    TextField("Search", text: $searchViewModel.query.search)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                        .border(Color.KnitteryColor.darkBlueTranslucent)
-                        .textFieldStyle(.roundedBorder)
-                        .padding()
-                        .onSubmit {
-                            path.append(.result)
-                        }
-                        .navigationDestination(for: SearchViewModel.NavDestination.self) {
-                            switch $0 {
-                            case .result:
-                                PatternResultsView(QueryBuilder.build(searchViewModel.query), path: $path, search: searchViewModel.query.search)
-                                    .environmentObject(sessionData)
-                            }
-                        }
-                    HStack {
-                        Spacer()
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
-                            .padding()
+                Picker("Title", selection: $selectedMode) {
+                    ForEach(SearchModes.allCases) { value in
+                        Text(value.rawValue)
                     }
-                    .padding(.horizontal)
                 }
+                .pickerStyle(.segmented)
+                .blendMode(.normal)
+                .padding(.top)
                 
                 VStack {
                     switch(selectedMode) {
-                    case .pattern:
+                    case .advanced:
+                        ZStack {
+                            TextField("Search", text: $searchViewModel.query.search)
+                                .autocorrectionDisabled()
+                                .textInputAutocapitalization(.never)
+                                .padding(6)
+                                .padding(.leading, 8)
+                                .background(RoundedRectangle(cornerRadius: 10).fill(.white))
+                                .overlay(RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.KnitteryColor.darkBlueTranslucent, lineWidth: 1))
+                                .padding()
+                                .onSubmit {
+                                    path.append(.result)
+                                }
+                                .navigationDestination(for: SearchViewModel.NavDestination.self) {
+                                    switch $0 {
+                                    case .result:
+                                        PatternResultsView(QueryBuilder.build(searchViewModel.query), searchTitle: searchViewModel.query.searchTitle)
+                                            .environmentObject(sessionData)
+                                    }
+                                }
+                            HStack {
+                                Spacer()
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
+                                    .padding()
+                            }
+                            .padding(.horizontal)
+                        }
                         PatternSearchView(searchViewModel: searchViewModel)
-                    case .yarn:
-                        YarnSearchView()
+                    case .categories:
+                        CategorySearchView()
                     }
                 }
-                .background(Color.KnitteryColor.backgroundDark)
+                
             }
             .background(Color.KnitteryColor.backgroundDark)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.visible, for: .navigationBar)
             .toolbar {
-                NavigationToolbar(title: "Search", sessionData: sessionData)
+                NavigationToolbar(title: navigationTitle, sessionData: sessionData)
             }
         }
         .environmentObject(sessionData)
     }
 }
 
+
 struct SearchView_Previews: PreviewProvider {
-    @StateObject static var sessionData = SessionData()
-    
     static var previews: some View {
-        SearchView()
-            .environmentObject(sessionData)
+        SearchView(selectedMode: .advanced)
+            .environmentObject(SessionData())
     }
 }

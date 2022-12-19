@@ -16,7 +16,8 @@ enum LoginState: String {
 class RootViewModel: ObservableObject {
     @Published var sessionData = SessionData()
     @Published private(set) var state: LoginState = .loading
-    private var networkHandler = NetworkHandler()
+    @Published var selectedSearchMode: SearchModes = .advanced
+    var networkHandler = NetworkHandler()
     
     func checkAuthenticationState() {
         networkHandler.refreshAccessToken() { [weak self] success in
@@ -30,6 +31,7 @@ class RootViewModel: ObservableObject {
     }
     
     func signIn() {
+        sessionData.networkHandler = networkHandler
         networkHandler.signIn() { [weak self] success in
             if success {
                 self?.retrieveCurrentUser()
@@ -48,6 +50,8 @@ class RootViewModel: ObservableObject {
                     self?.sessionData.currentUser = user
                     self?.sessionData.signOutDelegate = self
                     self?.sessionData.populateQueries()
+                    self?.sessionData.populateCategories()
+                    self?.sessionData.populateLibraryItems()
                 }
             case .failure (let error):
                 print(error)
@@ -62,6 +66,7 @@ extension RootViewModel: SignOutDelegate {
         sessionData.clearData()
         KeychainHandler.deleteToken(.access)
         KeychainHandler.deleteToken(.refresh)
+        KeychainHandler.deleteToken(.library)
         state = .unauthenticated
         print("Invalidated Session")
     }

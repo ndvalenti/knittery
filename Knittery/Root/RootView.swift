@@ -15,12 +15,7 @@ enum TabID: Int, RawRepresentable {
 
 struct RootView: View {
     @StateObject var rootViewModel = RootViewModel()
-    @State var tabID: TabID = .home
-    
-    init() {
-        UITabBar.appearance().backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
-    }
-    
+
     @ViewBuilder var body: some View {
         Group {
             switch rootViewModel.state {
@@ -38,33 +33,38 @@ struct RootView: View {
     }
     
     var rootView: some View {
-        TabView (selection: $tabID) {
+        TabView {
             Group {
                 HomeView()
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }
-                    .tag(TabID.home)
                     .environmentObject(rootViewModel.sessionData)
                 
                 SearchView()
                     .tabItem {
                         Label("Search", systemImage: "magnifyingglass")
                     }
-                    .tag(TabID.search)
                     .environmentObject(rootViewModel.sessionData)
                 
-                LibraryView(tabID: $tabID)
+                LibraryView()
                     .tabItem {
                         Label("Library", systemImage: "books.vertical")
                     }
-                    .tag(TabID.library)
                     .environmentObject(rootViewModel.sessionData)
             }
         }
-        .toolbar(.visible, for: .tabBar)
-        .toolbarBackground(.visible, for: .tabBar)
-        .toolbarBackground(Color.KnitteryColor.backgroundDark, for: .tabBar)
+        .onAppear {
+            let standardAppearance = UITabBarAppearance()
+            standardAppearance.configureWithDefaultBackground()
+            standardAppearance.backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
+            UITabBar.appearance().standardAppearance = standardAppearance
+            
+            let scrollEdgeAppearance = UITabBarAppearance()
+            scrollEdgeAppearance.configureWithTransparentBackground()
+            scrollEdgeAppearance.backgroundColor = UIColor(Color.KnitteryColor.backgroundDark)
+            UITabBar.appearance().scrollEdgeAppearance = scrollEdgeAppearance
+        }
     }
     
     var loginView: some View {
