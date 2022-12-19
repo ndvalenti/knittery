@@ -56,20 +56,22 @@ struct PatternDetailsBlockView: View {
                     }
                 }
                 Group {
-                    if patternDetailsViewModel.pattern.downloadLocation != nil {
-                        Divider()
-                        HStack (alignment: .top) {
-                            Spacer()
-                            Button {
-                                patternDetailsViewModel.getDownloadLinks()
-                            } label: {
-                                Label("Request Download Links", systemImage: "arrow.down.doc.fill") 
-                                    .padding()
+                    if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation {
+                        if patternDetailsViewModel.pattern.personalAttributes?.inLibrary == true || downloadLocation.free == true {
+                            Divider()
+                            HStack (alignment: .top) {
+                                Spacer()
+                                Button {
+                                    patternDetailsViewModel.getDownloadLinks()
+                                } label: {
+                                    Label("Request Download Links", systemImage: "arrow.down.doc.fill")
+                                        .padding()
+                                }
+                                Spacer()
                             }
-                            Spacer()
+                            .redacted(reason: patternDetailsViewModel.pattern.id == nil ? .placeholder: [])
+                            .padding(.horizontal)
                         }
-                        .redacted(reason: patternDetailsViewModel.pattern.id == nil ? .placeholder: [])
-                        .padding(.horizontal)
                     }
                     
                 }
