@@ -14,7 +14,6 @@ struct PatternDetailsView: View {
     
     @State private var hasLoaded = false
     @State private var isSheetPresented: Bool = false
-//    @State private var isDownloadPresented: Bool = false
     @State private var displayedPhoto: Int? = nil
     
     let patternId: Int?
@@ -60,7 +59,7 @@ struct PatternDetailsView: View {
                             .padding(.leading, 5)
                         }
                         Section {
-                            PatternDetailsBlockView(patternDetailsViewModel: patternDetailsViewModel, isDownloadPresented: $patternDetailsViewModel.isPresentingDownload)
+                            PatternDetailsBlockView(patternDetailsViewModel: patternDetailsViewModel, isPresentingDownload: $patternDetailsViewModel.isPresentingDownload)
                         } header: {
                             HStack {
                                 Text("Details")
@@ -150,35 +149,56 @@ struct PatternDetailsView: View {
                 }
             }
             .sheet(isPresented: $patternDetailsViewModel.isPresentingDownload) {
-                if patternDetailsViewModel.downloadLink.isEmpty {
-                    if let urlString = patternDetailsViewModel.downloadURL, let url = URL(string: urlString) {
-                        Link("View On Ravelry", destination: url)
-                            .padding()
-                            .frame(width: 300, height: 50)
-                            .foregroundColor(.white)
-                            .background(Color.KnitteryColor.lightBlue)
-                            .cornerRadius(48)
-                            .font(.custom("Avenir", size: 20, relativeTo: .largeTitle))
-                            .presentationDetents([.fraction(0.25)])
+                VStack {
+                    HStack {
+                        Text("FILES:")
+                            .font(.subheadline)
+                            .foregroundColor(.KnitteryColor.darkBlueHalfTranslucent)
+                            .padding([.horizontal, .top])
+                        Spacer()
                     }
-                } else {
-                    ForEach (patternDetailsViewModel.downloadLink, id: \.url) { link in
-                        if let urlString = link.url, let url = URL(string: urlString) {
-                            Link("Download As PDF", destination: url)
-                                .padding()
-                                .frame(width: 300, height: 50)
-                                .foregroundColor(.white)
-                                .background(Color.KnitteryColor.lightBlue)
-                                .cornerRadius(48)
-                                .font(.custom("Avenir", size: 20, relativeTo: .largeTitle))
-                                .presentationDetents([.fraction(0.25)])
+                    if patternDetailsViewModel.downloadLink.isEmpty {
+                        List {
+                            if let urlString = patternDetailsViewModel.downloadURL, let url = URL(string: urlString) {
+                                HStack {
+                                    Link("Free On Ravelry", destination: url)
+                                        .foregroundColor(.KnitteryColor.lightBlue)
+                                        .lineLimit(1)
+                                        .padding(.leading)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.KnitteryColor.lightBlue)
+                                }
+                            }
                         }
+                    } else {
+                        List (patternDetailsViewModel.downloadLink, id: \.url) { link in
+                            if let urlString = link.url, let url = URL(string: urlString) {
+                                HStack {
+                                    Link(link.filename ?? urlString, destination: url)
+                                        .foregroundColor(.KnitteryColor.lightBlue)
+                                        .lineLimit(3)
+                                        .padding(.leading)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.KnitteryColor.lightBlue)
+                                }
+                            }
+                        }
+//                        Text("Note: Fetching premium content requires Ravelry reauthentication")
+//                            .font(.footnote)
+//                            .padding()
+//                        Spacer()
                     }
                 }
+                .padding(.top)
+                .listStyle(.inset)
+                .presentationDetents([.fraction(0.35), .medium, .large])
             }
         }
         .onAppear() {
             if !hasLoaded {
+                patternDetailsViewModel.sessionData = sessionData
                 if let id = sessionData.libraryItems?.getVolumeIdByPatternId(patternId) {
                     patternDetailsViewModel.libraryId = id
                 }

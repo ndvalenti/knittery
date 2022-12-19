@@ -22,17 +22,15 @@ struct DownloadLink: Codable {
     let expired: String?
     
     var patternID: Int?
+    var filename: String?
     
-    init(_ downloadLink: DownloadLink, patternID: Int? = nil) {
+    init(_ downloadLink: DownloadLink, patternID: Int? = nil, filename: String? = nil) {
         self.url = downloadLink.url
         self.activated = downloadLink.activated
         self.expired = downloadLink.expired
         
-        if patternID == nil {
-            self.patternID = downloadLink.patternID
-        } else {
-            self.patternID = patternID
-        }
+        self.patternID = patternID == nil ? downloadLink.patternID : patternID
+        self.filename = filename == nil ? downloadLink.filename : filename
     }
     
     enum CodingKeys: String, CodingKey {

@@ -13,21 +13,19 @@ struct PatternPreviewContentView: View {
     @EnvironmentObject var sessionData: SessionData
     @Binding var results: [PatternResult]?
     let title: String?
-    let categorySearchLink: Bool
     let fullQuery: Query?
     
-    init(_ title: String?, results: Binding<[PatternResult]?>, categorySearchLink: Bool = false, fullQuery: Query? = nil) {
+    init(_ title: String?, results: Binding<[PatternResult]?>, fullQuery: Query? = nil) {
         self.title = title
         self._results = results
-        self.categorySearchLink = categorySearchLink
         fullQuery?.pageSize = nil
         self.fullQuery = fullQuery
     }
     
     var body: some View {
-        VStack (spacing: 0) {
-            if let title {
-                if let results, !results.isEmpty, let fullQuery {
+        if let title {
+            if let results, !results.isEmpty, let fullQuery {
+                VStack (spacing: 0) {
                     NavigationLink(destination: PatternResultsView(QueryBuilder.build(fullQuery))
                     ) {
                         HStack {
@@ -55,7 +53,10 @@ struct PatternPreviewContentView: View {
                         .padding(.leading)
                     }
                     
-                } else if results == nil {
+                }
+                .background(Color.KnitteryColor.backgroundLight)
+            } else if results == nil {
+                VStack (spacing: 0) {
                     HStack {
                         Text(title)
                             .fontWeight(.bold)
@@ -75,9 +76,9 @@ struct PatternPreviewContentView: View {
                         .padding(.leading)
                     }
                 }
+                .background(Color.KnitteryColor.backgroundLight)
             }
         }
-        .background(Color.KnitteryColor.backgroundLight)
     }
 }
 

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PatternDetailsBlockView: View {
     @ObservedObject var patternDetailsViewModel: PatternDetailsViewModel
-    @Binding var isDownloadPresented: Bool
+    @Binding var isPresentingDownload: Bool
     
     let dateFormatter = DateFormatter()
     
@@ -56,54 +56,20 @@ struct PatternDetailsBlockView: View {
                     }
                 }
                 Group {
-                    // TODO: For now we are not generating download links for library items
-                    // Requires special handling including paypal sdk and integration with applepay
-                    // and testing with correctly capturing the callbacks and using special
-                    // auth to generate download links
-                    //                    if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation, let url = downloadLocation.url, downloadLocation.free == true {
-                    //                        Divider()
-                    //                        makeRow("URL", content: url)
-                    //                    }
-                    
-                    // TODO: Library download links
-                    // Download links need to be added to codables -- done, need to confirm it works with jsonencoding for userdefaults and check if pattern urls are updated
-                    // Should have a way here to generate a link if it's in library and not free
-                    // Click "Download" and a modal popup with a download button will show?
-                    // Modal can also display rate excess
-                    // Should display the link if it has been generated and is not expired
-                    // Download link codable should save its associated patternid though not necessarily when attached to a pattern
-                    // Download links should be stored in UserDefaults and expired links pruned at launch and every time an expired link is encountered
-                    
-                    
-                    if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation {
-                        if patternDetailsViewModel.pattern.personalAttributes?.inLibrary == true {
-                            Divider()
-                            HStack (alignment: .top) {
-                                Button {
-                                    patternDetailsViewModel.retrieveDownloadLink()
-                                } label: {
-                                    Text("Download")
-                                        .frame(width: 100, alignment: .leading)
-                                        .foregroundColor(.KnitteryColor.darkBlue)
-                                }
+                    if patternDetailsViewModel.pattern.downloadLocation != nil {
+                        Divider()
+                        HStack (alignment: .top) {
+                            Spacer()
+                            Button {
+                                patternDetailsViewModel.getDownloadLinks()
+                            } label: {
+                                Label("Request Download Links", systemImage: "arrow.down.doc.fill") 
+                                    .padding()
                             }
-                            .redacted(reason: patternDetailsViewModel.pattern.id == nil ? .placeholder : [])
-                            .padding(.horizontal)
-                        } else if downloadLocation.free == true, let url = downloadLocation.url {
-                            Divider()
-                            HStack (alignment: .top) {
-                                Button {
-                                    patternDetailsViewModel.downloadURL = url
-                                    isDownloadPresented = true
-                                } label: {
-                                    Text("Download")
-                                        .frame(width: 100, alignment: .leading)
-                                        .foregroundColor(.KnitteryColor.darkBlue)
-                                }
-                            }
-                            .redacted(reason: patternDetailsViewModel.pattern.id == nil ? .placeholder : [])
-                            .padding(.horizontal)
+                            Spacer()
                         }
+                        .redacted(reason: patternDetailsViewModel.pattern.id == nil ? .placeholder: [])
+                        .padding(.horizontal)
                     }
                     
                 }
@@ -146,6 +112,6 @@ struct PatternDetailsBlockView: View {
 struct PatternDetailsBlockView_Previews: PreviewProvider {
     @State static var isPresented: Bool = false
     static var previews: some View {
-        PatternDetailsBlockView(patternDetailsViewModel: PatternDetailsViewModel(), isDownloadPresented: $isPresented)
+        PatternDetailsBlockView(patternDetailsViewModel: PatternDetailsViewModel(), isPresentingDownload: $isPresented)
     }
 }

@@ -19,6 +19,8 @@ extension SessionData {
         allCategories = nil
         lastCategoryFetch = nil
         libraryItems = nil
+//        relatedItems = nil
+//        randomItems = nil
         sampleCategory = nil
         sampleCategoryQuery = nil
         sampleCategoryResults = nil
@@ -59,13 +61,14 @@ extension SessionData {
     
     /// Attempt to populate relatedCategoryResults and associated related* values
     func tryPopulateRelatedResults(trigger: String, category: PatternCategory) {
-        let query = Query(patternCategory: category, pageSize: "15")
+        let query = Query(patternCategory: category, sort: .randomize, pageSize: "15")
         let queryString = QueryBuilder.build(query)
         
         NetworkHandler.requestPatternSearch(query: queryString) { [weak self] (result: Result<PatternSearch, ApiError>) in
             switch result {
             case .success(let search):
                 DispatchQueue.main.async {
+//                    self?.relatedItems = SampleCategory(category: category, query: query, results: search.patterns, trigger: trigger)
                     self?.relatedCategory = category
                     self?.relatedCategoryTrigger = trigger
                     self?.relatedCategoryQuery = query
@@ -187,13 +190,11 @@ extension SessionData {
         }
     }
     
-    func checkEmptyDefaultContent(defaults: [DefaultContent]) -> Bool {
-        var stale = true
+    func checkEmptyDefaultContent(defaults: [DefaultContent]) {
         defaults.forEach { d in
-            if defaultQueries[d]?.isEmpty == false {
-                stale = false
+            if defaultQueries[d]?.isEmpty == true {
+                populateDefaultQuery(d)
             }
         }
-        return stale
     }
 }

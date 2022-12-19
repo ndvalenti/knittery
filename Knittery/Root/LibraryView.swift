@@ -9,14 +9,15 @@ import SwiftUI
 
 struct LibraryView: View {
     @EnvironmentObject var sessionData: SessionData
-    @State var empty = true
     
     var body: some View {
         NavigationStack {
             VStack {
                 Spacer()
                 VStack {
-                    if empty {
+                    // TODO: Break this out into its own view that displays when supplied arguments are ALL nil, or replace PatternPreviewContentViews with a single view containing them all
+                    if sessionData.defaultQueries[.favoritePatterns] == nil,
+                        sessionData.defaultQueries[.libraryPatterns] == nil {
                         NavigationLink(destination: SearchView()) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 16)
@@ -36,14 +37,14 @@ struct LibraryView: View {
                     } else {
                         ScrollView(showsIndicators: false) {
                             VStack(spacing: 50) {
+                                PatternPreviewContentView(DefaultContent.favoritePatterns.rawValue, results: $sessionData.defaultQueries[.favoritePatterns], fullQuery: DefaultContent.favoritePatterns.query)
+                                .environmentObject(sessionData)
+                                
                                 if sessionData.relatedCategoryResults != nil,
                                    let trigger = sessionData.relatedCategoryTrigger {
                                     PatternPreviewContentView("More Like \(trigger)", results: $sessionData.relatedCategoryResults, fullQuery: sessionData.relatedCategoryQuery)
                                         .environmentObject(sessionData)
                                 }
-                                
-                                PatternPreviewContentView(DefaultContent.favoritePatterns.rawValue, results: $sessionData.defaultQueries[.favoritePatterns], fullQuery: DefaultContent.favoritePatterns.query)
-                                .environmentObject(sessionData)
                                 
                                 PatternPreviewContentView(DefaultContent.libraryPatterns.rawValue, results: $sessionData.defaultQueries[.libraryPatterns], fullQuery: DefaultContent.libraryPatterns.query)
                                 .environmentObject(sessionData)
@@ -51,6 +52,9 @@ struct LibraryView: View {
                         }
                         .padding(.top)
                     }
+                }
+                .onAppear {
+                    sessionData.checkEmptyDefaultContent(defaults: [.favoritePatterns, .libraryPatterns])
                 }
                 .frame(maxWidth: .infinity)
                 .background(Color.KnitteryColor.backgroundLight)
@@ -62,10 +66,6 @@ struct LibraryView: View {
             }
             .toolbar(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                empty = sessionData.checkEmptyDefaultContent(defaults: [.favoritePatterns, .libraryPatterns])
-                sessionData.populateQueries()
-            }
         }
         .environmentObject(sessionData)
     }

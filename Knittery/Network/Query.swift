@@ -116,8 +116,8 @@ class Query: ObservableObject {
 }
 
 extension Query {
-    convenience init(patternCategory: PatternCategory, requireImages: Bool = true, pageSize: String? = nil) {
-        self.init(requireImages: requireImages, pageSize: pageSize)
+    convenience init(patternCategory: PatternCategory, sort: QSort = QSort.best, requireImages: Bool = true, pageSize: String? = nil) {
+        self.init(sort: sort, requireImages: requireImages, pageSize: pageSize)
         category = patternCategory.permalink
     }
 }

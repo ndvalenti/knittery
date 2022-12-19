@@ -244,6 +244,17 @@
 			path = Codables;
 			sourceTree = "<group>";
 		};
+		016BDCE9295052100047810C /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				01881B89294A07B5007B8FAD /* CategorySearchView.swift */,
+				01A5D095294B46E800134994 /* CategorySearchTreeView.swift */,
+				01A5D097294B46F100134994 /* CategorySearchListView.swift */,
+				01A5D099294B493C00134994 /* CategorySearchViewModel.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
 		0192697F292BA71B00890535 /* PatternSearchResults */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,10 +279,6 @@
 				0136EB3A2907E285008D1661 /* SearchView.swift */,
 				0136EB3C290A615B008D1661 /* PatternSearchView.swift */,
 				0136EB3E290A616A008D1661 /* YarnSearchView.swift */,
-				01881B89294A07B5007B8FAD /* CategorySearchView.swift */,
-				01A5D095294B46E800134994 /* CategorySearchTreeView.swift */,
-				01A5D097294B46F100134994 /* CategorySearchListView.swift */,
-				01A5D099294B493C00134994 /* CategorySearchViewModel.swift */,
 				018783AD29127ED1005DDE92 /* SearchViewModel.swift */,
 			);
 			path = Search;
@@ -304,6 +311,7 @@
 				0192698F2933707900890535 /* Navigation */,
 				01CF06CD28DC476900310665 /* Root */,
 				01CAF5BA28F82B1C000C92C1 /* Search */,
+				016BDCE9295052100047810C /* Categories */,
 				0192697F292BA71B00890535 /* PatternSearchResults */,
 				010E8B5429223442004E8F17 /* Details */,
 				01CF06EB28DDFF6F00310665 /* Network */,

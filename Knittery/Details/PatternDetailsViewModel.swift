@@ -17,6 +17,7 @@ class PatternDetailsViewModel: ObservableObject {
     @Published var downloadLink: [DownloadLink] = []
     @Published var isPresentingDownload: Bool = false
     @Published var downloadURL: String?
+    var sessionData: SessionData?
     
     private var networkHandler = NetworkHandler()
     
@@ -50,7 +51,18 @@ class PatternDetailsViewModel: ObservableObject {
         }
     }
     
-    func retrieveDownloadLink() {
+    func getDownloadLinks() {
+        if let downloadLocation = pattern.downloadLocation {
+            if pattern.personalAttributes?.inLibrary == true {
+                retrieveDownloadLink()
+            } else if downloadLocation.free == true, let url = downloadLocation.url {
+                downloadURL = url
+                isPresentingDownload = true
+            }
+        }
+    }
+    
+    private func retrieveDownloadLink() {
         if let patternId = pattern.id, let attachments = libraryVolumeFull?.attachments {
             downloadLink.removeAll()
             
@@ -61,7 +73,7 @@ class PatternDetailsViewModel: ObservableObject {
                     switch result {
                     case .success (let link):
                         DispatchQueue.main.async {
-                            self?.downloadLink.append(DownloadLink(link, patternID: patternId))
+                            self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
                             self?.isPresentingDownload = true
                         }
                     case .failure (let error):
@@ -94,7 +106,7 @@ class PatternDetailsViewModel: ObservableObject {
                     switch result {
                     case .success (let link):
                         DispatchQueue.main.async {
-                            self?.downloadLink.append(DownloadLink(link, patternID: patternId))
+                            self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
                             self?.isPresentingDownload = true
                         }
                     case .failure (let error):
@@ -117,6 +129,7 @@ class PatternDetailsViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self?.bookmarkId = nil
                         self?.isFavorited = false
+                        self?.sessionData?.populateDefaultQuery(.favoritePatterns)
                     }
                 case .failure(let error):
                     print(error)
@@ -132,6 +145,7 @@ class PatternDetailsViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self?.bookmarkId = bookmark.id
                         self?.isFavorited = true
+                        self?.sessionData?.populateDefaultQuery(.favoritePatterns)
                     }
                 case .failure(let error):
                     print(error)

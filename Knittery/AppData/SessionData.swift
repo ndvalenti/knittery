@@ -22,11 +22,11 @@ class SessionData: ObservableObject {
     
     // On app start we randomly choose a sample category from a curated list and run a query similar to our
     // defaults above, the following two variables contain relevant information
-    // TODO: Make a class to store and handle all of the following data and move these functions/variables out of SessionData
+    // TODO: Make a struct to store and handle all of the following data and move these functions/variables out of SessionData
     @Published var sampleCategory: PatternCategory? = nil
     @Published var sampleCategoryQuery: Query? = nil
     @Published var sampleCategoryResults: [PatternResult]?
-    
+
     @Published var relatedCategory: PatternCategory? = nil
     @Published var relatedCategoryQuery: Query? = nil
     @Published var relatedCategoryResults: [PatternResult]?
