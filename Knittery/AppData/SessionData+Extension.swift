@@ -95,7 +95,7 @@ extension SessionData {
         guard let sampleCategory else { return }
         
         if currentUser != nil {
-            sampleCategoryQuery = Query(patternCategory: sampleCategory, pageSize: "15")
+            sampleCategoryQuery = Query(patternCategory: sampleCategory, sort: .randomize, pageSize: "15")
             
             guard let sampleCategoryQuery else { return }
             
