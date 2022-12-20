@@ -49,9 +49,7 @@ class RootViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self?.sessionData.currentUser = user
                     self?.sessionData.signOutDelegate = self
-                    self?.sessionData.populateQueries()
-                    self?.sessionData.populateCategories()
-                    self?.sessionData.populateLibraryItems()
+                    self?.sessionData.setUpDefaults()
                 }
             case .failure (let error):
                 print(error)

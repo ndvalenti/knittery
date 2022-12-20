@@ -30,6 +30,12 @@ extension SessionData {
         relatedCategoryTrigger = nil
     }
     
+    func setUpDefaults() {
+        populateQueries()
+        populateCategories()
+        populateLibraryItems()
+    }
+    
     func populateQueries() {
         DefaultContent.allCases.forEach { defaultQuery in
             if defaultQueries[defaultQuery] == nil {
