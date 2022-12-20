@@ -35,11 +35,4 @@ enum DefaultContent: String, CaseIterable, RawRepresentable {
             return Query(sort: QSort.best, pageSize: "15", availability: [.nocost])
         }
     }
-    
-//    var sampleCategory: SampleCategory? {
-//        switch self {
-//        case .newPatterns:
-//            return SampleCategory()
-//        }
-//    }
 }

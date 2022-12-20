@@ -20,6 +20,11 @@ struct KnitteryUserBadge: View {
                 if let name = user.username {
                     Text("Signed in as \(name)")
                 }
+                if let url = URL(string:"https://sites.google.com/view/knittery-privacy-policy/home") {
+                    Link(destination: url) {
+                        Text("View Privacy Policy")
+                    }
+                }
                 Button (role: .destructive, action: {
                     isConfirmingLogout = true
                 }) {

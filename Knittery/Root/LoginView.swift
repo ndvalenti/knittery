@@ -29,7 +29,12 @@ struct LoginView: View {
                 .font(.custom("Avenir", size: 90).weight(.medium))
                 .foregroundColor(.KnitteryColor.lightBlue)
                 .shadow(color: .KnitteryColor.darkBlueTranslucent, radius: 6, x: 0, y: 3)
-                .padding()
+                .padding(.top)
+            
+            Text("for Ravelry")
+                .textCase(.uppercase)
+                .foregroundColor(.KnitteryColor.darkBlue).shadow(color: .KnitteryColor.darkBlueTranslucent, radius: 6, x: 0, y: 3)
+                .font(.subheadline)
             
             Spacer()
             
