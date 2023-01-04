@@ -82,7 +82,7 @@ class SearchViewModel: ObservableObject {
         }
     }
     
-    /// WARNING: This function is for internal use only, use populateSearchCategory(_ searchOptionCategory:) insted
+    /// WARNING: This function is for internal use only, use populateSearchCategory(_ searchOptionCategory:) instead
     private func populateSearchCategory_internal(_ searchOptionCategory: SearchOptionCategory, queryType: [some SearchOption: Bool]) {
         searchCategories.removeAll(where: { $0.categoryTitle == searchOptionCategory.display } )
         
