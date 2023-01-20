@@ -9,7 +9,7 @@ import Combine
 import Foundation
 import UIKit
 
-class SessionData: ObservableObject {    
+class SessionData: ObservableObject {
     @Published var defaultQueries = [DefaultContent: [PatternResult]]()
     var cancellables = Set<AnyCancellable>()
     

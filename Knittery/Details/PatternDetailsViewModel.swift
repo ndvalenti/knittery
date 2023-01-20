@@ -74,12 +74,12 @@ class PatternDetailsViewModel: ObservableObject {
             downloadLink.removeAll()
             attachments.forEach { attachment in
                 guard let id = attachment.attachmentId else { return }
-                performDownloadForLink(id: id, patternId: patternId, filename: attachment.filename)
+                performFetchForLink(id: id, patternId: patternId, filename: attachment.filename)
             }
         }
     }
 
-    private func performDownloadForLink(id: Int, patternId: Int, filename: String?) {
+    private func performFetchForLink(id: Int, patternId: Int, filename: String?) {
         NetworkHandler.requestDownloadLinkById(id)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in

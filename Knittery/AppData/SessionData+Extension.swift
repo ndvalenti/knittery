@@ -175,24 +175,23 @@ extension SessionData {
     }
     
     func populateDefaultQuery(_ defaultQuery: DefaultContent) {
-        if currentUser != nil, let query = defaultQuery.query {
-            NetworkHandler.requestPatternSearch(query: QueryBuilder.build(query))
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { [weak self] completion in
-                    switch completion {
-                    case .failure(let error):
-                        print("Error fetching patterns search: \(error)")
-                        self?.defaultQueries[defaultQuery] = nil
-                    default: return
-                    }
-                }, receiveValue: { [weak self] search in
-                    self?.defaultQueries[defaultQuery] = search.patterns
-                    if defaultQuery == .favoritePatterns, self?.relatedCategory == nil {
-                        self?.tryPopulateRelatedCategoryFrom(.favoritePatterns)
-                    }
-                })
-                .store(in: &cancellables)
-        }
+        guard currentUser != nil, let query = defaultQuery.query else { return }
+        NetworkHandler.requestPatternSearch(query: QueryBuilder.build(query))
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching patterns search: \(error)")
+                    self?.defaultQueries[defaultQuery] = nil
+                default: return
+                }
+            }, receiveValue: { [weak self] search in
+                self?.defaultQueries[defaultQuery] = search.patterns
+                if defaultQuery == .favoritePatterns, self?.relatedCategory == nil {
+                    self?.tryPopulateRelatedCategoryFrom(.favoritePatterns)
+                }
+            })
+            .store(in: &cancellables)
     }
     
     func invalidateDefaultQuery(_ query: DefaultContent) {
