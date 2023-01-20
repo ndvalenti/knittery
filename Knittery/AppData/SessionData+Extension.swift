@@ -19,8 +19,8 @@ extension SessionData {
         allCategories = nil
         lastCategoryFetch = nil
         libraryItems = nil
-//        relatedItems = nil
-//        randomItems = nil
+        //        relatedItems = nil
+        //        randomItems = nil
         sampleCategory = nil
         sampleCategoryQuery = nil
         sampleCategoryResults = nil
@@ -46,44 +46,52 @@ extension SessionData {
     
     ///  Randomly store a category from a random result from a supplied DefaultContent query in relatedCategory
     func tryPopulateRelatedCategoryFrom(_ query: DefaultContent) {
-        if let query = defaultQueries[query] {
-            if let randomItem = query.randomElement(), let resultID = randomItem.id {
-                NetworkHandler.requestPatternById(resultID) { [weak self] (result: Result<Pattern, ApiError>) in
-                    switch result {
-                    case .success(let pattern):
-                        DispatchQueue.main.async {
-                            if let related = pattern.patternCategories?.randomElement()?.flatChildren?.randomElement(),
-                               let name = randomItem.name {
-                                self?.tryPopulateRelatedResults(trigger: name, category: related)
-                            }
-                        }
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
-            }
+        guard
+            let query = defaultQueries[query],
+            let randomItem = query.randomElement(),
+            let resultID = randomItem.id
+        else {
+            return
         }
+
+        NetworkHandler.requestPatternById(resultID)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching pattern: \(error)")
+                default: return
+                }
+            }, receiveValue: { [weak self] pattern in
+                if let related = pattern.patternCategories?.randomElement()?.flatChildren?.randomElement(),
+                   let name = randomItem.name {
+                    self?.tryPopulateRelatedResults(trigger: name, category: related)
+                }
+            })
+            .store(in: &cancellables)
     }
     
     /// Attempt to populate relatedCategoryResults and associated related* values
     func tryPopulateRelatedResults(trigger: String, category: PatternCategory) {
         let query = Query(patternCategory: category, sort: .randomize, pageSize: "15")
         let queryString = QueryBuilder.build(query)
-        
-        NetworkHandler.requestPatternSearch(query: queryString) { [weak self] (result: Result<PatternSearch, ApiError>) in
-            switch result {
-            case .success(let search):
-                DispatchQueue.main.async {
-//                    self?.relatedItems = SampleCategory(category: category, query: query, results: search.patterns, trigger: trigger)
-                    self?.relatedCategory = category
-                    self?.relatedCategoryTrigger = trigger
-                    self?.relatedCategoryQuery = query
-                    self?.relatedCategoryResults = search.patterns
+
+        NetworkHandler.requestPatternSearch(query: queryString)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching patterns search: \(error)")
+                default: return
                 }
-            case .failure(let error):
-                print(error)
-            }
-        }
+            }, receiveValue: { [weak self] search in
+                //              self?.relatedItems = SampleCategory(category: category, query: query, results: search.patterns, trigger: trigger)
+                self?.relatedCategory = category
+                self?.relatedCategoryTrigger = trigger
+                self?.relatedCategoryQuery = query
+                self?.relatedCategoryResults = search.patterns
+            })
+            .store(in: &cancellables)
     }
     
     func setSessionDisplayCategory() {
@@ -92,44 +100,43 @@ extension SessionData {
             sampleCategory = allCategories?.flatChildren?.first { $0.id == id }
         }
         
-        guard let sampleCategory else { return }
+        guard let sampleCategory, currentUser != nil else { return }
         
-        if currentUser != nil {
-            sampleCategoryQuery = Query(patternCategory: sampleCategory, sort: .randomize, pageSize: "15")
-            
-            guard let sampleCategoryQuery else { return }
-            
-            let query = QueryBuilder.build(sampleCategoryQuery)
-            NetworkHandler.requestPatternSearch(query: query) { [weak self] (result: Result<PatternSearch, ApiError>) in
-                switch result {
-                case .success (let search):
-                    DispatchQueue.main.async {
-                        self?.sampleCategoryResults = search.patterns
-                    }
-                case .failure:
-                    DispatchQueue.main.async {
-                        self?.sampleCategoryResults = nil
-                    }
+        sampleCategoryQuery = Query(patternCategory: sampleCategory, sort: .randomize, pageSize: "15")
+
+        guard let sampleCategoryQuery else { return }
+
+        let query = QueryBuilder.build(sampleCategoryQuery)
+
+        NetworkHandler.requestPatternSearch(query: query)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching patterns search: \(error)")
+                    self?.sampleCategoryResults = nil
+                default: return
                 }
-                
-            }
-        }
+            }, receiveValue: { [weak self] search in
+                self?.sampleCategoryResults = search.patterns
+            })
+            .store(in: &cancellables)
     }
     
     func populateLibraryItems() {
-        if let user = currentUser?.username {
-            NetworkHandler.requestLibraryVolumeList(username: user) { [weak self] (result: Result<LibraryVolumeList, ApiError>) in
-                switch result {
-                case .success(let list):
-                    DispatchQueue.main.async {
-                        self?.libraryItems = list
-                    }
+        guard let user = currentUser?.username else { return }
+        NetworkHandler.requestLibraryVolumeList(username: user)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
                 case .failure(let error):
-                    print(error)
-                        
+                    print("Error fetching library items: \(error)")
+                default: return
                 }
-            }
-        }
+            }, receiveValue: { [weak self] list in
+                self?.libraryItems = list
+            })
+            .store(in: &cancellables)
     }
     
     func populateCategories() {
@@ -145,45 +152,46 @@ extension SessionData {
         }
         
         if currentUser != nil {
-            NetworkHandler.requestCategories() { [weak self] (result: Result<PatternCategories, ApiError>) in
-                switch result {
-                case .success (let categories):
-                    if let categories = categories.rootCategory
-                    {
-                        DispatchQueue.main.async {
-                            self?.allCategories = categories
-                            self?.setSessionDisplayCategory()
-                            UserDefaults.standard.set(Date(), forKey: "categoriesFetched")
-                            if let encoded = try? JSONEncoder().encode(categories) {
-                                UserDefaults.standard.set(encoded, forKey: "categoriesCache")
-                            }
+            NetworkHandler.requestCategories()
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .failure(let error):
+                        print("Error fetching categories: \(error)")
+                    default: return
+                    }
+                }, receiveValue: { [weak self] categories in
+                    if let categories = categories.rootCategory {
+                        self?.allCategories = categories
+                        self?.setSessionDisplayCategory()
+                        UserDefaults.standard.set(Date(), forKey: "categoriesFetched")
+                        if let encoded = try? JSONEncoder().encode(categories) {
+                            UserDefaults.standard.set(encoded, forKey: "categoriesCache")
                         }
                     }
-                case .failure (let error):
-                    print(error)
-                }
-            }
+                })
+                .store(in: &cancellables)
         }
     }
     
     func populateDefaultQuery(_ defaultQuery: DefaultContent) {
-        if currentUser != nil, let query = defaultQuery.query {
-            NetworkHandler.requestPatternSearch(query: QueryBuilder.build(query)) { [weak self] (result: Result<PatternSearch, ApiError>) in
-                switch result {
-                case .success (let search):
-                    DispatchQueue.main.async {
-                        self?.defaultQueries[defaultQuery] = search.patterns
-                        if defaultQuery == .favoritePatterns, self?.relatedCategory == nil {
-                            self?.tryPopulateRelatedCategoryFrom(.favoritePatterns)
-                        }
-                    }
-                case .failure:
-                    DispatchQueue.main.async {
-                        self?.defaultQueries[defaultQuery] = nil
-                    }
+        guard currentUser != nil, let query = defaultQuery.query else { return }
+        NetworkHandler.requestPatternSearch(query: QueryBuilder.build(query))
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching patterns search: \(error)")
+                    self?.defaultQueries[defaultQuery] = nil
+                default: return
                 }
-            }
-        }
+            }, receiveValue: { [weak self] search in
+                self?.defaultQueries[defaultQuery] = search.patterns
+                if defaultQuery == .favoritePatterns, self?.relatedCategory == nil {
+                    self?.tryPopulateRelatedCategoryFrom(.favoritePatterns)
+                }
+            })
+            .store(in: &cancellables)
     }
     
     func invalidateDefaultQuery(_ query: DefaultContent) {

@@ -5,6 +5,7 @@
 //  Created by Nicholas Valenti on 2022-09-22.
 //
 
+import Combine
 import Foundation
 
 enum LoginState: String {
@@ -17,7 +18,8 @@ class RootViewModel: ObservableObject {
     @Published var sessionData = SessionData()
     @Published private(set) var state: LoginState = .loading
     @Published var selectedSearchMode: SearchModes = .advanced
-    var networkHandler = NetworkHandler()
+    private var networkHandler = NetworkHandler()
+    private var cancellables = Set<AnyCancellable>()
     
     func checkAuthenticationState() {
         networkHandler.refreshAccessToken() { [weak self] success in
@@ -43,18 +45,21 @@ class RootViewModel: ObservableObject {
     }
     
     func retrieveCurrentUser() {
-        NetworkHandler.requestCurrentUser() { [weak self] (result: Result<User, ApiError>) in
-            switch result {
-            case .success (let user):
-                DispatchQueue.main.async {
-                    self?.sessionData.currentUser = user
-                    self?.sessionData.signOutDelegate = self
-                    self?.sessionData.setUpDefaults()
+        NetworkHandler.requestCurrentUser()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                switch result {
+                case .failure(let error):
+                    print("Error fetching user: \(error)")
+                default: return
                 }
-            case .failure (let error):
-                print(error)
-            }
-        }
+            }, receiveValue: { [weak self] user in
+                self?.sessionData.currentUser = user
+                self?.sessionData.signOutDelegate = self
+                self?.sessionData.populateQueries()
+				self?.sessionData.setUpDefaults()
+            })
+            .store(in: &cancellables)
     }
 }
 

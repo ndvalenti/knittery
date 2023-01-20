@@ -5,11 +5,13 @@
 //  Created by Nicholas Valenti on 2022-09-23.
 //
 
+import Combine
 import Foundation
 import UIKit
 
 class SessionData: ObservableObject {
     @Published var defaultQueries = [DefaultContent: [PatternResult]]()
+    var cancellables = Set<AnyCancellable>()
     
     // categories is a recursive tree structure that will contain all the potential searchable categories
     // These categories almost never change and when they do it's generally just display names
