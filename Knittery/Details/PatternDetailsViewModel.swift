@@ -43,23 +43,25 @@ class PatternDetailsViewModel: ObservableObject {
         }
 
         if let libraryId {
-            NetworkHandler.requestLibraryVolumeFull(id: String(libraryId)) { [weak self] (result: Result<LibraryVolumeFull, ApiError>) in
-                switch result {
-                case .success(let volume):
-                    DispatchQueue.main.async {
-                        self?.libraryVolumeFull = volume
+            NetworkHandler.requestLibraryVolumeFull(id: String(libraryId))
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .failure(let error):
+                        print("Error fetching library volume: \(error)")
+                    default: return
                     }
-                case .failure(let error):
-                    print(error)
-                }
-            }
+                }, receiveValue: { [weak self] volume in
+                    self?.libraryVolumeFull = volume
+                })
+                .store(in: &cancellables)
         }
     }
     
     func getDownloadLinks() {
         if let downloadLocation = pattern.downloadLocation {
             if pattern.personalAttributes?.inLibrary == true {
-                retrieveDownloadLink()
+                retrieveDownloadLinks()
             } else if downloadLocation.free == true, let url = downloadLocation.url {
                 downloadURL = url
                 isPresentingDownload = true
@@ -67,36 +69,41 @@ class PatternDetailsViewModel: ObservableObject {
         }
     }
     
-    private func retrieveDownloadLink() {
+    private func retrieveDownloadLinks() {
         if let patternId = pattern.id, let attachments = libraryVolumeFull?.attachments {
             downloadLink.removeAll()
-            
             attachments.forEach { attachment in
                 guard let id = attachment.attachmentId else { return }
-                
-                NetworkHandler.requestDownloadLinkById(id) { [weak self] (result: Result<DownloadLink, ApiError>) in
-                    switch result {
-                    case .success (let link):
-                        DispatchQueue.main.async {
-                            self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
-                            self?.isPresentingDownload = true
-                        }
-                    case .failure (let error):
-                        if error == .badToken || error == .noToken || error == .invalidResponse {
-                            print(error)
-                            DispatchQueue.main.async {
-                                self?.networkHandler.requestLibraryToken() { [weak self] success in
-                                    if success {
-                                        self?.retrieveDownloadLinkNoReauth(patternId: patternId)
-                                    } else {
-                                        print(error)
-                                    }
-                                }
-                            }
-                        } else {
-                            print(error)
-                        }
-                    }
+                performDownloadForLink(id: id, patternId: patternId, filename: attachment.filename)
+            }
+        }
+    }
+
+    private func performDownloadForLink(id: Int, patternId: Int, filename: String?) {
+        NetworkHandler.requestDownloadLinkById(id)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching download link: \(error)")
+                    self?.handleDownloadError(error: error, patternId: patternId)
+                default: return
+                }
+            }, receiveValue: { [weak self] link in
+                self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: filename))
+                self?.isPresentingDownload = true
+            })
+            .store(in: &cancellables)
+    }
+
+    private func handleDownloadError(error: Error, patternId: Int) {
+        guard let apiError = error as? ApiError else { return }
+        if apiError == ApiError.badToken || apiError == ApiError.noToken || apiError == ApiError.invalidResponse {
+            networkHandler.requestLibraryToken() { [weak self] success in
+                if success {
+                    self?.retrieveDownloadLinkNoReauth(patternId: patternId)
+                } else {
+                    print(error)
                 }
             }
         }
@@ -106,18 +113,19 @@ class PatternDetailsViewModel: ObservableObject {
         if let patternId, let attachments = libraryVolumeFull?.attachments {
             attachments.forEach { attachment in
                 guard let id = attachment.attachmentId else { return }
-                
-                NetworkHandler.requestDownloadLinkById(id) { [weak self] (result: Result<DownloadLink, ApiError>) in
-                    switch result {
-                    case .success (let link):
-                        DispatchQueue.main.async {
-                            self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
-                            self?.isPresentingDownload = true
+                NetworkHandler.requestDownloadLinkById(id)
+                    .receive(on: DispatchQueue.main)
+                    .sink(receiveCompletion: { completion in
+                        switch completion {
+                        case .failure(let error):
+                            print("Error fetching download link: \(error)")
+                        default: return
                         }
-                    case .failure (let error):
-                        print(error)
-                    }
-                }
+                    }, receiveValue: { [weak self] link in
+                        self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
+                        self?.isPresentingDownload = true
+                    })
+                    .store(in: &cancellables)
             }
         }
     }

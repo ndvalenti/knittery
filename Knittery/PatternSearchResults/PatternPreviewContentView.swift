@@ -25,9 +25,8 @@ struct PatternPreviewContentView: View {
     var body: some View {
         if let title {
             if let results, !results.isEmpty, let fullQuery {
-                VStack (spacing: 0) {
-                    NavigationLink(destination: PatternResultsView(QueryBuilder.build(fullQuery))
-                    ) {
+                VStack(spacing: 0) {
+                    NavigationLink(destination: PatternResultsView(QueryBuilder.build(fullQuery))) {
                         HStack {
                             Text(title)
                                 .fontWeight(.bold)
@@ -43,7 +42,7 @@ struct PatternPreviewContentView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
-                            ForEach (results, id: \.id) { result in
+                            ForEach(results, id: \.id) { result in
                                 NavigationLink(destination: PatternDetailsView(result.id).environmentObject(sessionData)) {
                                     KnitteryPatternPreview(pattern: result)
                                 }
@@ -83,7 +82,7 @@ struct PatternPreviewContentView: View {
 }
 
 struct KnitteryDisplayBlock_Previews: PreviewProvider {
-    @State static private var results:  [PatternResult]? = []
+    @State static private var results: [PatternResult]? = []
     static var previews: some View {
         PatternPreviewContentView("Test", results: $results)
             .environmentObject(SessionData())

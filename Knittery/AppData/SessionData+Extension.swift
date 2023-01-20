@@ -124,19 +124,19 @@ extension SessionData {
     }
     
     func populateLibraryItems() {
-        if let user = currentUser?.username {
-            NetworkHandler.requestLibraryVolumeList(username: user) { [weak self] (result: Result<LibraryVolumeList, ApiError>) in
-                switch result {
-                case .success(let list):
-                    DispatchQueue.main.async {
-                        self?.libraryItems = list
-                    }
+        guard let user = currentUser?.username else { return }
+        NetworkHandler.requestLibraryVolumeList(username: user)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
                 case .failure(let error):
-                    print(error)
-
+                    print("Error fetching library items: \(error)")
+                default: return
                 }
-            }
-        }
+            }, receiveValue: { [weak self] list in
+                self?.libraryItems = list
+            })
+            .store(in: &cancellables)
     }
     
     func populateCategories() {
@@ -152,24 +152,25 @@ extension SessionData {
         }
         
         if currentUser != nil {
-            NetworkHandler.requestCategories() { [weak self] (result: Result<PatternCategories, ApiError>) in
-                switch result {
-                case .success (let categories):
-                    if let categories = categories.rootCategory
-                    {
-                        DispatchQueue.main.async {
-                            self?.allCategories = categories
-                            self?.setSessionDisplayCategory()
-                            UserDefaults.standard.set(Date(), forKey: "categoriesFetched")
-                            if let encoded = try? JSONEncoder().encode(categories) {
-                                UserDefaults.standard.set(encoded, forKey: "categoriesCache")
-                            }
+            NetworkHandler.requestCategories()
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .failure(let error):
+                        print("Error fetching categories: \(error)")
+                    default: return
+                    }
+                }, receiveValue: { [weak self] categories in
+                    if let categories = categories.rootCategory {
+                        self?.allCategories = categories
+                        self?.setSessionDisplayCategory()
+                        UserDefaults.standard.set(Date(), forKey: "categoriesFetched")
+                        if let encoded = try? JSONEncoder().encode(categories) {
+                            UserDefaults.standard.set(encoded, forKey: "categoriesCache")
                         }
                     }
-                case .failure (let error):
-                    print(error)
-                }
-            }
+                })
+                .store(in: &cancellables)
         }
     }
     

@@ -12,32 +12,7 @@ import UIKit
 
 extension NetworkHandler {
     static private let domain = "https://api.ravelry.com/"
-    
-//    static func requestPatternById(_ id: Int, resultHandler: @escaping (Result<Pattern, ApiError>) -> Void) {
-//        let apicall = domain + "patterns/" + String(id) + ".json"
-//
-//        guard let url = URL(string: apicall) else {
-//            resultHandler(.failure(ApiError.invalidUrl))
-//            return
-//        }
-//
-//        guard let request = URLRequestBuilder(url) else {
-//            resultHandler(.failure(ApiError.badToken))
-//            return
-//        }
-//
-//        self.makeRequest(request) { (result: Result<PatternWrapper, ApiError>) in
-//            switch result {
-//            case .success(let patternWrapper):
-//                if let pattern = patternWrapper.pattern {
-//                    resultHandler(.success(pattern))
-//                }
-//            case .failure(let error):
-//                resultHandler(.failure(error))
-//            }
-//        }
-//    }
-    
+
     // yarns have fewer search options
     // TODO: Look into URLComponents and see if we can't work with URL? queries rathar than String? for a more pure experience
     // https://cocoacasts.com/working-with-nsurlcomponents-in-swift
@@ -45,159 +20,34 @@ extension NetworkHandler {
         let apicall = domain + "patterns/search.json" + query
         return execute(apicall)
     }
-    
-    static func requestDownloadLinkById(_ id: Int, resultHandler: @escaping (Result<DownloadLink, ApiError>) -> Void) {
+
+    static func requestDownloadLinkById(_ id: Int) -> AnyPublisher<DownloadLink, Error> {
         let apicall = domain + "product_attachments/" + String(id) + "/generate_download_link.json"
-        guard let url = URL(string: apicall) else {
-            resultHandler(.failure(ApiError.invalidUrl))
-            return
-        }
-        
-        guard var request = URLRequestBuilder(url, tokenType: .library) else {
-            resultHandler(.failure(ApiError.noToken))
-            return
-        }
-        
-        request.httpMethod = "POST"
-        
-        self.makeRequest(request) { (result: Result<DownloadLinkWrapper, ApiError>) in
-            switch result {
-            case .success(let link):
-                resultHandler(.success(link.downloadLink))
-            case .failure(let error):
-                resultHandler(.failure(error))
+        return execute(apicall,  httpMethod: "POST", tokenType: .library)
+            .compactMap  { (wrapper: DownloadLinkWrapper) -> DownloadLink in
+                wrapper.downloadLink
             }
-        }
+            .eraseToAnyPublisher()
     }
-    
-//    static func requestCurrentUser(resultHandler: @escaping (Result<User, ApiError>) -> Void) {
-//        let apicall = domain + "current_user.json"
-//
-//        guard let url = URL(string: apicall) else {
-//            resultHandler(.failure(ApiError.invalidUrl))
-//            return
-//        }
-//
-//        guard var request = URLRequestBuilder(url) else {
-//            resultHandler(.failure(ApiError.invalidUrl))
-//            return
-//        }
-//
-//        request.httpMethod = "POST"
-//
-//        self.makeRequest(request) { (result: Result<UserWrapper, ApiError>) in
-//            switch result {
-//            case .success(let user):
-//                if let user = user.user {
-//                    resultHandler(.success(user))
-//                }
-//            case .failure(let error):
-//                resultHandler(.failure(error))
-//            }
-//        }
-//    }
 
-    // TODO: combine
-    static func requestLibraryVolumeList(username: String, resultHandler: @escaping (Result<LibraryVolumeList, ApiError>) -> Void) {
+    static func requestLibraryVolumeList(username: String) -> AnyPublisher<LibraryVolumeList, Error> {
         let apicall = domain + "people/\(username)/library/search.json"
-        
-        guard let url = URL(string: apicall) else {
-            resultHandler(.failure(ApiError.invalidUrl))
-            return
-        }
-        
-        guard let request = URLRequestBuilder(url) else {
-            resultHandler(.failure(ApiError.invalidUrl))
-            return
-        }
-        
-        self.makeRequest(request) { (result: Result<LibraryVolumeList, ApiError>) in
-            switch result {
-            case .success(let list):
-                resultHandler(.success(list))
-            case .failure(let error):
-                resultHandler(.failure(error))
-            }
-        }
+        return execute(apicall)
     }
 
-    // TODO: combine
-    static func requestLibraryVolumeFull(id: String, resultHandler: @escaping (Result<LibraryVolumeFull, ApiError>) -> Void) {
+    static func requestLibraryVolumeFull(id: String) -> AnyPublisher<LibraryVolumeFull, Error> {
         let apicall = domain + "volumes/\(id).json"
-        
-        guard let url = URL(string: apicall) else {
-            resultHandler(.failure(ApiError.invalidUrl))
-            return
-        }
-        
-        guard let request = URLRequestBuilder(url) else {
-            resultHandler(.failure(ApiError.invalidUrl))
-            return
-        }
-        
-        self.makeRequest(request) { (result: Result<LibraryVolumeFullWrapper, ApiError>) in
-            switch result {
-            case .success(let volume):
-                resultHandler(.success(volume.volume))
-            case .failure(let error):
-                resultHandler(.failure(error))
+        return execute(apicall)
+            .compactMap { (wrapper: LibraryVolumeFullWrapper) -> LibraryVolumeFull in
+                wrapper.volume
             }
-        }
+            .eraseToAnyPublisher()
     }
 
-    // TODO: combine
-    static func requestCategories(resultHandler: @escaping (Result<PatternCategories, ApiError>) -> Void) {
+    static func requestCategories() -> AnyPublisher<PatternCategories, Error> {
         let apicall = domain + "/pattern_categories/list.json"
-        
-        guard let url = URL(string: apicall) else {
-            resultHandler(.failure(ApiError.invalidUrl))
-            return
-        }
-        
-        guard let request = URLRequestBuilder(url) else {
-            resultHandler(.failure(ApiError.invalidUrl))
-            return
-        }
-        
-        self.makeRequest(request) { (result: Result<PatternCategories, ApiError>) in
-            switch result {
-            case .success(let category):
-                resultHandler(.success(category))
-            case .failure(let error):
-                resultHandler(.failure(error))
-            }
-        }
+        return execute(apicall)
     }
-    
-//    static func addFavorite(patternId: String, username: String, resultHandler: @escaping (Result<Bookmark, ApiError>) -> Void) {
-//        let dataModel = Favorite(id: patternId, type: "pattern", comment: "")
-//
-//        let apicall = domain + "people/\(username)/favorites/create.json"
-//
-//        guard let url = URL(string: apicall) else {
-//            resultHandler(.failure(ApiError.invalidUrl))
-//            return
-//        }
-//
-//        guard var request = URLRequestBuilder(url) else {
-//            resultHandler(.failure(ApiError.invalidUrl))
-//            return
-//        }
-//        guard let model = dataModel.jsonData else { return }
-//
-//        request.httpMethod = "POST"
-//        request.httpBody = model
-//
-//        self.makeRequest(request) { (result: Result<BookmarkWrapper, ApiError>) in
-//            switch result {
-//            case .success(let wrapper):
-//                resultHandler(.success(wrapper.bookmark))
-//            case .failure(let error):
-//                resultHandler(.failure(error))
-//                return execute(apicall)
-//            }
-//        }
-//    }
 
     static func requestPatternById(_ id: Int) -> AnyPublisher<Pattern, Error> {
         let apicall = domain + "patterns/" + String(id) + ".json"
@@ -250,11 +100,19 @@ extension NetworkHandler {
 
 extension NetworkHandler {
 
-    private static func execute<T>(_ urlString: String, httpMethod: String = "GET") -> AnyPublisher<T, Error> where T: Decodable {
-        guard let url = URL(string: urlString),
-              var request = URLRequestBuilder(url) else {
+    private static func execute<T>(
+        _ urlString: String,
+        httpMethod: String = "GET",
+        tokenType: KeychainHandler.TokenType = .access
+    ) -> AnyPublisher<T, Error> where T: Decodable {
+        guard let url = URL(string: urlString) else {
             return Fail(error: ApiError.invalidUrl).eraseToAnyPublisher()
         }
+
+        guard var request = URLRequestBuilder(url, tokenType: tokenType) else {
+            return Fail(error: ApiError.noToken).eraseToAnyPublisher()
+        }
+
         request.httpMethod = httpMethod
         return URLSession.shared.dataTaskPublisher(for: request)
             .map { $0.data }
