@@ -12,7 +12,9 @@ enum ApiError: Error, CustomStringConvertible {
     case decodeError
     case encodeError
     case invalidUrl
+    case noToken
     case noData
+    case badToken
     case invalidResponse
     
     public var description: String {
@@ -27,6 +29,10 @@ enum ApiError: Error, CustomStringConvertible {
             return "No data"
         case .invalidResponse:
             return "Invalid HTTP response code"
+        case .noToken:
+            return "Invalid or No Token"
+        case .badToken:
+            return "Token authorization failed"
         }
     }
 }

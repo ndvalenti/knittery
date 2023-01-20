@@ -32,9 +32,3 @@ extension PersonalAttributes {
     static let mockData = PersonalAttributes(favorited: true, queued: false, inLibrary: false, bookmarkId: 1111)
     static let emptyData = PersonalAttributes(favorited: nil, queued: nil, inLibrary: nil, bookmarkId: nil)
 }
-//"personal_attributes": {
-//    "favorited": true,
-//    "bookmark_id": 412816337,
-//    "queued": false,
-//    "in_library": true
-//  },

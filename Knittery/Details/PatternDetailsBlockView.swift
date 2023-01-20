@@ -10,6 +10,8 @@ import SwiftUI
 
 struct PatternDetailsBlockView: View {
     @ObservedObject var patternDetailsViewModel: PatternDetailsViewModel
+    @Binding var isPresentingDownload: Bool
+    
     let dateFormatter = DateFormatter()
     
     var body: some View {
@@ -54,27 +56,23 @@ struct PatternDetailsBlockView: View {
                     }
                 }
                 Group {
-                    // TODO: For now we are not generating download links for library items
-                    // Requires special handling including paypal sdk and integration with applepay
-                    // and testing with correctly capturing the callbacks and using special
-                    // auth to generate download links
-                    if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation, let url = downloadLocation.url, downloadLocation.free == true {
-                        Divider()
-                        makeRow("URL", content: url)
+                    if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation {
+                        if patternDetailsViewModel.pattern.personalAttributes?.inLibrary == true || downloadLocation.free == true {
+                            Divider()
+                            HStack (alignment: .top) {
+                                Spacer()
+                                Button {
+                                    patternDetailsViewModel.getDownloadLinks()
+                                } label: {
+                                    Label("Request Download Links", systemImage: "arrow.down.doc.fill")
+                                        .padding()
+                                }
+                                Spacer()
+                            }
+                            .redacted(reason: patternDetailsViewModel.pattern.id == nil ? .placeholder: [])
+                            .padding(.horizontal)
+                        }
                     }
-                    /*
-                     if let downloadLocation = patternDetailsViewModel.pattern.downloadLocation {
-                     if let url = downloadLocation.url {
-                     if (patternDetailsViewModel.pattern.personalAttributes?.inLibrary == true) {
-                     Divider()
-                     makeRow("URL", content: url)
-                     } else if downloadLocation.free == true {
-                     Divider()
-                     makeRow("URL", content: url)
-                     }
-                     }
-                     }
-                     */
                 }
             } else {
                 ForEach(0..<5) { placeholder in
@@ -113,7 +111,8 @@ struct PatternDetailsBlockView: View {
 }
 
 struct PatternDetailsBlockView_Previews: PreviewProvider {
+    @State static var isPresented: Bool = false
     static var previews: some View {
-        PatternDetailsBlockView(patternDetailsViewModel: PatternDetailsViewModel())
+        PatternDetailsBlockView(patternDetailsViewModel: PatternDetailsViewModel(), isPresentingDownload: $isPresented)
     }
 }

@@ -13,7 +13,7 @@ struct PatternSearchView: View {
     @State var toggled: Bool = false
     
     var body: some View {
-        VStack (alignment: .leading){
+        VStack (alignment: .leading) {
             Menu {
                 Picker("Sort By", selection: $searchViewModel.query.sort) {
                     ForEach(QSort.allCases, id: \.self) { sortBy in
@@ -43,7 +43,7 @@ struct PatternSearchView: View {
             List(searchViewModel.searchCategories, children: \.items) { row in
                 if let checked = row.isChecked {
                     KnitteryMultiPickerTab(title: row.categoryTitle, isChecked: checked) { isOn in
-                        row.set(searchViewModel.query.updateSearchParameter(category: row.category, key: row.categoryRaw, setValue: isOn))
+                        row.set(searchViewModel.query.updateSearchParameter(searchOptionCategory: row.category, key: row.categoryRaw, setValue: isOn))
                     }
                     .foregroundColor(Color.KnitteryColor.lightBlue)
                 } else {

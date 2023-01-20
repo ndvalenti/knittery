@@ -12,6 +12,7 @@ class KeychainHandler {
     enum TokenType: String {
         case access = "access-token"
         case refresh = "refresh-token"
+        case library = "library-token"
     }
     
     static func saveToken(_ token: String, type: TokenType) {

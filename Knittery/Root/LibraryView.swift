@@ -9,19 +9,16 @@ import SwiftUI
 
 struct LibraryView: View {
     @EnvironmentObject var sessionData: SessionData
-    @Binding var tabID: TabID
-    @State var empty = true
-    let previewQueries: [DefaultQuery] = [.favoritePatterns, .libraryPatterns]
     
     var body: some View {
         NavigationStack {
             VStack {
                 Spacer()
                 VStack {
-                    if empty {
-                        Button {
-                            tabID = .search
-                        } label: {
+                    // TODO: Break this out into its own view that displays when supplied arguments are ALL nil, or replace PatternPreviewContentViews with a single view containing them all
+                    if sessionData.defaultQueries[.favoritePatterns] == nil,
+                        sessionData.defaultQueries[.libraryPatterns] == nil {
+                        NavigationLink(destination: SearchView()) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 16)
                                     .frame(maxHeight: 200)
@@ -30,13 +27,6 @@ struct LibraryView: View {
                                     Text("There doesn't seem to be anything here yet")
                                         .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                                         .padding()
-                                    Text("Get started")
-                                        .padding()
-                                        .frame(width: 200, height: 30)
-                                        .foregroundColor(.white)
-                                        .background(Color.KnitteryColor.lightBlue)
-                                        .cornerRadius(48)
-                                        .font(.custom("Avenir", size: 20, relativeTo: .largeTitle))
                                 }
                             }
                             .overlay(RoundedRectangle(cornerRadius: 16)
@@ -47,14 +37,24 @@ struct LibraryView: View {
                     } else {
                         ScrollView(showsIndicators: false) {
                             VStack(spacing: 50) {
-                                ForEach (previewQueries, id: \.rawValue) { query in
-                                    PatternSearchRowView(query.rawValue, results: $sessionData.defaultQueries[query])
+                                PatternPreviewContentView(DefaultContent.favoritePatterns.rawValue, results: $sessionData.defaultQueries[.favoritePatterns], fullQuery: DefaultContent.favoritePatterns.query)
+                                .environmentObject(sessionData)
+                                
+                                if sessionData.relatedCategoryResults != nil,
+                                   let trigger = sessionData.relatedCategoryTrigger {
+                                    PatternPreviewContentView("More Like \(trigger)", results: $sessionData.relatedCategoryResults, fullQuery: sessionData.relatedCategoryQuery)
                                         .environmentObject(sessionData)
                                 }
+                                
+                                PatternPreviewContentView(DefaultContent.libraryPatterns.rawValue, results: $sessionData.defaultQueries[.libraryPatterns], fullQuery: DefaultContent.libraryPatterns.query)
+                                .environmentObject(sessionData)
                             }
                         }
                         .padding(.top)
                     }
+                }
+                .onAppear {
+                    sessionData.checkEmptyDefaultContent(defaults: [.favoritePatterns, .libraryPatterns])
                 }
                 .frame(maxWidth: .infinity)
                 .background(Color.KnitteryColor.backgroundLight)
@@ -66,37 +66,14 @@ struct LibraryView: View {
             }
             .toolbar(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                for query in previewQueries {
-                    if let current = sessionData.defaultQueries[query] {
-                        if !current.isEmpty { empty = false }
-                    } else {
-                        sessionData.populateDefaultQuery(query)
-                    }
-                }
-            }
         }
         .environmentObject(sessionData)
     }
 }
 
-struct LButton: ButtonStyle {
-    func makeBody(configuration: ButtonStyle.Configuration) -> some View {
-        configuration.label
-            .padding(.horizontal)
-            .frame(height: 41)
-            .foregroundColor(.white)
-            .background(Color.KnitteryColor.lightBlue)
-            .cornerRadius(46)
-            .font(.custom("Avenir", size: 16))
-    }
-}
-
 struct LibraryView_Previews: PreviewProvider {
-    @State static var tabID: TabID = .search
-    
     static var previews: some View {
-        LibraryView(tabID: $tabID)
+        LibraryView()
             .environmentObject(SessionData())
     }
 }

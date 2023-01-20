@@ -24,23 +24,3 @@ extension DownloadLocation {
     static let mockData = DownloadLocation(type: "ravelry", free: false, url: "http://www.ravelry.com/purchase/daniela-muhlbauer-designs/819634")
     static let emptyData = DownloadLocation(type: nil, free: nil, url: nil)
 }
-
-//"ravelry_download": false,
-//"download_location": {
-//  "type": "external",
-//  "free": false,
-//  "url": "https://mochimochiland.com/product/cozy-squozy-cats-patterns/"
-//},
-//
-//"ravelry_download": true,
-//"download_location": {
-//  "type": "ravelry",
-//  "free": false,
-//  "url": "http://www.ravelry.com/purchase/daniela-muhlbauer-designs/819634"
-//},
-//
-//"download_location": {
-//  "type": "ravelry",
-//  "free": true,
-//  "url": "http://www.ravelry.com/dls/60864/375268"
-//},

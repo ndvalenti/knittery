@@ -13,6 +13,14 @@ class PatternDetailsViewModel: ObservableObject {
     @Published var pattern = Pattern.emptyData
     @Published var isFavorited: Bool = false
     @Published var bookmarkId: Int?
+    @Published var libraryId: Int?
+    @Published var libraryVolumeFull: LibraryVolumeFull?
+    @Published var downloadLink: [DownloadLink] = []
+    @Published var isPresentingDownload: Bool = false
+    @Published var downloadURL: String?
+    var sessionData: SessionData?
+    
+    private var networkHandler = NetworkHandler()
 
     private var cancellables = Set<AnyCancellable>()
     
@@ -33,6 +41,85 @@ class PatternDetailsViewModel: ObservableObject {
                 })
                 .store(in: &cancellables)
         }
+
+        if let libraryId {
+            NetworkHandler.requestLibraryVolumeFull(id: String(libraryId)) { [weak self] (result: Result<LibraryVolumeFull, ApiError>) in
+                switch result {
+                case .success(let volume):
+                    DispatchQueue.main.async {
+                        self?.libraryVolumeFull = volume
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    func getDownloadLinks() {
+        if let downloadLocation = pattern.downloadLocation {
+            if pattern.personalAttributes?.inLibrary == true {
+                retrieveDownloadLink()
+            } else if downloadLocation.free == true, let url = downloadLocation.url {
+                downloadURL = url
+                isPresentingDownload = true
+            }
+        }
+    }
+    
+    private func retrieveDownloadLink() {
+        if let patternId = pattern.id, let attachments = libraryVolumeFull?.attachments {
+            downloadLink.removeAll()
+            
+            attachments.forEach { attachment in
+                guard let id = attachment.attachmentId else { return }
+                
+                NetworkHandler.requestDownloadLinkById(id) { [weak self] (result: Result<DownloadLink, ApiError>) in
+                    switch result {
+                    case .success (let link):
+                        DispatchQueue.main.async {
+                            self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
+                            self?.isPresentingDownload = true
+                        }
+                    case .failure (let error):
+                        if error == .badToken || error == .noToken || error == .invalidResponse {
+                            print(error)
+                            DispatchQueue.main.async {
+                                self?.networkHandler.requestLibraryToken() { [weak self] success in
+                                    if success {
+                                        self?.retrieveDownloadLinkNoReauth(patternId: patternId)
+                                    } else {
+                                        print(error)
+                                    }
+                                }
+                            }
+                        } else {
+                            print(error)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func retrieveDownloadLinkNoReauth(patternId: Int?) {
+        if let patternId, let attachments = libraryVolumeFull?.attachments {
+            attachments.forEach { attachment in
+                guard let id = attachment.attachmentId else { return }
+                
+                NetworkHandler.requestDownloadLinkById(id) { [weak self] (result: Result<DownloadLink, ApiError>) in
+                    switch result {
+                    case .success (let link):
+                        DispatchQueue.main.async {
+                            self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
+                            self?.isPresentingDownload = true
+                        }
+                    case .failure (let error):
+                        print(error)
+                    }
+                }
+            }
+        }
     }
     
     func toggleFavorite(username: String?) {
@@ -51,6 +138,7 @@ class PatternDetailsViewModel: ObservableObject {
                 }, receiveValue: { [weak self] _ in
                     self?.bookmarkId = nil
                     self?.isFavorited = false
+					self?.sessionData?.populateDefaultQuery(.favoritePatterns)
                 })
                 .store(in: &cancellables)
 
@@ -67,6 +155,7 @@ class PatternDetailsViewModel: ObservableObject {
                 }, receiveValue: { [weak self] bookmark in
                     self?.bookmarkId = bookmark.id
                     self?.isFavorited = true
+					self?.sessionData?.populateDefaultQuery(.favoritePatterns)
                 })
                 .store(in: &cancellables)
         }

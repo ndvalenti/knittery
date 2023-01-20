@@ -9,10 +9,37 @@ import Combine
 import Foundation
 import UIKit
 
-class SessionData: ObservableObject {
-    @Published var defaultQueries = [DefaultQuery: [PatternResult]]()
-    private var cancellables = Set<AnyCancellable>()
+class SessionData: ObservableObject {    
+    @Published var defaultQueries = [DefaultContent: [PatternResult]]()
+    var cancellables = Set<AnyCancellable>()
+    
+    // categories is a recursive tree structure that will contain all the potential searchable categories
+    // These categories almost never change and when they do it's generally just display names
+    // we try to cache them for 24 hours and will display some defaults that we can rely on to exist
+    var allCategories: PatternCategory?
+    var lastCategoryFetch: Date?
+    
+    var libraryItems: LibraryVolumeList?
+    var networkHandler: NetworkHandler?
+    
+    // On app start we randomly choose a sample category from a curated list and run a query similar to our
+    // defaults above, the following two variables contain relevant information
+    // TODO: Make a struct to store and handle all of the following data and move these functions/variables out of SessionData
+    @Published var sampleCategory: PatternCategory? = nil
+    @Published var sampleCategoryQuery: Query? = nil
+    @Published var sampleCategoryResults: [PatternResult]?
+
+    @Published var relatedCategory: PatternCategory? = nil
+    @Published var relatedCategoryQuery: Query? = nil
+    @Published var relatedCategoryResults: [PatternResult]?
+    @Published var relatedCategoryTrigger: String?
+    
     weak var signOutDelegate: SignOutDelegate?
+    
+    init() {
+        lastCategoryFetch = UserDefaults.standard.object(forKey: "categoriesFetched") as? Date
+        self.networkHandler = nil
+    }
     
     @Published var currentUser: User? { didSet {
         guard let currentUser, let photoURL = currentUser.photoURL else {
@@ -26,50 +53,6 @@ class SessionData: ObservableObject {
     } }
     
     @Published var profilePicture: UIImage? = nil
-    
-    func populateQueries() {
-        DefaultQuery.allCases.forEach { defaultQuery in
-            populateDefaultQuery(defaultQuery)
-        }
-    }
-    
-    func populateDefaultQuery(_ defaultQuery: DefaultQuery) {
-        if currentUser != nil {
-            NetworkHandler.requestPatternSearch(query: defaultQuery.query)
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .failure(let error):
-                        print("Error fetching default queries: \(error)")
-                        self?.defaultQueries[defaultQuery] = nil
-
-                    default: return
-                    }
-                }, receiveValue: { [weak self] search in
-                    self?.defaultQueries[defaultQuery] = search.patterns
-                })
-                .store(in: &cancellables)
-        }
-    }
-    
-    func invalidateDefaultQuery(_ query: DefaultQuery) {
-        defaultQueries[query] = nil
-    }
-    
-    private func invalidateAllDefaultQueries() {
-        DefaultQuery.allCases.forEach { query in
-            invalidateDefaultQuery(query)
-        }
-    }
-    
-    func signOut() {
-        signOutDelegate?.signOut()
-    }
-    
-    func clearData() {
-        currentUser = nil
-        invalidateAllDefaultQueries()
-    }
 }
 
 
