@@ -16,20 +16,14 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     
     override init () {
         super.init()
-        oauthswift = OAuth2Swift(
-            consumerKey:    APIKeys.RavelryOAuth.consumerKey.rawValue,
-            consumerSecret: APIKeys.RavelryOAuth.consumerSecret.rawValue,
-            authorizeUrl:   "https://www.ravelry.com/oauth2/auth",
-            accessTokenUrl: "https://www.ravelry.com/oauth2/token",
-            responseType:   "code"
-        )
+        reinitOauth()
     }
     
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return ASPresentationAnchor()
     }
     
-    func signOut() {
+    func reinitOauth() {
         oauthswift = OAuth2Swift(
             consumerKey:    APIKeys.RavelryOAuth.consumerKey.rawValue,
             consumerSecret: APIKeys.RavelryOAuth.consumerSecret.rawValue,
@@ -39,7 +33,13 @@ class NetworkHandler: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         )
     }
     
+    func signOut() {
+        reinitOauth()
+    }
+    
     func signIn(completion: @escaping (Bool) -> Void) {
+        reinitOauth()
+        
         oauthswift.authorizeURLHandler = ASWebAuthenticationURLHandler(
             callbackUrlScheme: "knitteryapp",
             presentationContextProvider: self,

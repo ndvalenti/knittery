@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-enum TabID: Int, RawRepresentable {
-    case home = 1
-    case search = 2
-    case library = 3
-}
-
 struct RootView: View {
     @StateObject var rootViewModel = RootViewModel()
 

@@ -16,7 +16,7 @@ class SearchCategory: Identifiable, ObservableObject {
     let category: SearchOptionCategory?
     var isChecked: Bool?
     var items: [SearchCategory]?
-    /// if set to onChange() this function acts ss a hook that can be used by children to trigger updates in their parents
+    /// if set to onChange() this function acts as a hook that can be used by children to trigger updates in their parents
     var didChange: (() -> Void)?
     
     @Published private(set) var itemSubstring: String = ""
@@ -35,7 +35,7 @@ class SearchCategory: Identifiable, ObservableObject {
         didChange?()
     }
     
-    /// populate itemSubstring with a comma delineated list of this object's SearchCategory children that have a true isChecked value
+    /// populate itemSubstring with a comma delineated list of this objects SearchCategory children that have a true isChecked value
     func onChange() {
         guard let items else { return }
         itemSubstring = items.filter{ $0.isChecked == true }.map{ $0.categoryTitle }.joined(separator: ", ")
@@ -82,7 +82,7 @@ class SearchViewModel: ObservableObject {
         }
     }
     
-    /// WARNING: This function is for internal use only, use populateSearchCategory(_ searchOptionCategory:) insted
+    /// WARNING: This function is for internal use only, use populateSearchCategory(_ searchOptionCategory:) instead
     private func populateSearchCategory_internal(_ searchOptionCategory: SearchOptionCategory, queryType: [some SearchOption: Bool]) {
         searchCategories.removeAll(where: { $0.categoryTitle == searchOptionCategory.display } )
         
