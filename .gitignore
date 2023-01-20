@@ -1,1 +1,8 @@
 Knittery/AppData/ApiKeys.swift
+
+xcuserdata/
+
+*.xcodeproj
+*.xcodeproj/*
+
+.DS_Store

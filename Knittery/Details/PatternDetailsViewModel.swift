@@ -6,6 +6,7 @@
 //  Copyright © 2022 Nicholas Valenti. All rights reserved.
 //
 
+import Combine
 import Foundation
 
 class PatternDetailsViewModel: ObservableObject {
@@ -20,41 +21,47 @@ class PatternDetailsViewModel: ObservableObject {
     var sessionData: SessionData?
     
     private var networkHandler = NetworkHandler()
+
+    private var cancellables = Set<AnyCancellable>()
     
     func retrievePattern(patternId: Int?) {
         if let patternId  {
-            NetworkHandler.requestPatternById(patternId) { [weak self] (result: Result<Pattern, ApiError>) in
-                switch result {
-                case .success (let pattern):
-                    DispatchQueue.main.async {
-                        self?.pattern = pattern
-                        self?.isFavorited = pattern.personalAttributes?.favorited ?? false
-                        self?.bookmarkId = pattern.personalAttributes?.bookmarkId
-                    }
-                case .failure (let error):
-                    print(error)
-                }
-            }
-            
-            if let libraryId {
-                NetworkHandler.requestLibraryVolumeFull(id: String(libraryId)) { [weak self] (result: Result<LibraryVolumeFull, ApiError>) in
-                    switch result {
-                    case .success(let volume):
-                        DispatchQueue.main.async {
-                            self?.libraryVolumeFull = volume
-                        }
+            NetworkHandler.requestPatternById(patternId)
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { completion in
+                    switch completion {
                     case .failure(let error):
-                        print(error)
+                        print("Error fetching patterns search: \(error)")
+                    default: return
                     }
-                }
-            }
+                }, receiveValue: { [weak self] pattern in
+                    self?.pattern = pattern
+                    self?.isFavorited = pattern.personalAttributes?.favorited ?? false
+                    self?.bookmarkId = pattern.personalAttributes?.bookmarkId
+                })
+                .store(in: &cancellables)
+        }
+
+        if let libraryId {
+            NetworkHandler.requestLibraryVolumeFull(id: String(libraryId))
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .failure(let error):
+                        print("Error fetching library volume: \(error)")
+                    default: return
+                    }
+                }, receiveValue: { [weak self] volume in
+                    self?.libraryVolumeFull = volume
+                })
+                .store(in: &cancellables)
         }
     }
     
     func getDownloadLinks() {
         if let downloadLocation = pattern.downloadLocation {
             if pattern.personalAttributes?.inLibrary == true {
-                retrieveDownloadLink()
+                retrieveDownloadLinks()
             } else if downloadLocation.free == true, let url = downloadLocation.url {
                 downloadURL = url
                 isPresentingDownload = true
@@ -62,36 +69,41 @@ class PatternDetailsViewModel: ObservableObject {
         }
     }
     
-    private func retrieveDownloadLink() {
+    private func retrieveDownloadLinks() {
         if let patternId = pattern.id, let attachments = libraryVolumeFull?.attachments {
             downloadLink.removeAll()
-            
             attachments.forEach { attachment in
                 guard let id = attachment.attachmentId else { return }
-                
-                NetworkHandler.requestDownloadLinkById(id) { [weak self] (result: Result<DownloadLink, ApiError>) in
-                    switch result {
-                    case .success (let link):
-                        DispatchQueue.main.async {
-                            self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
-                            self?.isPresentingDownload = true
-                        }
-                    case .failure (let error):
-                        if error == .badToken || error == .noToken || error == .invalidResponse {
-                            print(error)
-                            DispatchQueue.main.async {
-                                self?.networkHandler.requestLibraryToken() { [weak self] success in
-                                    if success {
-                                        self?.retrieveDownloadLinkNoReauth(patternId: patternId)
-                                    } else {
-                                        print(error)
-                                    }
-                                }
-                            }
-                        } else {
-                            print(error)
-                        }
-                    }
+                performFetchForLink(id: id, patternId: patternId, filename: attachment.filename)
+            }
+        }
+    }
+
+    private func performFetchForLink(id: Int, patternId: Int, filename: String?) {
+        NetworkHandler.requestDownloadLinkById(id)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching download link: \(error)")
+                    self?.handleDownloadError(error: error, patternId: patternId)
+                default: return
+                }
+            }, receiveValue: { [weak self] link in
+                self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: filename))
+                self?.isPresentingDownload = true
+            })
+            .store(in: &cancellables)
+    }
+
+    private func handleDownloadError(error: Error, patternId: Int) {
+        guard let apiError = error as? ApiError else { return }
+        if apiError == ApiError.badToken || apiError == ApiError.noToken || apiError == ApiError.invalidResponse {
+            networkHandler.requestLibraryToken() { [weak self] success in
+                if success {
+                    self?.retrieveDownloadLinkNoReauth(patternId: patternId)
+                } else {
+                    print(error)
                 }
             }
         }
@@ -101,18 +113,19 @@ class PatternDetailsViewModel: ObservableObject {
         if let patternId, let attachments = libraryVolumeFull?.attachments {
             attachments.forEach { attachment in
                 guard let id = attachment.attachmentId else { return }
-                
-                NetworkHandler.requestDownloadLinkById(id) { [weak self] (result: Result<DownloadLink, ApiError>) in
-                    switch result {
-                    case .success (let link):
-                        DispatchQueue.main.async {
-                            self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
-                            self?.isPresentingDownload = true
+                NetworkHandler.requestDownloadLinkById(id)
+                    .receive(on: DispatchQueue.main)
+                    .sink(receiveCompletion: { completion in
+                        switch completion {
+                        case .failure(let error):
+                            print("Error fetching download link: \(error)")
+                        default: return
                         }
-                    case .failure (let error):
-                        print(error)
-                    }
-                }
+                    }, receiveValue: { [weak self] link in
+                        self?.downloadLink.append(DownloadLink(link, patternID: patternId, filename: attachment.filename))
+                        self?.isPresentingDownload = true
+                    })
+                    .store(in: &cancellables)
             }
         }
     }
@@ -122,35 +135,37 @@ class PatternDetailsViewModel: ObservableObject {
         switch isFavorited {
         case true:
             guard let bookmarkId else { return }
-            
-            NetworkHandler.deleteFavorite(bookmarkId: String(bookmarkId), username: username) { [weak self] (result: Result<Bookmark, ApiError>) in
-                switch result {
-                case .success:
-                    DispatchQueue.main.async {
-                        self?.bookmarkId = nil
-                        self?.isFavorited = false
-                        self?.sessionData?.populateDefaultQuery(.favoritePatterns)
+            NetworkHandler.deleteFavorite(bookmarkId: String(bookmarkId), username: username)
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Error deleting bookmark: \(error)")
+                    default: return
                     }
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            
+                }, receiveValue: { [weak self] _ in
+                    self?.bookmarkId = nil
+                    self?.isFavorited = false
+					self?.sessionData?.populateDefaultQuery(.favoritePatterns)
+                })
+                .store(in: &cancellables)
+
         case false:
             guard let patternId = pattern.id else { return }
-            
-            NetworkHandler.addFavorite(patternId: String(patternId), username: username) { [weak self] (result: Result<Bookmark, ApiError>) in
-                switch result {
-                case .success(let bookmark):
-                    DispatchQueue.main.async {
-                        self?.bookmarkId = bookmark.id
-                        self?.isFavorited = true
-                        self?.sessionData?.populateDefaultQuery(.favoritePatterns)
+            NetworkHandler.addFavorite(patternId: String(patternId), username: username)
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Error creating bookmark: \(error)")
+                    default: return
                     }
-                case .failure(let error):
-                    print(error)
-                }
-            }
+                }, receiveValue: { [weak self] bookmark in
+                    self?.bookmarkId = bookmark.id
+                    self?.isFavorited = true
+					self?.sessionData?.populateDefaultQuery(.favoritePatterns)
+                })
+                .store(in: &cancellables)
         }
     }
 }

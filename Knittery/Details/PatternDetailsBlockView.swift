@@ -73,7 +73,6 @@ struct PatternDetailsBlockView: View {
                             .padding(.horizontal)
                         }
                     }
-                    
                 }
             } else {
                 ForEach(0..<5) { placeholder in

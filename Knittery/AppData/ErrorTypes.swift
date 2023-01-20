@@ -10,6 +10,7 @@ import Foundation
 
 enum ApiError: Error, CustomStringConvertible {
     case decodeError
+    case encodeError
     case invalidUrl
     case noToken
     case noData
@@ -20,6 +21,8 @@ enum ApiError: Error, CustomStringConvertible {
         switch self {
         case .decodeError:
             return "Error decoding API"
+        case .encodeError:
+            return "Error encoding data to JSON"
         case .invalidUrl:
             return "Invalid URL"
         case .noData:
