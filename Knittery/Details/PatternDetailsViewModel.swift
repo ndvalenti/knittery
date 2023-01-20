@@ -31,7 +31,7 @@ class PatternDetailsViewModel: ObservableObject {
                 .sink(receiveCompletion: { completion in
                     switch completion {
                     case .failure(let error):
-                        print("Error fetching patterns search: \(error)")
+                        print("Error fetching pattern: \(error)")
                     default: return
                     }
                 }, receiveValue: { [weak self] pattern in
@@ -85,7 +85,7 @@ class PatternDetailsViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
                 case .failure(let error):
-                    print("Error fetching download link: \(error)")
+                    print("Error fetching download link: \(error). Will attempt retry if possible")
                     self?.handleDownloadError(error: error, patternId: patternId)
                 default: return
                 }
@@ -103,7 +103,7 @@ class PatternDetailsViewModel: ObservableObject {
                 if success {
                     self?.retrieveDownloadLinkNoReauth(patternId: patternId)
                 } else {
-                    print(error)
+                    print("Error fetching download link: \(error)")
                 }
             }
         }

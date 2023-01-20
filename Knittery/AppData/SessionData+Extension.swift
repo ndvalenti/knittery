@@ -59,7 +59,7 @@ extension SessionData {
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
-                    print("Error fetching patterns search: \(error)")
+                    print("Error fetching pattern: \(error)")
                 default: return
                 }
             }, receiveValue: { [weak self] pattern in
