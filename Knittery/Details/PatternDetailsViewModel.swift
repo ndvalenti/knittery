@@ -60,11 +60,11 @@ class PatternDetailsViewModel: ObservableObject {
     
     func getDownloadLinks() {
         if let downloadLocation = pattern.downloadLocation {
-            if pattern.personalAttributes?.inLibrary == true {
-                retrieveDownloadLinks()
-            } else if downloadLocation.free == true, let url = downloadLocation.url {
+            if downloadLocation.free == true, let url = downloadLocation.url {
                 downloadURL = url
                 isPresentingDownload = true
+            } else if pattern.personalAttributes?.inLibrary == true {
+                retrieveDownloadLinks()
             }
         }
     }
