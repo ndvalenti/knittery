@@ -39,13 +39,14 @@ struct KnitteryPatternPreview: View {
                     HStack {
                         VStack(alignment: .leading) {
                             Text(pattern.name ?? .placeholder(length: Int.random(in: 5...20)))
-                                    .font(.headline)
-                                    .foregroundColor(Color.KnitteryColor.backgroundDark)
-                                    .lineLimit(1)
+                                .fontWeight(.medium)
+                                .font(.title3)
+                                .foregroundColor(Color.KnitteryColor.backgroundDark)
+                                .lineLimit(1)
                             Text(pattern.author?.name ?? .placeholder(length: Int.random(in:8...23)))
-                                    .font(.caption2)
-                                    .foregroundColor(Color.KnitteryColor.backgroundDark)
-                                    .lineLimit(1)
+                                .font(.subheadline)
+                                .foregroundColor(Color.KnitteryColor.backgroundDark)
+                                .lineLimit(1)
                         }
                         .padding(.vertical, topPadding)
                         .padding(.leading, leadPadding)

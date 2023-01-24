@@ -67,7 +67,7 @@ struct PatternResultsView: View {
             }
             Spacer()
         }
-        .background(Color.KnitteryColor.backgroundLight)
+        .background(Color.KnitteryColor.backgroundDark)
         .onAppear() {
             patternResultsViewModel.checkPopulatePatterns(query)
         }
