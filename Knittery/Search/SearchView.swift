@@ -19,6 +19,8 @@ struct SearchView: View {
     @State var selectedMode: SearchModes
     @StateObject var searchViewModel = SearchViewModel()
     @EnvironmentObject var sessionData: SessionData
+    @FocusState private var isSearchFocused: Bool
+    
     let navigationTitle: String
     
     init(_ navigationTitle: String = "Search", selectedMode: SearchModes = .advanced) {
@@ -55,30 +57,34 @@ struct SearchView: View {
                                 .overlay(RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.KnitteryColor.darkBlueTranslucent, lineWidth: 1))
                                 .padding()
+                                .focused($isSearchFocused)
                                 .onSubmit {
                                     path.append(.result)
                                 }
-                                .navigationDestination(for: SearchViewModel.NavDestination.self) {
-                                    switch $0 {
-                                    case .result:
-                                        PatternResultsView(QueryBuilder.build(searchViewModel.query), searchTitle: searchViewModel.query.searchTitle)
-                                            .environmentObject(sessionData)
-                                    }
-                                }
                             HStack {
                                 Spacer()
-                                Image(systemName: "magnifyingglass")
-                                    .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
-                                    .padding()
+                                Button {
+                                    path.append(.result)
+                                } label: {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
+                                        .padding()
+                                }
                             }
                             .padding(.horizontal)
+                        }
+                        .navigationDestination(for: SearchViewModel.NavDestination.self) {
+                            switch $0 {
+                            case .result:
+                                PatternResultsView(QueryBuilder.build(searchViewModel.query), searchTitle: searchViewModel.query.searchTitle)
+                                    .environmentObject(sessionData)
+                            }
                         }
                         PatternSearchView(searchViewModel: searchViewModel)
                     case .categories:
                         CategorySearchView()
                     }
                 }
-                
             }
             .background(Color.KnitteryColor.backgroundDark)
             .navigationBarTitleDisplayMode(.inline)

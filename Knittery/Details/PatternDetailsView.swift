@@ -102,7 +102,7 @@ struct PatternDetailsView: View {
                         }
                         .background(Color.KnitteryColor.backgroundDark)
                         // TODO: This disables click interaction with URLs since we cannot control if they are payment links
-                        .allowsHitTesting(false)
+                        //.allowsHitTesting(false)
                     }
                     .background(Color.KnitteryColor.backgroundLight)
                 }

@@ -10,43 +10,60 @@ import SwiftUI
 
 struct KnitteryPatternRow: View {
     var pattern: PatternResult
+    private let previewHeight: CGFloat = 250.0
+    private let leadPadding: CGFloat = 7.0
+    private let topPadding: CGFloat = 5.0
+    private let bottomPadding: CGFloat = 50.0
+    private let lineWidth: CGFloat = 1.0
     
     var body: some View {
         Group {
-            VStack (alignment: .leading) {
-                Group {
-                    Text(pattern.name ?? .placeholder(length: Int.random(in: 5...20)))
-                        .fontWeight(.medium)
-                        .font(.custom("Avenir", size: 18, relativeTo: .headline))
-                        .foregroundColor(Color.KnitteryColor.darkBlue)
-                        .lineLimit(1)
-                    
-                    Text(pattern.author?.name ?? .placeholder(length: Int.random(in: 10...25)))
-                        .font(.custom("SF Pro", size: 14, relativeTo: .caption))
-                        .foregroundColor(Color.KnitteryColor.darkBlue)
-                        .lineLimit(1)
-                }
-                .padding(.leading)
+            ZStack (alignment: .leading) {
                 if let firstImage = pattern.firstPhoto {
                     AsyncImage(url: firstImage.smallURL, content: { image in
                         image
                             .resizable()
                             .scaledToFill()
-                            .frame(height: 150)
+                            .frame(height: previewHeight)
                             .clipShape(Rectangle())
                     }, placeholder: {
-                        Rectangle().frame(height: 150)
+                        Rectangle().frame(height: previewHeight)
                             .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                     })
                 } else {
-                    Rectangle().frame(height: 150)
+                    Rectangle().frame(height: previewHeight)
                         .foregroundColor(Color.KnitteryColor.darkBlueTranslucent)
                 }
+                
+                VStack (alignment: .leading) {
+                    HStack {
+                        VStack (alignment: .leading) {
+                            Text(pattern.name ?? .placeholder(length: Int.random(in: 5...20)))
+                                .fontWeight(.medium)
+                                .font(.title2)
+                                .foregroundColor(Color.KnitteryColor.backgroundDark)
+                                .lineLimit(1)
+                            
+                            Text(pattern.author?.name ?? .placeholder(length: Int.random(in: 10...25)))
+                                .font(.subheadline)
+                                .foregroundColor(Color.KnitteryColor.backgroundDark)
+                                .lineLimit(1)
+                        }
+                        .padding(.vertical, topPadding)
+                        .padding(.leading, leadPadding)
+                        Spacer()
+                    }
+                    .background(Color.KnitteryColor.darkBlueHalfTranslucent)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
             }
-            .frame(height:225)
-            .background(Color.KnitteryColor.backgroundLight)
-            .redacted(reason: pattern.id == nil ? .placeholder : [])
+            .frame(height: previewHeight)
+            .overlay(Rectangle()
+                .stroke(Color.KnitteryColor.lightBlue, lineWidth: lineWidth))
+            .redacted(reason: pattern.firstPhoto == nil ? .placeholder : [])
         }
+        .padding(.bottom, bottomPadding)
     }
 }
 
