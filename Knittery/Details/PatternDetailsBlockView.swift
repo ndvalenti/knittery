@@ -86,7 +86,7 @@ struct PatternDetailsBlockView: View {
     
     func formatDate(_ date: Date) -> String {
         dateFormatter.dateFormat = "MMMM yyyy"
-        return dateFormatter.string(from: date)
+        return dateFormatter.string(from: date).capitalized
     }
     
     func makeRow(_ title: String, content: String) -> some View {
